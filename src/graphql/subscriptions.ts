@@ -30,6 +30,7 @@ export const onDeleteHerdSpec = `subscription OnDeleteHerdSpec {
 `;
 export const onCreateShepherdMetadata = `subscription OnCreateShepherdMetadata {
   onCreateShepherdMetadata {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -53,6 +54,7 @@ export const onCreateShepherdMetadata = `subscription OnCreateShepherdMetadata {
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -72,6 +74,7 @@ export const onCreateShepherdMetadata = `subscription OnCreateShepherdMetadata {
 `;
 export const onUpdateShepherdMetadata = `subscription OnUpdateShepherdMetadata {
   onUpdateShepherdMetadata {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -95,6 +98,7 @@ export const onUpdateShepherdMetadata = `subscription OnUpdateShepherdMetadata {
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -114,6 +118,7 @@ export const onUpdateShepherdMetadata = `subscription OnUpdateShepherdMetadata {
 `;
 export const onDeleteShepherdMetadata = `subscription OnDeleteShepherdMetadata {
   onDeleteShepherdMetadata {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -137,6 +142,7 @@ export const onDeleteShepherdMetadata = `subscription OnDeleteShepherdMetadata {
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -159,6 +165,7 @@ export const onCreateShepherdHref = `subscription OnCreateShepherdHref {
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -178,6 +185,7 @@ export const onCreateShepherdHref = `subscription OnCreateShepherdHref {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -190,6 +198,7 @@ export const onUpdateShepherdHref = `subscription OnUpdateShepherdHref {
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -209,6 +218,7 @@ export const onUpdateShepherdHref = `subscription OnUpdateShepherdHref {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -221,6 +231,7 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -240,6 +251,7 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -250,6 +262,7 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
 export const onCreateDeploymentState = `subscription OnCreateDeploymentState {
   onCreateDeploymentState {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -269,6 +282,7 @@ export const onCreateDeploymentState = `subscription OnCreateDeploymentState {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -288,6 +302,7 @@ export const onCreateDeploymentState = `subscription OnCreateDeploymentState {
 export const onUpdateDeploymentState = `subscription OnUpdateDeploymentState {
   onUpdateDeploymentState {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -307,6 +322,7 @@ export const onUpdateDeploymentState = `subscription OnUpdateDeploymentState {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -326,6 +342,7 @@ export const onUpdateDeploymentState = `subscription OnUpdateDeploymentState {
 export const onDeleteDeploymentState = `subscription OnDeleteDeploymentState {
   onDeleteDeploymentState {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -345,6 +362,7 @@ export const onDeleteDeploymentState = `subscription OnDeleteDeploymentState {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }

@@ -12,7 +12,8 @@ enum DeploymentType {
   Deployment
 }
 
-type ShepherdMetadata @model {
+type ShepherdMetadata @model @key(fields: ["id", "lastDeploymentTimestamp"]) {
+  id: String!
   displayName: String!
   deploymentType: DeploymentType!
   dbMigrationImage: String
@@ -25,6 +26,7 @@ type ShepherdMetadata @model {
   buildHostName: String
   hyperlinks: [ShepherdHref] @connection(name: "Hrefs")
   herdSpec: HerdSpec
+  lastDeploymentTimestamp: AWSDateTime!
   deploymentStates: [DeploymentState] @connection(name: "DeploymentStates")
 }
 

@@ -20,6 +20,7 @@ export type DeleteHerdSpecInput = {
 };
 
 export type CreateShepherdMetadataInput = {
+  id: string,
   displayName: string,
   deploymentType: DeploymentType,
   dbMigrationImage?: string | null,
@@ -30,6 +31,7 @@ export type CreateShepherdMetadataInput = {
   gitCommit?: string | null,
   dockerImageTag?: string | null,
   buildHostName?: string | null,
+  lastDeploymentTimestamp: string,
 };
 
 export enum DeploymentType {
@@ -41,6 +43,7 @@ export enum DeploymentType {
 
 
 export type UpdateShepherdMetadataInput = {
+  id: string,
   displayName?: string | null,
   deploymentType?: DeploymentType | null,
   dbMigrationImage?: string | null,
@@ -51,10 +54,12 @@ export type UpdateShepherdMetadataInput = {
   gitCommit?: string | null,
   dockerImageTag?: string | null,
   buildHostName?: string | null,
+  lastDeploymentTimestamp: string,
 };
 
 export type DeleteShepherdMetadataInput = {
-  id?: string | null,
+  id: string,
+  lastDeploymentTimestamp: string,
 };
 
 export type CreateShepherdHrefInput = {
@@ -126,7 +131,18 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null,
 };
 
+export type ModelStringKeyConditionInput = {
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+};
+
 export type ModelShepherdMetadataFilterInput = {
+  id?: ModelStringFilterInput | null,
   displayName?: ModelStringFilterInput | null,
   deploymentType?: ModelDeploymentTypeFilterInput | null,
   dbMigrationImage?: ModelStringFilterInput | null,
@@ -137,6 +153,7 @@ export type ModelShepherdMetadataFilterInput = {
   gitCommit?: ModelStringFilterInput | null,
   dockerImageTag?: ModelStringFilterInput | null,
   buildHostName?: ModelStringFilterInput | null,
+  lastDeploymentTimestamp?: ModelStringFilterInput | null,
   and?: Array< ModelShepherdMetadataFilterInput | null > | null,
   or?: Array< ModelShepherdMetadataFilterInput | null > | null,
   not?: ModelShepherdMetadataFilterInput | null,
@@ -146,6 +163,12 @@ export type ModelDeploymentTypeFilterInput = {
   eq?: DeploymentType | null,
   ne?: DeploymentType | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type ModelShepherdHrefFilterInput = {
   title?: ModelStringFilterInput | null,
@@ -224,6 +247,7 @@ export type CreateShepherdMetadataMutationVariables = {
 export type CreateShepherdMetadataMutation = {
   createShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -250,6 +274,7 @@ export type CreateShepherdMetadataMutation = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -276,6 +301,7 @@ export type UpdateShepherdMetadataMutationVariables = {
 export type UpdateShepherdMetadataMutation = {
   updateShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -302,6 +328,7 @@ export type UpdateShepherdMetadataMutation = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -328,6 +355,7 @@ export type DeleteShepherdMetadataMutationVariables = {
 export type DeleteShepherdMetadataMutation = {
   deleteShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -354,6 +382,7 @@ export type DeleteShepherdMetadataMutation = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -384,6 +413,7 @@ export type CreateShepherdHrefMutation = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -405,6 +435,7 @@ export type CreateShepherdHrefMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -424,6 +455,7 @@ export type UpdateShepherdHrefMutation = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -445,6 +477,7 @@ export type UpdateShepherdHrefMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -464,6 +497,7 @@ export type DeleteShepherdHrefMutation = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -485,6 +519,7 @@ export type DeleteShepherdHrefMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -502,6 +537,7 @@ export type CreateDeploymentStateMutation = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -523,6 +559,7 @@ export type CreateDeploymentStateMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -549,6 +586,7 @@ export type UpdateDeploymentStateMutation = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -570,6 +608,7 @@ export type UpdateDeploymentStateMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -596,6 +635,7 @@ export type DeleteDeploymentStateMutation = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -617,6 +657,7 @@ export type DeleteDeploymentStateMutation = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -670,11 +711,13 @@ export type ListHerdSpecsQuery = {
 
 export type GetShepherdMetadataQueryVariables = {
   id: string,
+  lastDeploymentTimestamp: string,
 };
 
 export type GetShepherdMetadataQuery = {
   getShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -701,6 +744,7 @@ export type GetShepherdMetadataQuery = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -721,9 +765,12 @@ export type GetShepherdMetadataQuery = {
 };
 
 export type ListShepherdMetadatasQueryVariables = {
+  id?: string | null,
+  lastDeploymentTimestamp?: ModelStringKeyConditionInput | null,
   filter?: ModelShepherdMetadataFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
 export type ListShepherdMetadatasQuery = {
@@ -731,6 +778,7 @@ export type ListShepherdMetadatasQuery = {
     __typename: "ModelShepherdMetadataConnection",
     items:  Array< {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -752,6 +800,7 @@ export type ListShepherdMetadatasQuery = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -772,6 +821,7 @@ export type GetShepherdHrefQuery = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -793,6 +843,7 @@ export type GetShepherdHrefQuery = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -816,6 +867,7 @@ export type ListShepherdHrefsQuery = {
       url: string,
       metadata:  {
         __typename: "ShepherdMetadata",
+        id: string,
         displayName: string,
         deploymentType: DeploymentType,
         dbMigrationImage: string | null,
@@ -826,6 +878,7 @@ export type ListShepherdHrefsQuery = {
         gitCommit: string | null,
         dockerImageTag: string | null,
         buildHostName: string | null,
+        lastDeploymentTimestamp: string,
       } | null,
     } | null > | null,
     nextToken: string | null,
@@ -841,6 +894,7 @@ export type GetDeploymentStateQuery = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -862,6 +916,7 @@ export type GetDeploymentStateQuery = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -892,6 +947,7 @@ export type ListDeploymentStatesQuery = {
       __typename: "DeploymentState",
       deployment:  {
         __typename: "ShepherdMetadata",
+        id: string,
         displayName: string,
         deploymentType: DeploymentType,
         dbMigrationImage: string | null,
@@ -902,6 +958,7 @@ export type ListDeploymentStatesQuery = {
         gitCommit: string | null,
         dockerImageTag: string | null,
         buildHostName: string | null,
+        lastDeploymentTimestamp: string,
       } | null,
       new: boolean | null,
       key: string | null,
@@ -950,6 +1007,7 @@ export type OnDeleteHerdSpecSubscription = {
 export type OnCreateShepherdMetadataSubscription = {
   onCreateShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -976,6 +1034,7 @@ export type OnCreateShepherdMetadataSubscription = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -998,6 +1057,7 @@ export type OnCreateShepherdMetadataSubscription = {
 export type OnUpdateShepherdMetadataSubscription = {
   onUpdateShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -1024,6 +1084,7 @@ export type OnUpdateShepherdMetadataSubscription = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -1046,6 +1107,7 @@ export type OnUpdateShepherdMetadataSubscription = {
 export type OnDeleteShepherdMetadataSubscription = {
   onDeleteShepherdMetadata:  {
     __typename: "ShepherdMetadata",
+    id: string,
     displayName: string,
     deploymentType: DeploymentType,
     dbMigrationImage: string | null,
@@ -1072,6 +1134,7 @@ export type OnDeleteShepherdMetadataSubscription = {
       imagetag: string,
       description: string,
     } | null,
+    lastDeploymentTimestamp: string,
     deploymentStates:  {
       __typename: "ModelDeploymentStateConnection",
       items:  Array< {
@@ -1098,6 +1161,7 @@ export type OnCreateShepherdHrefSubscription = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1119,6 +1183,7 @@ export type OnCreateShepherdHrefSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -1134,6 +1199,7 @@ export type OnUpdateShepherdHrefSubscription = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1155,6 +1221,7 @@ export type OnUpdateShepherdHrefSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -1170,6 +1237,7 @@ export type OnDeleteShepherdHrefSubscription = {
     url: string,
     metadata:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1191,6 +1259,7 @@ export type OnDeleteShepherdHrefSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -1204,6 +1273,7 @@ export type OnCreateDeploymentStateSubscription = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1225,6 +1295,7 @@ export type OnCreateDeploymentStateSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -1247,6 +1318,7 @@ export type OnUpdateDeploymentStateSubscription = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1268,6 +1340,7 @@ export type OnUpdateDeploymentStateSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,
@@ -1290,6 +1363,7 @@ export type OnDeleteDeploymentStateSubscription = {
     __typename: "DeploymentState",
     deployment:  {
       __typename: "ShepherdMetadata",
+      id: string,
       displayName: string,
       deploymentType: DeploymentType,
       dbMigrationImage: string | null,
@@ -1311,6 +1385,7 @@ export type OnDeleteDeploymentStateSubscription = {
         imagetag: string,
         description: string,
       } | null,
+      lastDeploymentTimestamp: string,
       deploymentStates:  {
         __typename: "ModelDeploymentStateConnection",
         nextToken: string | null,

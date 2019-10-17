@@ -30,6 +30,7 @@ export const deleteHerdSpec = `mutation DeleteHerdSpec($input: DeleteHerdSpecInp
 `;
 export const createShepherdMetadata = `mutation CreateShepherdMetadata($input: CreateShepherdMetadataInput!) {
   createShepherdMetadata(input: $input) {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -53,6 +54,7 @@ export const createShepherdMetadata = `mutation CreateShepherdMetadata($input: C
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -72,6 +74,7 @@ export const createShepherdMetadata = `mutation CreateShepherdMetadata($input: C
 `;
 export const updateShepherdMetadata = `mutation UpdateShepherdMetadata($input: UpdateShepherdMetadataInput!) {
   updateShepherdMetadata(input: $input) {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -95,6 +98,7 @@ export const updateShepherdMetadata = `mutation UpdateShepherdMetadata($input: U
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -114,6 +118,7 @@ export const updateShepherdMetadata = `mutation UpdateShepherdMetadata($input: U
 `;
 export const deleteShepherdMetadata = `mutation DeleteShepherdMetadata($input: DeleteShepherdMetadataInput!) {
   deleteShepherdMetadata(input: $input) {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -137,6 +142,7 @@ export const deleteShepherdMetadata = `mutation DeleteShepherdMetadata($input: D
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -159,6 +165,7 @@ export const createShepherdHref = `mutation CreateShepherdHref($input: CreateShe
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -178,6 +185,7 @@ export const createShepherdHref = `mutation CreateShepherdHref($input: CreateShe
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -190,6 +198,7 @@ export const updateShepherdHref = `mutation UpdateShepherdHref($input: UpdateShe
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -209,6 +218,7 @@ export const updateShepherdHref = `mutation UpdateShepherdHref($input: UpdateShe
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -221,6 +231,7 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -240,6 +251,7 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -250,6 +262,7 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
 export const createDeploymentState = `mutation CreateDeploymentState($input: CreateDeploymentStateInput!) {
   createDeploymentState(input: $input) {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -269,6 +282,7 @@ export const createDeploymentState = `mutation CreateDeploymentState($input: Cre
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -288,6 +302,7 @@ export const createDeploymentState = `mutation CreateDeploymentState($input: Cre
 export const updateDeploymentState = `mutation UpdateDeploymentState($input: UpdateDeploymentStateInput!) {
   updateDeploymentState(input: $input) {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -307,6 +322,7 @@ export const updateDeploymentState = `mutation UpdateDeploymentState($input: Upd
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -326,6 +342,7 @@ export const updateDeploymentState = `mutation UpdateDeploymentState($input: Upd
 export const deleteDeploymentState = `mutation DeleteDeploymentState($input: DeleteDeploymentStateInput!) {
   deleteDeploymentState(input: $input) {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -345,6 +362,7 @@ export const deleteDeploymentState = `mutation DeleteDeploymentState($input: Del
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }

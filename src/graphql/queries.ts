@@ -26,8 +26,15 @@ export const listHerdSpecs = `query ListHerdSpecs(
   }
 }
 `;
-export const getShepherdMetadata = `query GetShepherdMetadata($id: ID!) {
-  getShepherdMetadata(id: $id) {
+export const getShepherdMetadata = `query GetShepherdMetadata(
+  $id: String!
+  $lastDeploymentTimestamp: AWSDateTime!
+) {
+  getShepherdMetadata(
+    id: $id
+    lastDeploymentTimestamp: $lastDeploymentTimestamp
+  ) {
+    id
     displayName
     deploymentType
     dbMigrationImage
@@ -51,6 +58,7 @@ export const getShepherdMetadata = `query GetShepherdMetadata($id: ID!) {
       imagetag
       description
     }
+    lastDeploymentTimestamp
     deploymentStates {
       items {
         new
@@ -69,12 +77,23 @@ export const getShepherdMetadata = `query GetShepherdMetadata($id: ID!) {
 }
 `;
 export const listShepherdMetadatas = `query ListShepherdMetadatas(
+  $id: String
+  $lastDeploymentTimestamp: ModelStringKeyConditionInput
   $filter: ModelShepherdMetadataFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listShepherdMetadatas(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listShepherdMetadatas(
+    id: $id
+    lastDeploymentTimestamp: $lastDeploymentTimestamp
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -94,6 +113,7 @@ export const listShepherdMetadatas = `query ListShepherdMetadatas(
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -107,6 +127,7 @@ export const getShepherdHref = `query GetShepherdHref($id: ID!) {
     title
     url
     metadata {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -126,6 +147,7 @@ export const getShepherdHref = `query GetShepherdHref($id: ID!) {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -143,6 +165,7 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
       title
       url
       metadata {
+        id
         displayName
         deploymentType
         dbMigrationImage
@@ -153,6 +176,7 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
         gitCommit
         dockerImageTag
         buildHostName
+        lastDeploymentTimestamp
       }
     }
     nextToken
@@ -162,6 +186,7 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
 export const getDeploymentState = `query GetDeploymentState($id: ID!) {
   getDeploymentState(id: $id) {
     deployment {
+      id
       displayName
       deploymentType
       dbMigrationImage
@@ -181,6 +206,7 @@ export const getDeploymentState = `query GetDeploymentState($id: ID!) {
         imagetag
         description
       }
+      lastDeploymentTimestamp
       deploymentStates {
         nextToken
       }
@@ -205,6 +231,7 @@ export const listDeploymentStates = `query ListDeploymentStates(
   listDeploymentStates(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       deployment {
+        id
         displayName
         deploymentType
         dbMigrationImage
@@ -215,6 +242,7 @@ export const listDeploymentStates = `query ListDeploymentStates(
         gitCommit
         dockerImageTag
         buildHostName
+        lastDeploymentTimestamp
       }
       new
       key
