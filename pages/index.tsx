@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import Amplify, { graphqlOperation } from 'aws-amplify'
+import API, { graphqlOperation } from '@aws-amplify/api'
 import awsconfig from '../src/aws-exports'
 import { listShepherdMetadatas } from '../src/graphql/queries'
 import { CreateShepherdMetadataInput, DeploymentType } from '../src/API'
@@ -12,7 +12,7 @@ import {
   onCreateShepherdMetadata,
 } from '../src/graphql/subscriptions'
 
-Amplify.configure(awsconfig)
+API.configure(awsconfig)
 const Home = () => {
   const createMetadata = useCallback(async () => {
     const metadata: CreateShepherdMetadataInput = {
@@ -28,7 +28,7 @@ const Home = () => {
       buildHostName: 'isrvkbuild02',
     }
 
-    await Amplify.API.graphql(
+    await API.graphql(
       graphqlOperation(createShepherdMetadata, { input: metadata })
     )
   }, [])
