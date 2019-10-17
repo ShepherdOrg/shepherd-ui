@@ -7,10 +7,7 @@ import { listShepherdMetadatas } from '../src/graphql/queries'
 import { CreateShepherdMetadataInput, DeploymentType } from '../src/API'
 import { createShepherdMetadata } from '../src/graphql/mutations'
 import Connect from 'aws-amplify-react/dist/API/GraphQl/Connect'
-import {
-  onUpdateShepherdMetadata,
-  onCreateShepherdMetadata,
-} from '../src/graphql/subscriptions'
+import { onCreateShepherdMetadata } from '../src/graphql/subscriptions'
 
 API.configure(awsconfig)
 const Home = () => {
