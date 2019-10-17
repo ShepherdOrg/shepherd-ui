@@ -1,0 +1,48 @@
+type HerdSpec @model {
+  key: String!
+  image: String!
+  imagetag: String!
+  description: String!
+}
+
+enum DeploymentType {
+  Deployer
+  Kubernetes
+  Infrastructure
+  Deployment
+}
+
+type ShepherdMetadata @model {
+  displayName: String!
+  deploymentType: DeploymentType!
+  dbMigrationImage: String
+  lastCommits: String!
+  gitUrl: String!
+  gitHash: String!
+  buildDate: AWSDateTime
+  gitCommit: String
+  dockerImageTag: String
+  buildHostName: String
+  hyperlinks: [ShepherdHref] @connection(name: "Hrefs")
+  herdSpec: HerdSpec
+  deploymentStates: [DeploymentState] @connection(name: "DeploymentStates")
+}
+
+type ShepherdHref @model {
+  title: String!
+  url: String!
+  metadata: ShepherdMetadata @connection(name: "Hrefs")
+}
+
+type DeploymentState @model {
+  deployment: ShepherdMetadata @connection(name: "DeploymentStates")
+  new: Boolean
+  key: String
+  modified: Boolean
+  operation: String
+  version: String
+  lastVersion: String!
+  timestamp: AWSDateTime!
+  signature: String
+  env: String
+}
