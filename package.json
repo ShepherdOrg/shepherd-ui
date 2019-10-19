@@ -9,15 +9,25 @@
   },
   "dependencies": {
     "@aws-amplify/api": "^1.2.2",
+    "@types/graphql": "^0.11.0",
+    "apollo-client": "2.4.6",
     "aws-amplify": "^1.2.2",
     "aws-amplify-react": "^2.5.2",
+    "aws-appsync": "^2.0.1",
+    "cross-fetch": "^3.0.4",
+    "date-fns": "^2.5.1",
+    "graphql": "^0.11.0",
+    "graphql-tag": "^2.10.1",
     "next": "9.1.1",
+    "node-fetch": "^2.6.0",
     "react": "16.10.2",
     "react-dom": "16.10.2"
   },
   "devDependencies": {
     "@types/node": "^12.11.1",
+    "@types/node-fetch": "^2.5.2",
     "@types/react": "^16.9.9",
+    "@types/zen-observable": "^0.8.0",
     "typescript": "^3.6.4"
   }
 }

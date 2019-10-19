@@ -1,7 +1,6 @@
-import React, { useEffect, useCallback } from 'react'
+import React from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import { DeploymentList } from '../components/deploymentList'
 import { CreateShepherdMetadata } from '../components/createShepherdMetadata'
 
 const Home = () => {
@@ -15,10 +14,8 @@ const Home = () => {
       <Nav />
 
       <main>
-        <DeploymentList />
+        <CreateShepherdMetadata />
       </main>
-
-      {/* <CreateShepherdMetadata /> */}
 
       <style jsx>{`
         main {
