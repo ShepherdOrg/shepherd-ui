@@ -5,10 +5,12 @@ import {
   DeployerRole,
   DeploymentType,
   CreateDeploymentVersionInput,
+  CreateShepherdHrefInput,
 } from './src/API'
 import {
   createDeployment,
   createDeploymentVersion,
+  createShepherdHref,
 } from './src/graphql/mutations'
 
 API.configure(config)
@@ -54,17 +56,36 @@ Fri, 24 Aug 2018 10:08:54 +0000 by Guðlaugur S. Egilsson. --- Use docker image 
   ],
 }
 
+const links: CreateShepherdHrefInput[] = [
+  {
+    url: 'http://jenkins.oryggi.tm.is:8082/job/tm-dockerimages/',
+    title: 'Builds',
+    shepherdHrefMetadataId: deployment.id,
+  },
+  {
+    url: 'https://gitlab.tm.is/tmdev/tm-docker-images',
+    title: 'Git source',
+    shepherdHrefMetadataId: deployment.id,
+  },
+]
+
 const compose = <A, B, C>(f: (a: B) => C, g: (b: A) => B) => (x: A) => f(g(x))
 const id = <T>(x: T) => x
 
-const populateData = () =>
-  API.graphql(graphqlOperation(createDeployment, { input: deployment }))
-    // @ts-ignore
-    .then(() =>
-      API.graphql(
-        graphqlOperation(createDeploymentVersion, { input: deploymentVersion })
-      )
-    )
+const populateData = async () => {
+  const deploy = API.graphql(
+    graphqlOperation(createDeployment, { input: deployment })
+  )
+  const version = API.graphql(
+    graphqlOperation(createDeploymentVersion, { input: deploymentVersion })
+  )
+  const link = links.map(l =>
+    API.graphql(graphqlOperation(createShepherdHref, { input: l }))
+  )
+
+  // @ts-ignore
+  return await Promise.all([deploy, version, ...link])
+}
 
 populateData()
   .catch(id)

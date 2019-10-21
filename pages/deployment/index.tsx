@@ -136,6 +136,25 @@ export default function DeploymentDetails() {
           ))}
         </ul>
       </section>
+      <section>
+        <h3>Links</h3>
+        <ul>
+          {(
+            (deployment.data.getDeployment.hyperlinks &&
+              deployment.data.getDeployment.hyperlinks.items) ||
+            []
+          ).map(
+            x =>
+              x && (
+                <li key={x.url}>
+                  <a href={x.url} target="__blank">
+                    {x.title}
+                  </a>
+                </li>
+              )
+          )}
+        </ul>
+      </section>
       <style jsx>{`
         code {
           white-space: pre;

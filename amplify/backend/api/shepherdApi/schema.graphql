@@ -12,6 +12,7 @@ enum DeployerRole {
 type Deployment @model @key(fields: ["id"]) {
   id: ID!
   displayName: String!
+  description: String
   deploymentType: DeploymentType!
   deployerRole: DeployerRole!
   dbMigrationImage: String
