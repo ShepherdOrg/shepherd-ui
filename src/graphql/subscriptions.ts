@@ -5,6 +5,7 @@ export const onCreateDeployment = `subscription OnCreateDeployment {
   onCreateDeployment {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -42,6 +43,7 @@ export const onUpdateDeployment = `subscription OnUpdateDeployment {
   onUpdateDeployment {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -79,6 +81,7 @@ export const onDeleteDeployment = `subscription OnDeleteDeployment {
   onDeleteDeployment {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -122,6 +125,7 @@ export const onCreateKubernetesDeploymentFile = `subscription OnCreateKubernetes
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -161,6 +165,7 @@ export const onUpdateKubernetesDeploymentFile = `subscription OnUpdateKubernetes
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -200,6 +205,7 @@ export const onDeleteKubernetesDeploymentFile = `subscription OnDeleteKubernetes
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -236,6 +242,7 @@ export const onCreateShepherdHref = `subscription OnCreateShepherdHref {
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -258,6 +265,7 @@ export const onUpdateShepherdHref = `subscription OnUpdateShepherdHref {
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -280,6 +288,7 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -302,6 +311,7 @@ export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -347,6 +357,7 @@ export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -392,6 +403,7 @@ export const onDeleteDeploymentVersion = `subscription OnDeleteDeploymentVersion
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage

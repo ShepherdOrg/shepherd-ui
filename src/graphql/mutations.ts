@@ -5,6 +5,7 @@ export const createDeployment = `mutation CreateDeployment($input: CreateDeploym
   createDeployment(input: $input) {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -42,6 +43,7 @@ export const updateDeployment = `mutation UpdateDeployment($input: UpdateDeploym
   updateDeployment(input: $input) {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -79,6 +81,7 @@ export const deleteDeployment = `mutation DeleteDeployment($input: DeleteDeploym
   deleteDeployment(input: $input) {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -124,6 +127,7 @@ export const createKubernetesDeploymentFile = `mutation CreateKubernetesDeployme
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -165,6 +169,7 @@ export const updateKubernetesDeploymentFile = `mutation UpdateKubernetesDeployme
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -206,6 +211,7 @@ export const deleteKubernetesDeploymentFile = `mutation DeleteKubernetesDeployme
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -242,6 +248,7 @@ export const createShepherdHref = `mutation CreateShepherdHref($input: CreateShe
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -264,6 +271,7 @@ export const updateShepherdHref = `mutation UpdateShepherdHref($input: UpdateShe
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -286,6 +294,7 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -308,6 +317,7 @@ export const createDeploymentVersion = `mutation CreateDeploymentVersion($input:
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -353,6 +363,7 @@ export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input:
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -398,6 +409,7 @@ export const deleteDeploymentVersion = `mutation DeleteDeploymentVersion($input:
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage

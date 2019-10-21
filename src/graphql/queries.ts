@@ -5,6 +5,7 @@ export const getDeployment = `query GetDeployment($id: ID!) {
   getDeployment(id: $id) {
     id
     displayName
+    description
     deploymentType
     deployerRole
     dbMigrationImage
@@ -55,6 +56,7 @@ export const listDeployments = `query ListDeployments(
     items {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -81,6 +83,7 @@ export const getKubernetesDeploymentFile = `query GetKubernetesDeploymentFile($i
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -150,6 +153,7 @@ export const getShepherdHref = `query GetShepherdHref($id: ID!) {
     metadata {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -177,6 +181,7 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
       metadata {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
@@ -195,6 +200,7 @@ export const getDeploymentVersion = `query GetDeploymentVersion($versionId: ID!)
     deployment {
       id
       displayName
+      description
       deploymentType
       deployerRole
       dbMigrationImage
@@ -253,6 +259,7 @@ export const listDeploymentVersions = `query ListDeploymentVersions(
       deployment {
         id
         displayName
+        description
         deploymentType
         deployerRole
         dbMigrationImage
