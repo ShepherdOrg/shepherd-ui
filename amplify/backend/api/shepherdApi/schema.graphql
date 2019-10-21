@@ -1,50 +1,68 @@
-type HerdSpec @model {
-  key: String!
-  image: String!
-  imagetag: String!
-  description: String!
-}
-
 enum DeploymentType {
-  Deployer
   Kubernetes
-  Infrastructure
-  Deployment
+  Deployer
 }
 
-type ShepherdMetadata @model @key(fields: ["id", "lastDeploymentTimestamp"]) {
+enum DeployerRole {
+  Infrastructure
+  Migration
+  Install
+}
+
+type Deployment @model @key(fields: ["id", "lastDeploymentTimestamp", "env"]) {
   id: String!
   displayName: String!
   deploymentType: DeploymentType!
+  deployerRole: DeployerRole!
   dbMigrationImage: String
-  lastCommits: String!
-  gitUrl: String!
-  gitHash: String!
-  buildDate: AWSDateTime
-  gitCommit: String
-  dockerImageTag: String
-  buildHostName: String
-  hyperlinks: [ShepherdHref] @connection(name: "Hrefs")
-  herdSpec: HerdSpec
+  hyperlinks: [ShepherdHref!]! @connection(name: "Hrefs")
   lastDeploymentTimestamp: AWSDateTime!
-  deploymentStates: [DeploymentState] @connection(name: "DeploymentStates")
+  env: String!
+  versions: [DeploymentVersion!]! @connection(name: "DeploymentVersions")
+}
+
+type KubernetesDeploymentFile @model {
+  path: String!
+  content: String!
+  version: DeploymentVersion!
+    @connection(name: "KubernetesDeploymentFileConnection")
 }
 
 type ShepherdHref @model {
   title: String!
   url: String!
-  metadata: ShepherdMetadata @connection(name: "Hrefs")
+  metadata: Deployment! @connection(name: "Hrefs")
 }
 
-type DeploymentState @model {
-  deployment: ShepherdMetadata @connection(name: "DeploymentStates")
-  new: Boolean
-  key: String
-  modified: Boolean
-  operation: String
-  version: String
-  lastVersion: String!
-  timestamp: AWSDateTime!
-  signature: String
-  env: String
+type ConfigurationItem {
+  key: String!
+  value: String!
+  isSecret: Boolean!
+}
+
+type DeploymentVersion @model @key(fields: ["versionId", "deployment"]) {
+  versionId: String!
+  deployment: Deployment! @connection(name: "DeploymentVersions")
+
+  env: String!
+
+  deployedAt: AWSDateTime!
+  builtAt: AWSDateTime!
+
+  kubernetesDeploymentFiles: [KubernetesDeploymentFile!]!
+    @connection(name: "KubernetesDeploymentFileConnection")
+
+  lastCommits: String!
+
+  gitUrl: String!
+  gitBranch: String!
+  gitHash: String!
+  gitCommit: String!
+
+  dockerImage: String!
+  dockerImageTag: String!
+
+  buildHostName: String!
+
+  configuration: [ConfigurationItem!]
 }
