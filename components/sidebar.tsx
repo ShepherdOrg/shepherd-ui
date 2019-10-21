@@ -92,7 +92,7 @@ export const Sidebar = function() {
           width: 256px;
           overflow-y: scroll;
           background: ${colors.midnight_blue};
-          color: ${colors.cloud};
+          color: ${colors.clouds};
         }
         .navTitle {
           font-size: 24px;
@@ -101,12 +101,13 @@ export const Sidebar = function() {
 
         .navTitle > a {
           text-decoration: none;
-          color: ${colors.cloud};
+          color: ${colors.clouds};
         }
         :global(*) {
           box-sizing: border-box;
         }
         :global(body) {
+          background: ${colors.wet_asphalt};
           padding-left: 320px;
           font-family: 'Helvetica Neue';
         }
@@ -125,7 +126,7 @@ export const Sidebar = function() {
           margin: 0 16px;
           display: block;
           text-decoration: none;
-          color: ${colors.cloud};
+          color: ${colors.clouds};
           transition: all 0.2s ease-out;
         }
 
@@ -141,7 +142,7 @@ export const Sidebar = function() {
           color: blue;
         }
         li.active > a {
-          background: ${colors.cloud};
+          background: ${colors.clouds};
           color: ${colors.midnight_blue};
         }
       `}</style>

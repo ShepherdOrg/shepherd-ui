@@ -24,8 +24,8 @@ const Home = () => {
 
       <style jsx>{`
         :global(body) {
-          background: ${colors.cloud};
-          color: ${colors.midnight_blue};
+          background: ${colors.wet_asphalt};
+          color: ${colors.white};
         }
         :global(*) {
           font-family: 'Helvetica Neue';

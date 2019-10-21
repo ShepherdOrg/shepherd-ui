@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && next export",
     "start": "next start"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "date-fns": "^2.5.1",
     "graphql": "^14.5.8",
     "next": "9.1.1",
+    "ramda": "^0.26.1",
     "react": "16.10.2",
     "react-dom": "16.10.2",
     "react-transition-group": "^4.3.0"
@@ -24,6 +25,7 @@
   "devDependencies": {
     "@types/node": "^12.11.1",
     "@types/node-fetch": "^2.5.2",
+    "@types/ramda": "^0.26.33",
     "@types/react": "^16.9.9",
     "@types/zen-observable": "^0.8.0",
     "ts-node": "^8.4.1",

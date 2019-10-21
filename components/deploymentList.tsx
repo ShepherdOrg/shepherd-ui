@@ -84,13 +84,13 @@ export const DeploymentList = function() {
           text-decoration: none;
           border-radius: 12px;
           color: ${colors.midnight_blue};
-          background: ${colors.cloud};
+          background: ${colors.clouds};
           transition: all .2s ease-out;
         }
 
         li.item > a:hover {
-          background: ${colors.asphalt};
-          color: ${colors.cloud};
+          background: ${colors.wet_asphalt};
+          color: ${colors.clouds};
         }
       `}</style>
       </ul>

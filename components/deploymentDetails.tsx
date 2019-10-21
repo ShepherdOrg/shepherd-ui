@@ -86,7 +86,7 @@ export const DeploymentDetails = function({
         }
 
         .deploymentDetails {
-          background-color: ${colors.cloud};
+          background-color: ${colors.clouds};
           padding: 16px;
           border-radius: 12px;
           margin-top: 48px;
@@ -98,7 +98,7 @@ export const DeploymentDetails = function({
           padding: 8px 16px;
           border-radius: 2em;
           background: ${colors.amethyst};
-          color: ${colors.cloud};
+          color: ${colors.white};
         }
         .codeContainer {
           overflow-x: scroll;
@@ -107,7 +107,7 @@ export const DeploymentDetails = function({
           border-radius: 16px;
         }
         code {
-          color: ${colors.cloud};
+          color: ${colors.clouds};
           white-space: pre;
           overflow-x: scroll;
           max-width: 100%;

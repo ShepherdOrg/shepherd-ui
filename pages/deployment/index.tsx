@@ -6,6 +6,7 @@ import { useDeployment } from '../../src/subscriptions/useDeployment'
 import { useDeploymentVersion } from '../../src/subscriptions/useDeploymentVersion'
 import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
+import omit from 'ramda/es/omit'
 
 export default function DeploymentPage() {
   const router = useRouter()
@@ -49,11 +50,10 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
       const version = deployment.data.getDeployment.versions.items[0]
       router.replace({
         pathname: router.pathname,
-        query: {
+        query: omit(['reveal'], {
           ...router.query,
           version: version.versionId,
-          reveal: undefined,
-        },
+        }),
       })
     }
   }, [deployment, versionId])

@@ -9,17 +9,17 @@ import {
   CreateKubernetesDeploymentFileInput,
 } from './src/API'
 import {
-  createDeployment,
-  createDeploymentVersion,
-  createShepherdHref,
-  createKubernetesDeploymentFile,
+  updateDeployment,
+  updateDeploymentVersion,
+  updateShepherdHref,
+  updateKubernetesDeploymentFile,
 } from './src/graphql/mutations'
 
 API.configure(config)
 
 const deployment: CreateDeploymentInput = {
-  id: 'dev-images-fluentd',
-  displayName: 'Fluentd aws appender',
+  id: 'dev-images-fluentd2',
+  displayName: 'Fluentd aws appender2',
   lastDeploymentTimestamp: '2019-10-17T16:02:20.500Z',
   env: 'dev',
   deployerRole: DeployerRole.Install,
@@ -27,13 +27,13 @@ const deployment: CreateDeploymentInput = {
 }
 
 const deploymentVersion: CreateDeploymentVersionInput = {
-  versionId: 'dev-dev-images-fluentd-1.0.0-2019-10-17T16:02:20.500Z',
+  versionId: 'dev-dev-images-fluentd2-1.0.0-2019-10-17T16:02:20.500Z',
   version: '1.0.0',
   env: 'dev',
 
   builtAt: '2019-10-16T16:02:20.500Z',
   deployedAt: '2019-10-17T16:02:20.500Z',
-  deploymentVersionDeploymentId: 'dev-images-fluentd',
+  deploymentVersionDeploymentId: deployment.id,
 
   lastCommits: `Mon, 8 Jul 2019 15:09:16 +0000 by Guðlaugur S. Egilsson. --- Read from head is probably necessary to ensure reading of logs from start of container. 
   
@@ -195,17 +195,17 @@ const id = <T>(x: T) => x
 
 const populateData = async () => {
   const deploy = API.graphql(
-    graphqlOperation(createDeployment, { input: deployment })
+    graphqlOperation(updateDeployment, { input: deployment })
   )
   const version = API.graphql(
-    graphqlOperation(createDeploymentVersion, { input: deploymentVersion })
+    graphqlOperation(updateDeploymentVersion, { input: deploymentVersion })
   )
   const link = links.map(l =>
-    API.graphql(graphqlOperation(createShepherdHref, { input: l }))
+    API.graphql(graphqlOperation(updateShepherdHref, { input: l }))
   )
 
   const file = k8sFiles.map(f =>
-    API.graphql(graphqlOperation(createKubernetesDeploymentFile, { input: f }))
+    API.graphql(graphqlOperation(updateKubernetesDeploymentFile, { input: f }))
   )
 
   // @ts-ignore
