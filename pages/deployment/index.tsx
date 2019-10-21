@@ -6,7 +6,7 @@ import { useDeployment } from '../../src/subscriptions/useDeployment'
 import { useDeploymentVersion } from '../../src/subscriptions/useDeploymentVersion'
 import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
-import omit from 'ramda/es/omit'
+import omit from 'ramda/src/omit'
 
 export default function DeploymentPage() {
   const router = useRouter()
