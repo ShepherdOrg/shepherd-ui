@@ -4,10 +4,26 @@ import Link from 'next/link'
 import { colors } from '../src/colors'
 import { useDeployment } from '../src/subscriptions/useDeployment'
 import { isSuccess } from '../src/subscriptions/subscribe'
+import { usePageTransition } from '../utils/usePageTransition'
+import { Curtain } from './curtain'
+import { useCallback, MouseEvent } from 'react'
 
 export const Sidebar = function() {
   const router = useRouter()
   const result = useDeploymentList()
+
+  const { startExit, leaving } = usePageTransition()
+
+  const goToMainPage = useCallback(
+    async (ev: MouseEvent<HTMLAnchorElement>) => {
+      ev.preventDefault()
+      await startExit(async () => {
+        await router.push('/?reveal=true', '/')
+        window.scrollTo(0, 0)
+      })
+    },
+    []
+  )
 
   const currentDeploymentId = String(router.query.id)
   const currentDeploymentResult = useDeployment(currentDeploymentId)
@@ -25,9 +41,10 @@ export const Sidebar = function() {
   const currentDeployment = currentDeploymentResult.data.getDeployment
   return (
     <nav className="nav">
+      <Curtain visible={leaving} />
       <h3 className="navTitle">
         <Link href="/">
-          <a>Shepherd</a>
+          <a onClick={goToMainPage}>Shepherd</a>
         </Link>
       </h3>
       <ul>

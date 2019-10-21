@@ -1,18 +1,19 @@
-import React, { useEffect, useCallback } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import Nav from '../components/nav'
 import { DeploymentList } from '../components/deploymentList'
-import { Sidebar } from '../components/sidebar'
 import { colors } from '../src/colors'
+import { usePageTransition } from '../utils/usePageTransition'
+import { Curtain } from '../components/curtain'
 
 const Home = () => {
+  const { entering, leaving } = usePageTransition()
   return (
     <div>
       <Head>
         <title>Shepherd</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Curtain visible={entering || leaving} />
       <main>
         <h1>Shepherd</h1>
         <h3>Deployments</h3>
@@ -23,8 +24,8 @@ const Home = () => {
 
       <style jsx>{`
         :global(body) {
-          background: ${colors.midnight_blue};
-          color: ${colors.cloud};
+          background: ${colors.cloud};
+          color: ${colors.midnight_blue};
         }
         :global(*) {
           font-family: 'Helvetica Neue';
@@ -35,7 +36,7 @@ const Home = () => {
         }
 
         .deploymentListContainer {
-          background: ${colors.concrete};
+          background: ${colors.silver};
           padding: 8px;
           border-radius 12px;
         }

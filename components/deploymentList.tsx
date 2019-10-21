@@ -2,9 +2,27 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
 import { useDeploymentList } from '../src/subscriptions/useDeploymentList'
 import { colors } from '../src/colors'
+import { useCallback } from 'react'
+import { usePageTransition } from '../utils/usePageTransition'
+import { useRouter } from 'next/router'
+import { Curtain } from './curtain'
 
 export const DeploymentList = function() {
   const result = useDeploymentList()
+  const { startExit, leaving } = usePageTransition()
+  const router = useRouter()
+  const navigateToDeployment = useCallback(
+    async (deploymentId: string) => {
+      await startExit(async () => {
+        await router.push(
+          `/deployment?id=${encodeURIComponent(deploymentId)}&reveal=true`,
+          `/deployment?id=${encodeURIComponent(deploymentId)}`
+        )
+        window.scrollTo(0, 0)
+      })
+    },
+    [startExit]
+  )
 
   if (result.loading) return <h1>Loading...</h1>
   if ('error' in result) return <h1>Error!</h1>
@@ -12,30 +30,37 @@ export const DeploymentList = function() {
     return <ul></ul>
   }
   return (
-    <ul>
-      <li key="head" className="header">
-        <div className="name">Deployment Name</div>
-        <div className="deploymentType">Type</div>
-        <div className="time">Time</div>
-      </li>
-      {result.data.listDeployments.items.map(
-        x =>
-          x && (
-            <li key={x.id} className="item">
-              <Link href={`/deployment?id=${x.id}`}>
-                <a href={`/deployment?id=${x.id}`}>
-                  <div className="name">{x.displayName || x.id}</div>
-                  <div className="deploymentType">{x.deploymentType}</div>
-                  <div className="time">
-                    {formatDistanceToNow(new Date(x.lastDeploymentTimestamp))}{' '}
-                    ago
-                  </div>
-                </a>
-              </Link>
-            </li>
-          )
-      )}
-      <style jsx>{`
+    <>
+      <Curtain visible={leaving} />
+      <ul>
+        <li key="head" className="header">
+          <div className="name">Deployment Name</div>
+          <div className="deploymentType">Type</div>
+          <div className="time">Time</div>
+        </li>
+        {result.data.listDeployments.items.map(
+          x =>
+            x && (
+              <li key={x.id} className="item">
+                <Link href={`/deployment?id=${x.id}`}>
+                  <a
+                    href={`/deployment?id=${x.id}`}
+                    onClick={ev => (
+                      ev.preventDefault(), navigateToDeployment(x.id)
+                    )}
+                  >
+                    <div className="name">{x.displayName || x.id}</div>
+                    <div className="deploymentType">{x.deploymentType}</div>
+                    <div className="time">
+                      {formatDistanceToNow(new Date(x.lastDeploymentTimestamp))}{' '}
+                      ago
+                    </div>
+                  </a>
+                </Link>
+              </li>
+            )
+        )}
+        <style jsx>{`
         .header {
           font-weight: 600;
         }
@@ -68,6 +93,7 @@ export const DeploymentList = function() {
           color: ${colors.cloud};
         }
       `}</style>
-    </ul>
+      </ul>
+    </>
   )
 }
