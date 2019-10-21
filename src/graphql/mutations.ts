@@ -20,6 +20,7 @@ export const createDeployment = `mutation CreateDeployment($input: CreateDeploym
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -56,6 +57,7 @@ export const updateDeployment = `mutation UpdateDeployment($input: UpdateDeploym
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -92,6 +94,7 @@ export const deleteDeployment = `mutation DeleteDeployment($input: DeleteDeploym
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -117,6 +120,7 @@ export const createKubernetesDeploymentFile = `mutation CreateKubernetesDeployme
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -157,6 +161,7 @@ export const updateKubernetesDeploymentFile = `mutation UpdateKubernetesDeployme
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -197,6 +202,7 @@ export const deleteKubernetesDeploymentFile = `mutation DeleteKubernetesDeployme
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -298,6 +304,7 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
 export const createDeploymentVersion = `mutation CreateDeploymentVersion($input: CreateDeploymentVersionInput!) {
   createDeploymentVersion(input: $input) {
     versionId
+    version
     deployment {
       id
       displayName
@@ -342,6 +349,7 @@ export const createDeploymentVersion = `mutation CreateDeploymentVersion($input:
 export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input: UpdateDeploymentVersionInput!) {
   updateDeploymentVersion(input: $input) {
     versionId
+    version
     deployment {
       id
       displayName
@@ -386,6 +394,7 @@ export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input:
 export const deleteDeploymentVersion = `mutation DeleteDeploymentVersion($input: DeleteDeploymentVersionInput!) {
   deleteDeploymentVersion(input: $input) {
     versionId
+    version
     deployment {
       id
       displayName

@@ -1,16 +1,8 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const getDeployment = `query GetDeployment(
-  $id: String!
-  $lastDeploymentTimestamp: AWSDateTime!
-  $env: String!
-) {
-  getDeployment(
-    id: $id
-    lastDeploymentTimestamp: $lastDeploymentTimestamp
-    env: $env
-  ) {
+export const getDeployment = `query GetDeployment($id: ID!) {
+  getDeployment(id: $id) {
     id
     displayName
     deploymentType
@@ -28,6 +20,7 @@ export const getDeployment = `query GetDeployment(
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -46,8 +39,7 @@ export const getDeployment = `query GetDeployment(
 }
 `;
 export const listDeployments = `query ListDeployments(
-  $id: String
-  $lastDeploymentTimestampEnv: ModelDeploymentPrimaryCompositeKeyConditionInput
+  $id: ID
   $filter: ModelDeploymentFilterInput
   $limit: Int
   $nextToken: String
@@ -55,7 +47,6 @@ export const listDeployments = `query ListDeployments(
 ) {
   listDeployments(
     id: $id
-    lastDeploymentTimestampEnv: $lastDeploymentTimestampEnv
     filter: $filter
     limit: $limit
     nextToken: $nextToken
@@ -86,6 +77,7 @@ export const getKubernetesDeploymentFile = `query GetKubernetesDeploymentFile($i
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -133,6 +125,7 @@ export const listKubernetesDeploymentFiles = `query ListKubernetesDeploymentFile
       content
       version {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -198,6 +191,7 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
 export const getDeploymentVersion = `query GetDeploymentVersion($versionId: ID!) {
   getDeploymentVersion(versionId: $versionId) {
     versionId
+    version
     deployment {
       id
       displayName
@@ -255,6 +249,7 @@ export const listDeploymentVersions = `query ListDeploymentVersions(
   ) {
     items {
       versionId
+      version
       deployment {
         id
         displayName

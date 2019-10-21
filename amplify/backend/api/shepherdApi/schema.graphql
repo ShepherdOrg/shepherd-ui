@@ -9,8 +9,8 @@ enum DeployerRole {
   Install
 }
 
-type Deployment @model @key(fields: ["id", "lastDeploymentTimestamp", "env"]) {
-  id: String!
+type Deployment @model @key(fields: ["id"]) {
+  id: ID!
   displayName: String!
   deploymentType: DeploymentType!
   deployerRole: DeployerRole!
@@ -42,6 +42,8 @@ type ConfigurationItem {
 
 type DeploymentVersion @model @key(fields: ["versionId"]) {
   versionId: ID!
+
+  version: String!
   deployment: Deployment! @connection(name: "DeploymentVersions")
 
   env: String!

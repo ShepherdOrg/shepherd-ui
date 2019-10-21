@@ -30,14 +30,12 @@ export type UpdateDeploymentInput = {
   deploymentType?: DeploymentType | null,
   deployerRole?: DeployerRole | null,
   dbMigrationImage?: string | null,
-  lastDeploymentTimestamp: string,
-  env: string,
+  lastDeploymentTimestamp?: string | null,
+  env?: string | null,
 };
 
 export type DeleteDeploymentInput = {
   id: string,
-  lastDeploymentTimestamp: string,
-  env: string,
 };
 
 export type CreateKubernetesDeploymentFileInput = {
@@ -74,6 +72,7 @@ export type DeleteShepherdHrefInput = {
 
 export type CreateDeploymentVersionInput = {
   versionId: string,
+  version: string,
   env: string,
   deployedAt: string,
   builtAt: string,
@@ -97,6 +96,7 @@ export type ConfigurationItemInput = {
 
 export type UpdateDeploymentVersionInput = {
   versionId: string,
+  version?: string | null,
   env?: string | null,
   deployedAt?: string | null,
   builtAt?: string | null,
@@ -116,23 +116,8 @@ export type DeleteDeploymentVersionInput = {
   versionId: string,
 };
 
-export type ModelDeploymentPrimaryCompositeKeyConditionInput = {
-  eq?: ModelDeploymentPrimaryCompositeKeyInput | null,
-  le?: ModelDeploymentPrimaryCompositeKeyInput | null,
-  lt?: ModelDeploymentPrimaryCompositeKeyInput | null,
-  ge?: ModelDeploymentPrimaryCompositeKeyInput | null,
-  gt?: ModelDeploymentPrimaryCompositeKeyInput | null,
-  between?: Array< ModelDeploymentPrimaryCompositeKeyInput | null > | null,
-  beginsWith?: ModelDeploymentPrimaryCompositeKeyInput | null,
-};
-
-export type ModelDeploymentPrimaryCompositeKeyInput = {
-  lastDeploymentTimestamp?: string | null,
-  env?: string | null,
-};
-
 export type ModelDeploymentFilterInput = {
-  id?: ModelStringFilterInput | null,
+  id?: ModelIDFilterInput | null,
   displayName?: ModelStringFilterInput | null,
   deploymentType?: ModelDeploymentTypeFilterInput | null,
   deployerRole?: ModelDeployerRoleFilterInput | null,
@@ -142,6 +127,19 @@ export type ModelDeploymentFilterInput = {
   and?: Array< ModelDeploymentFilterInput | null > | null,
   or?: Array< ModelDeploymentFilterInput | null > | null,
   not?: ModelDeploymentFilterInput | null,
+};
+
+export type ModelIDFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
 export type ModelStringFilterInput = {
@@ -191,6 +189,7 @@ export type ModelShepherdHrefFilterInput = {
 
 export type ModelDeploymentVersionFilterInput = {
   versionId?: ModelIDFilterInput | null,
+  version?: ModelStringFilterInput | null,
   env?: ModelStringFilterInput | null,
   deployedAt?: ModelStringFilterInput | null,
   builtAt?: ModelStringFilterInput | null,
@@ -205,19 +204,6 @@ export type ModelDeploymentVersionFilterInput = {
   and?: Array< ModelDeploymentVersionFilterInput | null > | null,
   or?: Array< ModelDeploymentVersionFilterInput | null > | null,
   not?: ModelDeploymentVersionFilterInput | null,
-};
-
-export type ModelIDFilterInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
 };
 
 export type CreateDeploymentMutationVariables = {
@@ -248,6 +234,7 @@ export type CreateDeploymentMutation = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -293,6 +280,7 @@ export type UpdateDeploymentMutation = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -338,6 +326,7 @@ export type DeleteDeploymentMutation = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -367,6 +356,7 @@ export type CreateKubernetesDeploymentFileMutation = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -414,6 +404,7 @@ export type UpdateKubernetesDeploymentFileMutation = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -461,6 +452,7 @@ export type DeleteKubernetesDeploymentFileMutation = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -594,6 +586,7 @@ export type CreateDeploymentVersionMutation = {
   createDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -649,6 +642,7 @@ export type UpdateDeploymentVersionMutation = {
   updateDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -704,6 +698,7 @@ export type DeleteDeploymentVersionMutation = {
   deleteDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -753,8 +748,6 @@ export type DeleteDeploymentVersionMutation = {
 
 export type GetDeploymentQueryVariables = {
   id: string,
-  lastDeploymentTimestamp: string,
-  env: string,
 };
 
 export type GetDeploymentQuery = {
@@ -781,6 +774,7 @@ export type GetDeploymentQuery = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -800,7 +794,6 @@ export type GetDeploymentQuery = {
 
 export type ListDeploymentsQueryVariables = {
   id?: string | null,
-  lastDeploymentTimestampEnv?: ModelDeploymentPrimaryCompositeKeyConditionInput | null,
   filter?: ModelDeploymentFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
@@ -844,6 +837,7 @@ export type GetKubernetesDeploymentFileQuery = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -895,6 +889,7 @@ export type ListKubernetesDeploymentFilesQuery = {
       version:  {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -978,6 +973,7 @@ export type GetDeploymentVersionQuery = {
   getDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -1039,6 +1035,7 @@ export type ListDeploymentVersionsQuery = {
     items:  Array< {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -1099,6 +1096,7 @@ export type OnCreateDeploymentSubscription = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -1140,6 +1138,7 @@ export type OnUpdateDeploymentSubscription = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -1181,6 +1180,7 @@ export type OnDeleteDeploymentSubscription = {
       items:  Array< {
         __typename: "DeploymentVersion",
         versionId: string,
+        version: string,
         env: string,
         deployedAt: string,
         builtAt: string,
@@ -1206,6 +1206,7 @@ export type OnCreateKubernetesDeploymentFileSubscription = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -1249,6 +1250,7 @@ export type OnUpdateKubernetesDeploymentFileSubscription = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -1292,6 +1294,7 @@ export type OnDeleteKubernetesDeploymentFileSubscription = {
     version:  {
       __typename: "DeploymentVersion",
       versionId: string,
+      version: string,
       deployment:  {
         __typename: "Deployment",
         id: string,
@@ -1409,6 +1412,7 @@ export type OnCreateDeploymentVersionSubscription = {
   onCreateDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -1460,6 +1464,7 @@ export type OnUpdateDeploymentVersionSubscription = {
   onUpdateDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,
@@ -1511,6 +1516,7 @@ export type OnDeleteDeploymentVersionSubscription = {
   onDeleteDeploymentVersion:  {
     __typename: "DeploymentVersion",
     versionId: string,
+    version: string,
     deployment:  {
       __typename: "Deployment",
       id: string,

@@ -10,5 +10,17 @@
             "StackName": "shepherd-ui-dev-20191017161653",
             "StackId": "arn:aws:cloudformation:eu-west-1:315986135005:stack/shepherd-ui-dev-20191017161653/885781f0-f0f9-11e9-9dce-0295fc50fbd8"
         }
+    },
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "shepherd-ui-test-20191021125202-authRole",
+            "UnauthRoleArn": "arn:aws:iam::315986135005:role/shepherd-ui-test-20191021125202-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::315986135005:role/shepherd-ui-test-20191021125202-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "shepherd-ui-test-20191021125202-deployment",
+            "UnauthRoleName": "shepherd-ui-test-20191021125202-unauthRole",
+            "StackName": "shepherd-ui-test-20191021125202",
+            "StackId": "arn:aws:cloudformation:eu-west-1:315986135005:stack/shepherd-ui-test-20191021125202/93deaf20-f401-11e9-9fcb-06eb0c990f0a"
+        }
     }
 }

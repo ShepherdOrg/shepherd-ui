@@ -20,6 +20,7 @@ export const onCreateDeployment = `subscription OnCreateDeployment {
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -56,6 +57,7 @@ export const onUpdateDeployment = `subscription OnUpdateDeployment {
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -92,6 +94,7 @@ export const onDeleteDeployment = `subscription OnDeleteDeployment {
     versions {
       items {
         versionId
+        version
         env
         deployedAt
         builtAt
@@ -115,6 +118,7 @@ export const onCreateKubernetesDeploymentFile = `subscription OnCreateKubernetes
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -153,6 +157,7 @@ export const onUpdateKubernetesDeploymentFile = `subscription OnUpdateKubernetes
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -191,6 +196,7 @@ export const onDeleteKubernetesDeploymentFile = `subscription OnDeleteKubernetes
     content
     version {
       versionId
+      version
       deployment {
         id
         displayName
@@ -292,6 +298,7 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
 export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion {
   onCreateDeploymentVersion {
     versionId
+    version
     deployment {
       id
       displayName
@@ -336,6 +343,7 @@ export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion
 export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion {
   onUpdateDeploymentVersion {
     versionId
+    version
     deployment {
       id
       displayName
@@ -380,6 +388,7 @@ export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion
 export const onDeleteDeploymentVersion = `subscription OnDeleteDeploymentVersion {
   onDeleteDeploymentVersion {
     versionId
+    version
     deployment {
       id
       displayName
