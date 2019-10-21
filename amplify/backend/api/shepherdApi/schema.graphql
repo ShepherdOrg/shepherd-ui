@@ -40,8 +40,8 @@ type ConfigurationItem {
   isSecret: Boolean!
 }
 
-type DeploymentVersion @model @key(fields: ["versionId", "deployment"]) {
-  versionId: String!
+type DeploymentVersion @model @key(fields: ["versionId"]) {
+  versionId: ID!
   deployment: Deployment! @connection(name: "DeploymentVersions")
 
   env: String!
