@@ -31,6 +31,12 @@ interface Failure {
 
 export type UseSubscriptionResult<T> = Loading | Failure | Success<T>
 
+export const isSuccess = <T>(
+  value: UseSubscriptionResult<T>
+): value is Success<T> => {
+  return !value.loading && !('error' in value)
+}
+
 export const useSubscription = function<
   TQueryResult = any,
   TSubscriptionResult = any

@@ -1,34 +1,10 @@
-import { useSubscription } from '../src/subscriptions/subscribe'
-import gql from 'graphql-tag'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
-import { listDeployments } from '../src/graphql/queries'
-import { onCreateDeployment } from '../src/graphql/subscriptions'
-import {
-  ListDeploymentsQuery,
-  OnCreateDeploymentSubscription,
-} from '../src/API'
-
-const query = {
-  query: gql(listDeployments),
-}
-const subscription = {
-  query: gql(onCreateDeployment),
-}
+import { useDeploymentList } from '../src/subscriptions/useDeploymentList'
+import { colors } from '../src/colors'
 
 export const DeploymentList = function() {
-  const result = useSubscription<
-    ListDeploymentsQuery,
-    OnCreateDeploymentSubscription
-  >({
-    query,
-    subscription,
-    onSubscriptionMsg(prev, next) {
-      if (!(prev.listDeployments && prev.listDeployments.items)) return prev
-      prev.listDeployments.items.push(next.onCreateDeployment)
-      return prev
-    },
-  })
+  const result = useDeploymentList()
 
   if (result.loading) return <h1>Loading...</h1>
   if ('error' in result) return <h1>Error!</h1>
@@ -42,6 +18,23 @@ export const DeploymentList = function() {
         <div className="deploymentType">Type</div>
         <div className="time">Time</div>
       </li>
+      {result.data.listDeployments.items.map(
+        x =>
+          x && (
+            <li key={x.id} className="item">
+              <Link href={`/deployment?id=${x.id}`}>
+                <a href={`/deployment?id=${x.id}`}>
+                  <div className="name">{x.displayName || x.id}</div>
+                  <div className="deploymentType">{x.deploymentType}</div>
+                  <div className="time">
+                    {formatDistanceToNow(new Date(x.lastDeploymentTimestamp))}{' '}
+                    ago
+                  </div>
+                </a>
+              </Link>
+            </li>
+          )
+      )}
       {result.data.listDeployments.items.map(
         x =>
           x && (
@@ -75,19 +68,25 @@ export const DeploymentList = function() {
           padding 8px;
         }
 
+        li.item {
+          margin-top: 8px;
+        }
+
+        li.item:first-child {
+          margin-top: 0;
+        }
+
         li.item > a {
           text-decoration: none;
           border-radius: 12px;
-          color: #333;
-        }
-
-        li.item:nth-child(2n) > a {
-          background: #efefef;
+          color: ${colors.midnight_blue};
+          background: ${colors.cloud};
+          transition: all .2s ease-out;
         }
 
         li.item > a:hover {
-          background: #eee;
-          color: #00f;
+          background: ${colors.asphalt};
+          color: ${colors.cloud};
         }
       `}</style>
     </ul>
