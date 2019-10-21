@@ -35,23 +35,6 @@ export const DeploymentList = function() {
             </li>
           )
       )}
-      {result.data.listDeployments.items.map(
-        x =>
-          x && (
-            <li key={x.id} className="item">
-              <Link href={`/deployment?id=${x.id}`}>
-                <a href={`/deployment?id=${x.id}`}>
-                  <div className="name">{x.displayName || x.id}</div>
-                  <div className="deploymentType">{x.deploymentType}</div>
-                  <div className="time">
-                    {formatDistanceToNow(new Date(x.lastDeploymentTimestamp))}{' '}
-                    ago
-                  </div>
-                </a>
-              </Link>
-            </li>
-          )
-      )}
       <style jsx>{`
         .header {
           font-weight: 600;
@@ -70,10 +53,6 @@ export const DeploymentList = function() {
 
         li.item {
           margin-top: 8px;
-        }
-
-        li.item:first-child {
-          margin-top: 0;
         }
 
         li.item > a {
