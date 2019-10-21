@@ -1,46 +1,13 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const onCreateHerdSpec = `subscription OnCreateHerdSpec {
-  onCreateHerdSpec {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const onUpdateHerdSpec = `subscription OnUpdateHerdSpec {
-  onUpdateHerdSpec {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const onDeleteHerdSpec = `subscription OnDeleteHerdSpec {
-  onDeleteHerdSpec {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const onCreateShepherdMetadata = `subscription OnCreateShepherdMetadata {
-  onCreateShepherdMetadata {
+export const onCreateDeployment = `subscription OnCreateDeployment {
+  onCreateDeployment {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -48,43 +15,35 @@ export const onCreateShepherdMetadata = `subscription OnCreateShepherdMetadata {
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
     }
   }
 }
 `;
-export const onUpdateShepherdMetadata = `subscription OnUpdateShepherdMetadata {
-  onUpdateShepherdMetadata {
+export const onUpdateDeployment = `subscription OnUpdateDeployment {
+  onUpdateDeployment {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -92,43 +51,35 @@ export const onUpdateShepherdMetadata = `subscription OnUpdateShepherdMetadata {
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
     }
   }
 }
 `;
-export const onDeleteShepherdMetadata = `subscription OnDeleteShepherdMetadata {
-  onDeleteShepherdMetadata {
+export const onDeleteDeployment = `subscription OnDeleteDeployment {
+  onDeleteDeployment {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -136,26 +87,138 @@ export const onDeleteShepherdMetadata = `subscription OnDeleteShepherdMetadata {
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
+    }
+  }
+}
+`;
+export const onCreateKubernetesDeploymentFile = `subscription OnCreateKubernetesDeploymentFile {
+  onCreateKubernetesDeploymentFile {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
+    }
+  }
+}
+`;
+export const onUpdateKubernetesDeploymentFile = `subscription OnUpdateKubernetesDeploymentFile {
+  onUpdateKubernetesDeploymentFile {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
+    }
+  }
+}
+`;
+export const onDeleteKubernetesDeploymentFile = `subscription OnDeleteKubernetesDeploymentFile {
+  onDeleteKubernetesDeploymentFile {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
     }
   }
 }
@@ -168,25 +231,14 @@ export const onCreateShepherdHref = `subscription OnCreateShepherdHref {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
@@ -201,25 +253,14 @@ export const onUpdateShepherdHref = `subscription OnUpdateShepherdHref {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
@@ -234,148 +275,149 @@ export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
   }
 }
 `;
-export const onCreateDeploymentState = `subscription OnCreateDeploymentState {
-  onCreateDeploymentState {
+export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion {
+  onCreateDeploymentVersion {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;
-export const onUpdateDeploymentState = `subscription OnUpdateDeploymentState {
-  onUpdateDeploymentState {
+export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion {
+  onUpdateDeploymentVersion {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;
-export const onDeleteDeploymentState = `subscription OnDeleteDeploymentState {
-  onDeleteDeploymentState {
+export const onDeleteDeploymentVersion = `subscription OnDeleteDeploymentVersion {
+  onDeleteDeploymentVersion {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;

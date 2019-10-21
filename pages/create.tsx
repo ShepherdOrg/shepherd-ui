@@ -1,7 +1,7 @@
 import React from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import { CreateShepherdMetadata } from '../components/createShepherdMetadata'
+import { CreateDeployment } from '../components/createDeployment'
 
 const Home = () => {
   return (
@@ -14,7 +14,7 @@ const Home = () => {
       <Nav />
 
       <main>
-        <CreateShepherdMetadata />
+        <CreateDeployment />
       </main>
 
       <style jsx>{`

@@ -1,50 +1,21 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const getHerdSpec = `query GetHerdSpec($id: ID!) {
-  getHerdSpec(id: $id) {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const listHerdSpecs = `query ListHerdSpecs(
-  $filter: ModelHerdSpecFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listHerdSpecs(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      key
-      image
-      imagetag
-      description
-    }
-    nextToken
-  }
-}
-`;
-export const getShepherdMetadata = `query GetShepherdMetadata(
+export const getDeployment = `query GetDeployment(
   $id: String!
   $lastDeploymentTimestamp: AWSDateTime!
+  $env: String!
 ) {
-  getShepherdMetadata(
+  getDeployment(
     id: $id
     lastDeploymentTimestamp: $lastDeploymentTimestamp
+    env: $env
   ) {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -52,41 +23,39 @@ export const getShepherdMetadata = `query GetShepherdMetadata(
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
     }
   }
 }
 `;
-export const listShepherdMetadatas = `query ListShepherdMetadatas(
+export const listDeployments = `query ListDeployments(
   $id: String
-  $lastDeploymentTimestamp: ModelStringKeyConditionInput
-  $filter: ModelShepherdMetadataFilterInput
+  $lastDeploymentTimestampEnv: ModelDeploymentPrimaryCompositeKeyConditionInput
+  $filter: ModelDeploymentFilterInput
   $limit: Int
   $nextToken: String
   $sortDirection: ModelSortDirection
 ) {
-  listShepherdMetadatas(
+  listDeployments(
     id: $id
-    lastDeploymentTimestamp: $lastDeploymentTimestamp
+    lastDeploymentTimestampEnv: $lastDeploymentTimestampEnv
     filter: $filter
     limit: $limit
     nextToken: $nextToken
@@ -96,26 +65,85 @@ export const listShepherdMetadatas = `query ListShepherdMetadatas(
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
+      }
+    }
+    nextToken
+  }
+}
+`;
+export const getKubernetesDeploymentFile = `query GetKubernetesDeploymentFile($id: ID!) {
+  getKubernetesDeploymentFile(id: $id) {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
+    }
+  }
+}
+`;
+export const listKubernetesDeploymentFiles = `query ListKubernetesDeploymentFiles(
+  $filter: ModelKubernetesDeploymentFileFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listKubernetesDeploymentFiles(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      path
+      content
+      version {
+        versionId
+        env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
     }
     nextToken
@@ -130,25 +158,14 @@ export const getShepherdHref = `query GetShepherdHref($id: ID!) {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
@@ -168,91 +185,104 @@ export const listShepherdHrefs = `query ListShepherdHrefs(
         id
         displayName
         deploymentType
+        deployerRole
         dbMigrationImage
-        lastCommits
-        gitUrl
-        gitHash
-        buildDate
-        gitCommit
-        dockerImageTag
-        buildHostName
         lastDeploymentTimestamp
+        env
       }
     }
     nextToken
   }
 }
 `;
-export const getDeploymentState = `query GetDeploymentState($id: ID!) {
-  getDeploymentState(id: $id) {
+export const getDeploymentVersion = `query GetDeploymentVersion($versionId: ID!) {
+  getDeploymentVersion(versionId: $versionId) {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;
-export const listDeploymentStates = `query ListDeploymentStates(
-  $filter: ModelDeploymentStateFilterInput
+export const listDeploymentVersions = `query ListDeploymentVersions(
+  $versionId: ID
+  $filter: ModelDeploymentVersionFilterInput
   $limit: Int
   $nextToken: String
+  $sortDirection: ModelSortDirection
 ) {
-  listDeploymentStates(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listDeploymentVersions(
+    versionId: $versionId
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: $sortDirection
+  ) {
     items {
+      versionId
       deployment {
         id
         displayName
         deploymentType
+        deployerRole
         dbMigrationImage
-        lastCommits
-        gitUrl
-        gitHash
-        buildDate
-        gitCommit
-        dockerImageTag
-        buildHostName
         lastDeploymentTimestamp
+        env
       }
-      new
-      key
-      modified
-      operation
-      version
-      lastVersion
-      timestamp
-      signature
       env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
     }
     nextToken
   }

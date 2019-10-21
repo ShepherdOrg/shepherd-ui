@@ -1,71 +1,65 @@
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateHerdSpecInput = {
-  key: string,
-  image: string,
-  imagetag: string,
-  description: string,
-};
-
-export type UpdateHerdSpecInput = {
-  key?: string | null,
-  image?: string | null,
-  imagetag?: string | null,
-  description?: string | null,
-};
-
-export type DeleteHerdSpecInput = {
-  id?: string | null,
-};
-
-export type CreateShepherdMetadataInput = {
+export type CreateDeploymentInput = {
   id: string,
   displayName: string,
   deploymentType: DeploymentType,
+  deployerRole: DeployerRole,
   dbMigrationImage?: string | null,
-  lastCommits: string,
-  gitUrl: string,
-  gitHash: string,
-  buildDate?: string | null,
-  gitCommit?: string | null,
-  dockerImageTag?: string | null,
-  buildHostName?: string | null,
   lastDeploymentTimestamp: string,
+  env: string,
 };
 
 export enum DeploymentType {
-  Deployer = "Deployer",
   Kubernetes = "Kubernetes",
-  Infrastructure = "Infrastructure",
-  Deployment = "Deployment",
+  Deployer = "Deployer",
 }
 
 
-export type UpdateShepherdMetadataInput = {
+export enum DeployerRole {
+  Infrastructure = "Infrastructure",
+  Migration = "Migration",
+  Install = "Install",
+}
+
+
+export type UpdateDeploymentInput = {
   id: string,
   displayName?: string | null,
   deploymentType?: DeploymentType | null,
+  deployerRole?: DeployerRole | null,
   dbMigrationImage?: string | null,
-  lastCommits?: string | null,
-  gitUrl?: string | null,
-  gitHash?: string | null,
-  buildDate?: string | null,
-  gitCommit?: string | null,
-  dockerImageTag?: string | null,
-  buildHostName?: string | null,
   lastDeploymentTimestamp: string,
+  env: string,
 };
 
-export type DeleteShepherdMetadataInput = {
+export type DeleteDeploymentInput = {
   id: string,
   lastDeploymentTimestamp: string,
+  env: string,
+};
+
+export type CreateKubernetesDeploymentFileInput = {
+  path: string,
+  content: string,
+  kubernetesDeploymentFileVersionId: string,
+};
+
+export type UpdateKubernetesDeploymentFileInput = {
+  path?: string | null,
+  content?: string | null,
+  kubernetesDeploymentFileVersionId?: string | null,
+};
+
+export type DeleteKubernetesDeploymentFileInput = {
+  id?: string | null,
 };
 
 export type CreateShepherdHrefInput = {
   title: string,
   url: string,
-  shepherdHrefMetadataId?: string | null,
+  shepherdHrefMetadataId: string,
 };
 
 export type UpdateShepherdHrefInput = {
@@ -78,44 +72,76 @@ export type DeleteShepherdHrefInput = {
   id?: string | null,
 };
 
-export type CreateDeploymentStateInput = {
-  new?: boolean | null,
-  key?: string | null,
-  modified?: boolean | null,
-  operation?: string | null,
-  version?: string | null,
-  lastVersion: string,
-  timestamp: string,
-  signature?: string | null,
+export type CreateDeploymentVersionInput = {
+  versionId: string,
+  env: string,
+  deployedAt: string,
+  builtAt: string,
+  lastCommits: string,
+  gitUrl: string,
+  gitBranch: string,
+  gitHash: string,
+  gitCommit: string,
+  dockerImage: string,
+  dockerImageTag: string,
+  buildHostName: string,
+  configuration?: Array< ConfigurationItemInput > | null,
+  deploymentVersionDeploymentId: string,
+};
+
+export type ConfigurationItemInput = {
+  key: string,
+  value: string,
+  isSecret: boolean,
+};
+
+export type UpdateDeploymentVersionInput = {
+  versionId: string,
   env?: string | null,
-  deploymentStateDeploymentId?: string | null,
+  deployedAt?: string | null,
+  builtAt?: string | null,
+  lastCommits?: string | null,
+  gitUrl?: string | null,
+  gitBranch?: string | null,
+  gitHash?: string | null,
+  gitCommit?: string | null,
+  dockerImage?: string | null,
+  dockerImageTag?: string | null,
+  buildHostName?: string | null,
+  configuration?: Array< ConfigurationItemInput > | null,
+  deploymentVersionDeploymentId?: string | null,
 };
 
-export type UpdateDeploymentStateInput = {
-  new?: boolean | null,
-  key?: string | null,
-  modified?: boolean | null,
-  operation?: string | null,
-  version?: string | null,
-  lastVersion?: string | null,
-  timestamp?: string | null,
-  signature?: string | null,
+export type DeleteDeploymentVersionInput = {
+  versionId: string,
+};
+
+export type ModelDeploymentPrimaryCompositeKeyConditionInput = {
+  eq?: ModelDeploymentPrimaryCompositeKeyInput | null,
+  le?: ModelDeploymentPrimaryCompositeKeyInput | null,
+  lt?: ModelDeploymentPrimaryCompositeKeyInput | null,
+  ge?: ModelDeploymentPrimaryCompositeKeyInput | null,
+  gt?: ModelDeploymentPrimaryCompositeKeyInput | null,
+  between?: Array< ModelDeploymentPrimaryCompositeKeyInput | null > | null,
+  beginsWith?: ModelDeploymentPrimaryCompositeKeyInput | null,
+};
+
+export type ModelDeploymentPrimaryCompositeKeyInput = {
+  lastDeploymentTimestamp?: string | null,
   env?: string | null,
-  deploymentStateDeploymentId?: string | null,
 };
 
-export type DeleteDeploymentStateInput = {
-  id?: string | null,
-};
-
-export type ModelHerdSpecFilterInput = {
-  key?: ModelStringFilterInput | null,
-  image?: ModelStringFilterInput | null,
-  imagetag?: ModelStringFilterInput | null,
-  description?: ModelStringFilterInput | null,
-  and?: Array< ModelHerdSpecFilterInput | null > | null,
-  or?: Array< ModelHerdSpecFilterInput | null > | null,
-  not?: ModelHerdSpecFilterInput | null,
+export type ModelDeploymentFilterInput = {
+  id?: ModelStringFilterInput | null,
+  displayName?: ModelStringFilterInput | null,
+  deploymentType?: ModelDeploymentTypeFilterInput | null,
+  deployerRole?: ModelDeployerRoleFilterInput | null,
+  dbMigrationImage?: ModelStringFilterInput | null,
+  lastDeploymentTimestamp?: ModelStringFilterInput | null,
+  env?: ModelStringFilterInput | null,
+  and?: Array< ModelDeploymentFilterInput | null > | null,
+  or?: Array< ModelDeploymentFilterInput | null > | null,
+  not?: ModelDeploymentFilterInput | null,
 };
 
 export type ModelStringFilterInput = {
@@ -131,37 +157,14 @@ export type ModelStringFilterInput = {
   beginsWith?: string | null,
 };
 
-export type ModelStringKeyConditionInput = {
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-};
-
-export type ModelShepherdMetadataFilterInput = {
-  id?: ModelStringFilterInput | null,
-  displayName?: ModelStringFilterInput | null,
-  deploymentType?: ModelDeploymentTypeFilterInput | null,
-  dbMigrationImage?: ModelStringFilterInput | null,
-  lastCommits?: ModelStringFilterInput | null,
-  gitUrl?: ModelStringFilterInput | null,
-  gitHash?: ModelStringFilterInput | null,
-  buildDate?: ModelStringFilterInput | null,
-  gitCommit?: ModelStringFilterInput | null,
-  dockerImageTag?: ModelStringFilterInput | null,
-  buildHostName?: ModelStringFilterInput | null,
-  lastDeploymentTimestamp?: ModelStringFilterInput | null,
-  and?: Array< ModelShepherdMetadataFilterInput | null > | null,
-  or?: Array< ModelShepherdMetadataFilterInput | null > | null,
-  not?: ModelShepherdMetadataFilterInput | null,
-};
-
 export type ModelDeploymentTypeFilterInput = {
   eq?: DeploymentType | null,
   ne?: DeploymentType | null,
+};
+
+export type ModelDeployerRoleFilterInput = {
+  eq?: DeployerRole | null,
+  ne?: DeployerRole | null,
 };
 
 export enum ModelSortDirection {
@@ -169,6 +172,14 @@ export enum ModelSortDirection {
   DESC = "DESC",
 }
 
+
+export type ModelKubernetesDeploymentFileFilterInput = {
+  path?: ModelStringFilterInput | null,
+  content?: ModelStringFilterInput | null,
+  and?: Array< ModelKubernetesDeploymentFileFilterInput | null > | null,
+  or?: Array< ModelKubernetesDeploymentFileFilterInput | null > | null,
+  not?: ModelKubernetesDeploymentFileFilterInput | null,
+};
 
 export type ModelShepherdHrefFilterInput = {
   title?: ModelStringFilterInput | null,
@@ -178,86 +189,49 @@ export type ModelShepherdHrefFilterInput = {
   not?: ModelShepherdHrefFilterInput | null,
 };
 
-export type ModelDeploymentStateFilterInput = {
-  new?: ModelBooleanFilterInput | null,
-  key?: ModelStringFilterInput | null,
-  modified?: ModelBooleanFilterInput | null,
-  operation?: ModelStringFilterInput | null,
-  version?: ModelStringFilterInput | null,
-  lastVersion?: ModelStringFilterInput | null,
-  timestamp?: ModelStringFilterInput | null,
-  signature?: ModelStringFilterInput | null,
+export type ModelDeploymentVersionFilterInput = {
+  versionId?: ModelIDFilterInput | null,
   env?: ModelStringFilterInput | null,
-  and?: Array< ModelDeploymentStateFilterInput | null > | null,
-  or?: Array< ModelDeploymentStateFilterInput | null > | null,
-  not?: ModelDeploymentStateFilterInput | null,
+  deployedAt?: ModelStringFilterInput | null,
+  builtAt?: ModelStringFilterInput | null,
+  lastCommits?: ModelStringFilterInput | null,
+  gitUrl?: ModelStringFilterInput | null,
+  gitBranch?: ModelStringFilterInput | null,
+  gitHash?: ModelStringFilterInput | null,
+  gitCommit?: ModelStringFilterInput | null,
+  dockerImage?: ModelStringFilterInput | null,
+  dockerImageTag?: ModelStringFilterInput | null,
+  buildHostName?: ModelStringFilterInput | null,
+  and?: Array< ModelDeploymentVersionFilterInput | null > | null,
+  or?: Array< ModelDeploymentVersionFilterInput | null > | null,
+  not?: ModelDeploymentVersionFilterInput | null,
 };
 
-export type ModelBooleanFilterInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
+export type ModelIDFilterInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
 };
 
-export type CreateHerdSpecMutationVariables = {
-  input: CreateHerdSpecInput,
+export type CreateDeploymentMutationVariables = {
+  input: CreateDeploymentInput,
 };
 
-export type CreateHerdSpecMutation = {
-  createHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type UpdateHerdSpecMutationVariables = {
-  input: UpdateHerdSpecInput,
-};
-
-export type UpdateHerdSpecMutation = {
-  updateHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type DeleteHerdSpecMutationVariables = {
-  input: DeleteHerdSpecInput,
-};
-
-export type DeleteHerdSpecMutation = {
-  deleteHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type CreateShepherdMetadataMutationVariables = {
-  input: CreateShepherdMetadataInput,
-};
-
-export type CreateShepherdMetadataMutation = {
-  createShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type CreateDeploymentMutation = {
+  createDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -267,51 +241,42 @@ export type CreateShepherdMetadataMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
   } | null,
 };
 
-export type UpdateShepherdMetadataMutationVariables = {
-  input: UpdateShepherdMetadataInput,
+export type UpdateDeploymentMutationVariables = {
+  input: UpdateDeploymentInput,
 };
 
-export type UpdateShepherdMetadataMutation = {
-  updateShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type UpdateDeploymentMutation = {
+  updateDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -321,51 +286,42 @@ export type UpdateShepherdMetadataMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
   } | null,
 };
 
-export type DeleteShepherdMetadataMutationVariables = {
-  input: DeleteShepherdMetadataInput,
+export type DeleteDeploymentMutationVariables = {
+  input: DeleteDeploymentInput,
 };
 
-export type DeleteShepherdMetadataMutation = {
-  deleteShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type DeleteDeploymentMutation = {
+  deleteDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -375,30 +331,168 @@ export type DeleteShepherdMetadataMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type CreateKubernetesDeploymentFileMutationVariables = {
+  input: CreateKubernetesDeploymentFileInput,
+};
+
+export type CreateKubernetesDeploymentFileMutation = {
+  createKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
+  } | null,
+};
+
+export type UpdateKubernetesDeploymentFileMutationVariables = {
+  input: UpdateKubernetesDeploymentFileInput,
+};
+
+export type UpdateKubernetesDeploymentFileMutation = {
+  updateKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
+  } | null,
+};
+
+export type DeleteKubernetesDeploymentFileMutationVariables = {
+  input: DeleteKubernetesDeploymentFileInput,
+};
+
+export type DeleteKubernetesDeploymentFileMutation = {
+  deleteKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
   } | null,
 };
 
@@ -412,35 +506,23 @@ export type CreateShepherdHrefMutation = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -454,35 +536,23 @@ export type UpdateShepherdHrefMutation = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -496,238 +566,205 @@ export type DeleteShepherdHrefMutation = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
-export type CreateDeploymentStateMutationVariables = {
-  input: CreateDeploymentStateInput,
+export type CreateDeploymentVersionMutationVariables = {
+  input: CreateDeploymentVersionInput,
 };
 
-export type CreateDeploymentStateMutation = {
-  createDeploymentState:  {
-    __typename: "DeploymentState",
+export type CreateDeploymentVersionMutation = {
+  createDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
     deployment:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
-  } | null,
-};
-
-export type UpdateDeploymentStateMutationVariables = {
-  input: UpdateDeploymentStateInput,
-};
-
-export type UpdateDeploymentStateMutation = {
-  updateDeploymentState:  {
-    __typename: "DeploymentState",
-    deployment:  {
-      __typename: "ShepherdMetadata",
-      id: string,
-      displayName: string,
-      deploymentType: DeploymentType,
-      dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
-      lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
-  } | null,
-};
-
-export type DeleteDeploymentStateMutationVariables = {
-  input: DeleteDeploymentStateInput,
-};
-
-export type DeleteDeploymentStateMutation = {
-  deleteDeploymentState:  {
-    __typename: "DeploymentState",
-    deployment:  {
-      __typename: "ShepherdMetadata",
-      id: string,
-      displayName: string,
-      deploymentType: DeploymentType,
-      dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
-      lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
-        nextToken: string | null,
-      } | null,
-    } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
-  } | null,
-};
-
-export type GetHerdSpecQueryVariables = {
-  id: string,
-};
-
-export type GetHerdSpecQuery = {
-  getHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type ListHerdSpecsQueryVariables = {
-  filter?: ModelHerdSpecFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListHerdSpecsQuery = {
-  listHerdSpecs:  {
-    __typename: "ModelHerdSpecConnection",
-    items:  Array< {
-      __typename: "HerdSpec",
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
       key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null > | null,
-    nextToken: string | null,
+      value: string,
+      isSecret: boolean,
+    } > | null,
   } | null,
 };
 
-export type GetShepherdMetadataQueryVariables = {
+export type UpdateDeploymentVersionMutationVariables = {
+  input: UpdateDeploymentVersionInput,
+};
+
+export type UpdateDeploymentVersionMutation = {
+  updateDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
+    deployment:  {
+      __typename: "Deployment",
+      id: string,
+      displayName: string,
+      deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
+      dbMigrationImage: string | null,
+      hyperlinks:  {
+        __typename: "ModelShepherdHrefConnection",
+        nextToken: string | null,
+      } | null,
+      lastDeploymentTimestamp: string,
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
+        nextToken: string | null,
+      } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
+  } | null,
+};
+
+export type DeleteDeploymentVersionMutationVariables = {
+  input: DeleteDeploymentVersionInput,
+};
+
+export type DeleteDeploymentVersionMutation = {
+  deleteDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
+    deployment:  {
+      __typename: "Deployment",
+      id: string,
+      displayName: string,
+      deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
+      dbMigrationImage: string | null,
+      hyperlinks:  {
+        __typename: "ModelShepherdHrefConnection",
+        nextToken: string | null,
+      } | null,
+      lastDeploymentTimestamp: string,
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
+        nextToken: string | null,
+      } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
+  } | null,
+};
+
+export type GetDeploymentQueryVariables = {
   id: string,
   lastDeploymentTimestamp: string,
+  env: string,
 };
 
-export type GetShepherdMetadataQuery = {
-  getShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type GetDeploymentQuery = {
+  getDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -737,74 +774,139 @@ export type GetShepherdMetadataQuery = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
   } | null,
 };
 
-export type ListShepherdMetadatasQueryVariables = {
+export type ListDeploymentsQueryVariables = {
   id?: string | null,
-  lastDeploymentTimestamp?: ModelStringKeyConditionInput | null,
-  filter?: ModelShepherdMetadataFilterInput | null,
+  lastDeploymentTimestampEnv?: ModelDeploymentPrimaryCompositeKeyConditionInput | null,
+  filter?: ModelDeploymentFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
   sortDirection?: ModelSortDirection | null,
 };
 
-export type ListShepherdMetadatasQuery = {
-  listShepherdMetadatas:  {
-    __typename: "ModelShepherdMetadataConnection",
+export type ListDeploymentsQuery = {
+  listDeployments:  {
+    __typename: "ModelDeploymentConnection",
     items:  Array< {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetKubernetesDeploymentFileQueryVariables = {
+  id: string,
+};
+
+export type GetKubernetesDeploymentFileQuery = {
+  getKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
+  } | null,
+};
+
+export type ListKubernetesDeploymentFilesQueryVariables = {
+  filter?: ModelKubernetesDeploymentFileFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListKubernetesDeploymentFilesQuery = {
+  listKubernetesDeploymentFiles:  {
+    __typename: "ModelKubernetesDeploymentFileConnection",
+    items:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+      version:  {
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
+      },
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -820,35 +922,23 @@ export type GetShepherdHrefQuery = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -866,158 +956,133 @@ export type ListShepherdHrefsQuery = {
       title: string,
       url: string,
       metadata:  {
-        __typename: "ShepherdMetadata",
+        __typename: "Deployment",
         id: string,
         displayName: string,
         deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
         dbMigrationImage: string | null,
-        lastCommits: string,
-        gitUrl: string,
-        gitHash: string,
-        buildDate: string | null,
-        gitCommit: string | null,
-        dockerImageTag: string | null,
-        buildHostName: string | null,
         lastDeploymentTimestamp: string,
-      } | null,
+        env: string,
+      },
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type GetDeploymentStateQueryVariables = {
-  id: string,
+export type GetDeploymentVersionQueryVariables = {
+  versionId: string,
 };
 
-export type GetDeploymentStateQuery = {
-  getDeploymentState:  {
-    __typename: "DeploymentState",
+export type GetDeploymentVersionQuery = {
+  getDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
     deployment:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
   } | null,
 };
 
-export type ListDeploymentStatesQueryVariables = {
-  filter?: ModelDeploymentStateFilterInput | null,
+export type ListDeploymentVersionsQueryVariables = {
+  versionId?: string | null,
+  filter?: ModelDeploymentVersionFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
 };
 
-export type ListDeploymentStatesQuery = {
-  listDeploymentStates:  {
-    __typename: "ModelDeploymentStateConnection",
+export type ListDeploymentVersionsQuery = {
+  listDeploymentVersions:  {
+    __typename: "ModelDeploymentVersionConnection",
     items:  Array< {
-      __typename: "DeploymentState",
+      __typename: "DeploymentVersion",
+      versionId: string,
       deployment:  {
-        __typename: "ShepherdMetadata",
+        __typename: "Deployment",
         id: string,
         displayName: string,
         deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
         dbMigrationImage: string | null,
-        lastCommits: string,
-        gitUrl: string,
-        gitHash: string,
-        buildDate: string | null,
-        gitCommit: string | null,
-        dockerImageTag: string | null,
-        buildHostName: string | null,
         lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
       } | null,
-      new: boolean | null,
-      key: string | null,
-      modified: boolean | null,
-      operation: string | null,
-      version: string | null,
-      lastVersion: string,
-      timestamp: string,
-      signature: string | null,
-      env: string | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type OnCreateHerdSpecSubscription = {
-  onCreateHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type OnUpdateHerdSpecSubscription = {
-  onUpdateHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type OnDeleteHerdSpecSubscription = {
-  onDeleteHerdSpec:  {
-    __typename: "HerdSpec",
-    key: string,
-    image: string,
-    imagetag: string,
-    description: string,
-  } | null,
-};
-
-export type OnCreateShepherdMetadataSubscription = {
-  onCreateShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type OnCreateDeploymentSubscription = {
+  onCreateDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -1027,47 +1092,38 @@ export type OnCreateShepherdMetadataSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
   } | null,
 };
 
-export type OnUpdateShepherdMetadataSubscription = {
-  onUpdateShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type OnUpdateDeploymentSubscription = {
+  onUpdateDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -1077,47 +1133,38 @@ export type OnUpdateShepherdMetadataSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
   } | null,
 };
 
-export type OnDeleteShepherdMetadataSubscription = {
-  onDeleteShepherdMetadata:  {
-    __typename: "ShepherdMetadata",
+export type OnDeleteDeploymentSubscription = {
+  onDeleteDeployment:  {
+    __typename: "Deployment",
     id: string,
     displayName: string,
     deploymentType: DeploymentType,
+    deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    lastCommits: string,
-    gitUrl: string,
-    gitHash: string,
-    buildDate: string | null,
-    gitCommit: string | null,
-    dockerImageTag: string | null,
-    buildHostName: string | null,
     hyperlinks:  {
       __typename: "ModelShepherdHrefConnection",
       items:  Array< {
@@ -1127,30 +1174,156 @@ export type OnDeleteShepherdMetadataSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
-    herdSpec:  {
-      __typename: "HerdSpec",
-      key: string,
-      image: string,
-      imagetag: string,
-      description: string,
-    } | null,
     lastDeploymentTimestamp: string,
-    deploymentStates:  {
-      __typename: "ModelDeploymentStateConnection",
+    env: string,
+    versions:  {
+      __typename: "ModelDeploymentVersionConnection",
       items:  Array< {
-        __typename: "DeploymentState",
-        new: boolean | null,
-        key: string | null,
-        modified: boolean | null,
-        operation: string | null,
-        version: string | null,
-        lastVersion: string,
-        timestamp: string,
-        signature: string | null,
-        env: string | null,
+        __typename: "DeploymentVersion",
+        versionId: string,
+        env: string,
+        deployedAt: string,
+        builtAt: string,
+        lastCommits: string,
+        gitUrl: string,
+        gitBranch: string,
+        gitHash: string,
+        gitCommit: string,
+        dockerImage: string,
+        dockerImageTag: string,
+        buildHostName: string,
       } | null > | null,
       nextToken: string | null,
     } | null,
+  } | null,
+};
+
+export type OnCreateKubernetesDeploymentFileSubscription = {
+  onCreateKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
+  } | null,
+};
+
+export type OnUpdateKubernetesDeploymentFileSubscription = {
+  onUpdateKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
+  } | null,
+};
+
+export type OnDeleteKubernetesDeploymentFileSubscription = {
+  onDeleteKubernetesDeploymentFile:  {
+    __typename: "KubernetesDeploymentFile",
+    path: string,
+    content: string,
+    version:  {
+      __typename: "DeploymentVersion",
+      versionId: string,
+      deployment:  {
+        __typename: "Deployment",
+        id: string,
+        displayName: string,
+        deploymentType: DeploymentType,
+        deployerRole: DeployerRole,
+        dbMigrationImage: string | null,
+        lastDeploymentTimestamp: string,
+        env: string,
+      },
+      env: string,
+      deployedAt: string,
+      builtAt: string,
+      kubernetesDeploymentFiles:  {
+        __typename: "ModelKubernetesDeploymentFileConnection",
+        nextToken: string | null,
+      } | null,
+      lastCommits: string,
+      gitUrl: string,
+      gitBranch: string,
+      gitHash: string,
+      gitCommit: string,
+      dockerImage: string,
+      dockerImageTag: string,
+      buildHostName: string,
+      configuration:  Array< {
+        __typename: "ConfigurationItem",
+        key: string,
+        value: string,
+        isSecret: boolean,
+      } > | null,
+    },
   } | null,
 };
 
@@ -1160,35 +1333,23 @@ export type OnCreateShepherdHrefSubscription = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -1198,35 +1359,23 @@ export type OnUpdateShepherdHrefSubscription = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
@@ -1236,169 +1385,175 @@ export type OnDeleteShepherdHrefSubscription = {
     title: string,
     url: string,
     metadata:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null,
+    },
   } | null,
 };
 
-export type OnCreateDeploymentStateSubscription = {
-  onCreateDeploymentState:  {
-    __typename: "DeploymentState",
+export type OnCreateDeploymentVersionSubscription = {
+  onCreateDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
     deployment:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
   } | null,
 };
 
-export type OnUpdateDeploymentStateSubscription = {
-  onUpdateDeploymentState:  {
-    __typename: "DeploymentState",
+export type OnUpdateDeploymentVersionSubscription = {
+  onUpdateDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
     deployment:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
   } | null,
 };
 
-export type OnDeleteDeploymentStateSubscription = {
-  onDeleteDeploymentState:  {
-    __typename: "DeploymentState",
+export type OnDeleteDeploymentVersionSubscription = {
+  onDeleteDeploymentVersion:  {
+    __typename: "DeploymentVersion",
+    versionId: string,
     deployment:  {
-      __typename: "ShepherdMetadata",
+      __typename: "Deployment",
       id: string,
       displayName: string,
       deploymentType: DeploymentType,
+      deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitHash: string,
-      buildDate: string | null,
-      gitCommit: string | null,
-      dockerImageTag: string | null,
-      buildHostName: string | null,
       hyperlinks:  {
         __typename: "ModelShepherdHrefConnection",
         nextToken: string | null,
       } | null,
-      herdSpec:  {
-        __typename: "HerdSpec",
-        key: string,
-        image: string,
-        imagetag: string,
-        description: string,
-      } | null,
       lastDeploymentTimestamp: string,
-      deploymentStates:  {
-        __typename: "ModelDeploymentStateConnection",
+      env: string,
+      versions:  {
+        __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
+    },
+    env: string,
+    deployedAt: string,
+    builtAt: string,
+    kubernetesDeploymentFiles:  {
+      __typename: "ModelKubernetesDeploymentFileConnection",
+      items:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } | null > | null,
+      nextToken: string | null,
     } | null,
-    new: boolean | null,
-    key: string | null,
-    modified: boolean | null,
-    operation: string | null,
-    version: string | null,
-    lastVersion: string,
-    timestamp: string,
-    signature: string | null,
-    env: string | null,
+    lastCommits: string,
+    gitUrl: string,
+    gitBranch: string,
+    gitHash: string,
+    gitCommit: string,
+    dockerImage: string,
+    dockerImageTag: string,
+    buildHostName: string,
+    configuration:  Array< {
+      __typename: "ConfigurationItem",
+      key: string,
+      value: string,
+      isSecret: boolean,
+    } > | null,
   } | null,
 };

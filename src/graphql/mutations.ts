@@ -1,46 +1,13 @@
 // tslint:disable
 // this is an auto generated file. This will be overwritten
 
-export const createHerdSpec = `mutation CreateHerdSpec($input: CreateHerdSpecInput!) {
-  createHerdSpec(input: $input) {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const updateHerdSpec = `mutation UpdateHerdSpec($input: UpdateHerdSpecInput!) {
-  updateHerdSpec(input: $input) {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const deleteHerdSpec = `mutation DeleteHerdSpec($input: DeleteHerdSpecInput!) {
-  deleteHerdSpec(input: $input) {
-    key
-    image
-    imagetag
-    description
-  }
-}
-`;
-export const createShepherdMetadata = `mutation CreateShepherdMetadata($input: CreateShepherdMetadataInput!) {
-  createShepherdMetadata(input: $input) {
+export const createDeployment = `mutation CreateDeployment($input: CreateDeploymentInput!) {
+  createDeployment(input: $input) {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -48,43 +15,35 @@ export const createShepherdMetadata = `mutation CreateShepherdMetadata($input: C
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
     }
   }
 }
 `;
-export const updateShepherdMetadata = `mutation UpdateShepherdMetadata($input: UpdateShepherdMetadataInput!) {
-  updateShepherdMetadata(input: $input) {
+export const updateDeployment = `mutation UpdateDeployment($input: UpdateDeploymentInput!) {
+  updateDeployment(input: $input) {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -92,43 +51,35 @@ export const updateShepherdMetadata = `mutation UpdateShepherdMetadata($input: U
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
     }
   }
 }
 `;
-export const deleteShepherdMetadata = `mutation DeleteShepherdMetadata($input: DeleteShepherdMetadataInput!) {
-  deleteShepherdMetadata(input: $input) {
+export const deleteDeployment = `mutation DeleteDeployment($input: DeleteDeploymentInput!) {
+  deleteDeployment(input: $input) {
     id
     displayName
     deploymentType
+    deployerRole
     dbMigrationImage
-    lastCommits
-    gitUrl
-    gitHash
-    buildDate
-    gitCommit
-    dockerImageTag
-    buildHostName
     hyperlinks {
       items {
         title
@@ -136,26 +87,144 @@ export const deleteShepherdMetadata = `mutation DeleteShepherdMetadata($input: D
       }
       nextToken
     }
-    herdSpec {
-      key
-      image
-      imagetag
-      description
-    }
     lastDeploymentTimestamp
-    deploymentStates {
+    env
+    versions {
       items {
-        new
-        key
-        modified
-        operation
-        version
-        lastVersion
-        timestamp
-        signature
+        versionId
         env
+        deployedAt
+        builtAt
+        lastCommits
+        gitUrl
+        gitBranch
+        gitHash
+        gitCommit
+        dockerImage
+        dockerImageTag
+        buildHostName
       }
       nextToken
+    }
+  }
+}
+`;
+export const createKubernetesDeploymentFile = `mutation CreateKubernetesDeploymentFile(
+  $input: CreateKubernetesDeploymentFileInput!
+) {
+  createKubernetesDeploymentFile(input: $input) {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
+    }
+  }
+}
+`;
+export const updateKubernetesDeploymentFile = `mutation UpdateKubernetesDeploymentFile(
+  $input: UpdateKubernetesDeploymentFileInput!
+) {
+  updateKubernetesDeploymentFile(input: $input) {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
+    }
+  }
+}
+`;
+export const deleteKubernetesDeploymentFile = `mutation DeleteKubernetesDeploymentFile(
+  $input: DeleteKubernetesDeploymentFileInput!
+) {
+  deleteKubernetesDeploymentFile(input: $input) {
+    path
+    content
+    version {
+      versionId
+      deployment {
+        id
+        displayName
+        deploymentType
+        deployerRole
+        dbMigrationImage
+        lastDeploymentTimestamp
+        env
+      }
+      env
+      deployedAt
+      builtAt
+      kubernetesDeploymentFiles {
+        nextToken
+      }
+      lastCommits
+      gitUrl
+      gitBranch
+      gitHash
+      gitCommit
+      dockerImage
+      dockerImageTag
+      buildHostName
+      configuration {
+        key
+        value
+        isSecret
+      }
     }
   }
 }
@@ -168,25 +237,14 @@ export const createShepherdHref = `mutation CreateShepherdHref($input: CreateShe
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
@@ -201,25 +259,14 @@ export const updateShepherdHref = `mutation UpdateShepherdHref($input: UpdateShe
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
@@ -234,148 +281,149 @@ export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShe
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
   }
 }
 `;
-export const createDeploymentState = `mutation CreateDeploymentState($input: CreateDeploymentStateInput!) {
-  createDeploymentState(input: $input) {
+export const createDeploymentVersion = `mutation CreateDeploymentVersion($input: CreateDeploymentVersionInput!) {
+  createDeploymentVersion(input: $input) {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;
-export const updateDeploymentState = `mutation UpdateDeploymentState($input: UpdateDeploymentStateInput!) {
-  updateDeploymentState(input: $input) {
+export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input: UpdateDeploymentVersionInput!) {
+  updateDeploymentVersion(input: $input) {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;
-export const deleteDeploymentState = `mutation DeleteDeploymentState($input: DeleteDeploymentStateInput!) {
-  deleteDeploymentState(input: $input) {
+export const deleteDeploymentVersion = `mutation DeleteDeploymentVersion($input: DeleteDeploymentVersionInput!) {
+  deleteDeploymentVersion(input: $input) {
+    versionId
     deployment {
       id
       displayName
       deploymentType
+      deployerRole
       dbMigrationImage
-      lastCommits
-      gitUrl
-      gitHash
-      buildDate
-      gitCommit
-      dockerImageTag
-      buildHostName
       hyperlinks {
         nextToken
       }
-      herdSpec {
-        key
-        image
-        imagetag
-        description
-      }
       lastDeploymentTimestamp
-      deploymentStates {
+      env
+      versions {
         nextToken
       }
     }
-    new
-    key
-    modified
-    operation
-    version
-    lastVersion
-    timestamp
-    signature
     env
+    deployedAt
+    builtAt
+    kubernetesDeploymentFiles {
+      items {
+        path
+        content
+      }
+      nextToken
+    }
+    lastCommits
+    gitUrl
+    gitBranch
+    gitHash
+    gitCommit
+    dockerImage
+    dockerImageTag
+    buildHostName
+    configuration {
+      key
+      value
+      isSecret
+    }
   }
 }
 `;

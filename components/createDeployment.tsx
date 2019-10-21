@@ -1,19 +1,28 @@
 import { useState, useCallback } from 'react'
-import {
-  CreateShepherdMetadataInput,
-  CreateShepherdMetadataMutation,
-  DeploymentType,
-} from '../src/API'
 import apiClient from '../src/apiClient'
 import gql from 'graphql-tag'
-import { createShepherdMetadata } from '../src/graphql/mutations'
+import {
+  CreateDeploymentInput,
+  CreateDeploymentMutation,
+  DeployerRole,
+  DeploymentType,
+} from '../src/API'
+import { createDeployment } from '../src/graphql/mutations'
 
-export const CreateShepherdMetadata = function() {
-  const [input, setInput] = useState<Partial<CreateShepherdMetadataInput>>({})
+export const CreateDeployment = function() {
+  const [input, setInput] = useState<CreateDeploymentInput>(() => ({
+    id: '',
+    displayName: '',
+    deployerRole: DeployerRole.Install,
+    deploymentType: DeploymentType.Kubernetes,
+    dbMigrationImage: null,
+    lastDeploymentTimestamp: new Date().toISOString(),
+    env: 'dev',
+  }))
 
   const createMetadata = useCallback(async () => {
-    const result = await apiClient().mutate<CreateShepherdMetadataMutation>({
-      mutation: gql(createShepherdMetadata),
+    const result = await apiClient().mutate<CreateDeploymentMutation>({
+      mutation: gql(createDeployment),
       variables: { input },
     })
 
@@ -27,6 +36,12 @@ export const CreateShepherdMetadata = function() {
 
   return (
     <section>
+      <input
+        type="text"
+        onChange={ev => setInput({ ...input, env: ev.currentTarget.value })}
+        placeholder="env"
+      />
+      <br />
       <input
         type="text"
         onChange={ev => setInput({ ...input, id: ev.currentTarget.value })}
@@ -45,6 +60,21 @@ export const CreateShepherdMetadata = function() {
         onChange={ev =>
           setInput({
             ...input,
+            deployerRole: ev.currentTarget.value as DeployerRole,
+          })
+        }
+      >
+        {Object.keys(DeployerRole).map(x => (
+          <option id={x} key={x}>
+            {x}
+          </option>
+        ))}
+      </select>
+      <br />
+      <select
+        onChange={ev =>
+          setInput({
+            ...input,
             deploymentType: ev.currentTarget.value as DeploymentType,
           })
         }
@@ -55,32 +85,6 @@ export const CreateShepherdMetadata = function() {
           </option>
         ))}
       </select>
-      <br />
-      dbMigrationImage?: string | null,
-      <br />
-      <input
-        type="text"
-        onChange={ev =>
-          setInput({ ...input, lastCommits: ev.currentTarget.value })
-        }
-        placeholder="lastCommits"
-      />
-      <br />
-      <input
-        type="text"
-        onChange={ev => setInput({ ...input, gitUrl: ev.currentTarget.value })}
-        placeholder="gitUrl"
-      />
-      <br />
-      <input
-        type="text"
-        onChange={ev => setInput({ ...input, gitHash: ev.currentTarget.value })}
-        placeholder="gitHash"
-      />
-      <br />
-      buildDate?: string | null, gitCommit?: string | null, dockerImageTag?:
-      <br />
-      string | null, buildHostName?: string | null,
       <br />
       <input
         type="text"

@@ -2,7 +2,6 @@ import React, { useEffect, useCallback } from 'react'
 import Head from 'next/head'
 import Nav from '../components/nav'
 import { DeploymentList } from '../components/deploymentList'
-import { CreateShepherdMetadata } from '../components/createShepherdMetadata'
 
 const Home = () => {
   return (
@@ -17,8 +16,6 @@ const Home = () => {
       <main>
         <DeploymentList />
       </main>
-
-      {/* <CreateShepherdMetadata /> */}
 
       <style jsx>{`
         main {

@@ -1,44 +1,38 @@
 import { useSubscription } from '../src/subscriptions/subscribe'
-import { listShepherdMetadatas } from '../src/graphql/queries'
-import { onCreateShepherdMetadata } from '../src/graphql/subscriptions'
-import {
-  ListShepherdMetadatasQuery,
-  OnCreateShepherdMetadataSubscription,
-} from '../src/API'
 import gql from 'graphql-tag'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
+import { listDeployments } from '../src/graphql/queries'
+import { onCreateDeployment } from '../src/graphql/subscriptions'
+import {
+  ListDeploymentsQuery,
+  OnCreateDeploymentSubscription,
+} from '../src/API'
 
 const query = {
-  query: gql(listShepherdMetadatas),
+  query: gql(listDeployments),
 }
 const subscription = {
-  query: gql(onCreateShepherdMetadata),
+  query: gql(onCreateDeployment),
 }
 
 export const DeploymentList = function() {
   const result = useSubscription<
-    ListShepherdMetadatasQuery,
-    OnCreateShepherdMetadataSubscription
+    ListDeploymentsQuery,
+    OnCreateDeploymentSubscription
   >({
     query,
     subscription,
     onSubscriptionMsg(prev, next) {
-      if (!(prev.listShepherdMetadatas && prev.listShepherdMetadatas.items))
-        return prev
-      prev.listShepherdMetadatas.items.push(next.onCreateShepherdMetadata)
+      if (!(prev.listDeployments && prev.listDeployments.items)) return prev
+      prev.listDeployments.items.push(next.onCreateDeployment)
       return prev
     },
   })
 
   if (result.loading) return <h1>Loading...</h1>
   if ('error' in result) return <h1>Error!</h1>
-  if (
-    !(
-      result.data.listShepherdMetadatas &&
-      result.data.listShepherdMetadatas.items
-    )
-  ) {
+  if (!(result.data.listDeployments && result.data.listDeployments.items)) {
     return <ul></ul>
   }
   return (
@@ -48,7 +42,7 @@ export const DeploymentList = function() {
         <div className="deploymentType">Type</div>
         <div className="time">Time</div>
       </li>
-      {result.data.listShepherdMetadatas.items.map(
+      {result.data.listDeployments.items.map(
         x =>
           x && (
             <li key={x.id} className="item">
