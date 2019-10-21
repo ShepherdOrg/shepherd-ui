@@ -6,11 +6,13 @@ import {
   DeploymentType,
   CreateDeploymentVersionInput,
   CreateShepherdHrefInput,
+  CreateKubernetesDeploymentFileInput,
 } from './src/API'
 import {
   createDeployment,
   createDeploymentVersion,
   createShepherdHref,
+  createKubernetesDeploymentFile,
 } from './src/graphql/mutations'
 
 API.configure(config)
@@ -69,6 +71,125 @@ const links: CreateShepherdHrefInput[] = [
   },
 ]
 
+const k8sFiles: CreateKubernetesDeploymentFileInput[] = [
+  {
+    path: './deployment/fluentd.kube.yaml',
+    content: `
+    apiVersion: v1
+    kind: ServiceAccount
+    metadata:
+      name: fluentd
+      namespace: kube-system
+    ---
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    kind: ClusterRole
+    metadata:
+      name: fluentd
+      namespace: kube-system
+    rules:
+    - apiGroups:
+      - ""
+      resources:
+      - pods
+      - namespaces
+      verbs:
+      - get
+      - list
+      - watch
+    
+    ---
+    kind: ClusterRoleBinding
+    apiVersion: rbac.authorization.k8s.io/v1beta1
+    metadata:
+      name: fluentd
+    roleRef:
+      kind: ClusterRole
+      name: fluentd
+      apiGroup: rbac.authorization.k8s.io
+    subjects:
+    - kind: ServiceAccount
+      name: fluentd
+      namespace: kube-system
+    ---
+    apiVersion: extensions/v1beta1
+    kind: DaemonSet
+    metadata:
+      name: fluentd
+      namespace: kube-system
+      labels:
+        k8s-app: fluentd-logging
+        version: v1
+        kubernetes.io/cluster-service: "true"
+    spec:
+      updateStrategy:
+        type: RollingUpdate
+      template:
+        metadata:
+          labels:
+            k8s-app: fluentd-logging
+            version: v1
+            kubernetes.io/cluster-service: "true"
+        spec:
+          serviceAccount: fluentd
+          serviceAccountName: fluentd
+          tolerations:
+          - key: node-role.kubernetes.io/master
+            effect: NoSchedule
+          containers:
+          - name: fluentd
+            image: isrvkbuild02:5000/fluentd:v1.1.2-g-2b48d1c
+            env:
+              - name: ASSUME_ROLE_ARN
+                value: \${LOGWRITER_AWS_IAM_ROLE_ARN}
+              - name: ES_ENDPOINT
+                value: \${LOGWRITER_ES_ENDPOINT}
+              - name: AWS_ACCESS_KEY_ID
+                valueFrom:
+                  secretKeyRef:
+                    name: fluentd-logwriter-aws-credentials
+                    key: accessKey
+              - name: AWS_SECRET_ACCESS_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: fluentd-logwriter-aws-credentials
+                    key: secretKey
+              - name: LOGIDX_PREFIX
+                value: \${LOGWRITER_LOGIDX_PREFIX}
+            resources:
+              limits:
+                memory: 200Mi
+              requests:
+                cpu: 100m
+                memory: 200Mi
+            volumeMounts:
+            - name: varlog
+              mountPath: /var/log
+            - name: varlibdockercontainers
+              mountPath: /var/lib/docker/containers
+              readOnly: true
+          terminationGracePeriodSeconds: 30
+          volumes:
+          - name: varlog
+            hostPath:
+              path: /var/log
+          - name: varlibdockercontainers
+            hostPath:
+              path: /var/lib/docker/containers
+    ---
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: fluentd-logwriter-aws-credentials
+      namespace: kube-system
+    type: Opaque
+    data:
+      accessKey: \${Base64Encode:LOGWRITER_AWS_ACCESS_KEY_ID}
+      secretKey: \${Base64Encode:LOGWRITER_AWS_SECRET_KEY}        
+`,
+    kubernetesDeploymentFileVersionId: deploymentVersion.versionId,
+  },
+]
+
 const compose = <A, B, C>(f: (a: B) => C, g: (b: A) => B) => (x: A) => f(g(x))
 const id = <T>(x: T) => x
 
@@ -83,8 +204,12 @@ const populateData = async () => {
     API.graphql(graphqlOperation(createShepherdHref, { input: l }))
   )
 
+  const file = k8sFiles.map(f =>
+    API.graphql(graphqlOperation(createKubernetesDeploymentFile, { input: f }))
+  )
+
   // @ts-ignore
-  return await Promise.all([deploy, version, ...link])
+  return await Promise.all([deploy, version, ...link, ...file])
 }
 
 populateData()

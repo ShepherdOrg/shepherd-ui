@@ -8,6 +8,7 @@ import {
 interface SubscriptionProps<TQueryResult = any, TSubscriptionResult = any> {
   query: QueryOptions
   subscription: SubscriptionOptions
+  run?: boolean
   onSubscriptionMsg(
     previous: TQueryResult,
     next: TSubscriptionResult
@@ -37,12 +38,14 @@ export const useSubscription = function<
   query,
   subscription,
   onSubscriptionMsg,
+  run = true,
 }: SubscriptionProps<TQueryResult, TSubscriptionResult>) {
   const [value, setValue] = useState<UseSubscriptionResult<TQueryResult>>({
     loading: true,
   })
 
   useEffect(() => {
+    if (!run) return
     let isSubscribed = true
     apiClient()
       .query<TQueryResult>(query)
@@ -55,12 +58,13 @@ export const useSubscription = function<
       })
 
     const gqlSubscription = apiClient()
-      .subscribe<ApolloQueryResult<TSubscriptionResult>>(subscription)
+      .subscribe<TSubscriptionResult>(subscription)
       .subscribe({
         next(next) {
           setValue(value => {
             if (value.loading) return value
             if ('error' in value) return value
+            if (!next.data) return value
             return { ...value, data: onSubscriptionMsg(value.data, next.data) }
           })
         },
@@ -70,7 +74,7 @@ export const useSubscription = function<
       isSubscribed = false
       gqlSubscription.unsubscribe()
     }
-  }, [query, subscription])
+  }, [query, subscription, run])
 
   return value
 }

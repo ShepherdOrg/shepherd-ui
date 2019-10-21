@@ -25,6 +25,7 @@ export default function DeploymentDetails() {
     GetDeploymentQuery,
     OnUpdateDeploymentSubscription
   >({
+    run: Boolean(deploymentId),
     query: useMemo(
       () => ({ query: gql(getDeployment), variables: { id: deploymentId } }),
       [deploymentId]
@@ -64,6 +65,7 @@ export default function DeploymentDetails() {
     GetDeploymentVersionQuery,
     OnUpdateDeploymentVersionSubscription
   >({
+    run: Boolean(version),
     query: useMemo(
       () => ({
         query: gql(getDeploymentVersion),
@@ -117,6 +119,14 @@ export default function DeploymentDetails() {
       </aside>
       <section>
         <h3>Deployment information</h3>
+        <h4>Kubernetes deployment files</h4>
+        <ul>
+          {latestVersion.kubernetesDeploymentFiles &&
+            latestVersion.kubernetesDeploymentFiles.items &&
+            latestVersion.kubernetesDeploymentFiles.items.map(
+              x => x && <li key={x.path}>{x.path}</li>
+            )}
+        </ul>
         <h4>Last 5 commits</h4>
         <code>{latestVersion.lastCommits}</code>
         <dl>
