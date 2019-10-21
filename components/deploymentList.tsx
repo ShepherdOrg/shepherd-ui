@@ -46,8 +46,8 @@ export const DeploymentList = function() {
         x =>
           x && (
             <li key={x.id} className="item">
-              <Link href={`/deployment/${x.id}`}>
-                <a href={`/deployment/${x.id}`}>
+              <Link href={`/deployment?id=${x.id}`}>
+                <a href={`/deployment?id=${x.id}`}>
                   <div className="name">{x.displayName || x.id}</div>
                   <div className="deploymentType">{x.deploymentType}</div>
                   <div className="time">
