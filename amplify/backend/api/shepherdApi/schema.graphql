@@ -16,23 +16,20 @@ type Deployment @model @key(fields: ["id"]) {
   deploymentType: DeploymentType!
   deployerRole: DeployerRole!
   dbMigrationImage: String
-  hyperlinks: [ShepherdHref!]! @connection(name: "Hrefs")
+  hyperlinks: [ShepherdHref!]!
   lastDeploymentTimestamp: AWSDateTime!
   env: String!
   versions: [DeploymentVersion!]! @connection(name: "DeploymentVersions")
 }
 
-type KubernetesDeploymentFile @model {
+type KubernetesDeploymentFile {
   path: String!
   content: String!
-  version: DeploymentVersion!
-    @connection(name: "KubernetesDeploymentFileConnection")
 }
 
-type ShepherdHref @model {
+type ShepherdHref {
   title: String!
   url: String!
-  metadata: Deployment! @connection(name: "Hrefs")
 }
 
 type ConfigurationItem {
@@ -53,7 +50,6 @@ type DeploymentVersion @model @key(fields: ["versionId"]) {
   builtAt: AWSDateTime!
 
   kubernetesDeploymentFiles: [KubernetesDeploymentFile!]!
-    @connection(name: "KubernetesDeploymentFileConnection")
 
   lastCommits: String!
 

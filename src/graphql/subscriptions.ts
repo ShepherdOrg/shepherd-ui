@@ -10,11 +10,8 @@ export const onCreateDeployment = `subscription OnCreateDeployment {
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -48,11 +45,8 @@ export const onUpdateDeployment = `subscription OnUpdateDeployment {
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -86,11 +80,8 @@ export const onDeleteDeployment = `subscription OnDeleteDeployment {
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -115,195 +106,6 @@ export const onDeleteDeployment = `subscription OnDeleteDeployment {
   }
 }
 `;
-export const onCreateKubernetesDeploymentFile = `subscription OnCreateKubernetesDeploymentFile {
-  onCreateKubernetesDeploymentFile {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const onUpdateKubernetesDeploymentFile = `subscription OnUpdateKubernetesDeploymentFile {
-  onUpdateKubernetesDeploymentFile {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const onDeleteKubernetesDeploymentFile = `subscription OnDeleteKubernetesDeploymentFile {
-  onDeleteKubernetesDeploymentFile {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const onCreateShepherdHref = `subscription OnCreateShepherdHref {
-  onCreateShepherdHref {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const onUpdateShepherdHref = `subscription OnUpdateShepherdHref {
-  onUpdateShepherdHref {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const onDeleteShepherdHref = `subscription OnDeleteShepherdHref {
-  onDeleteShepherdHref {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
 export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion {
   onCreateDeploymentVersion {
     versionId
@@ -316,7 +118,8 @@ export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -328,11 +131,8 @@ export const onCreateDeploymentVersion = `subscription OnCreateDeploymentVersion
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl
@@ -362,7 +162,8 @@ export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -374,11 +175,8 @@ export const onUpdateDeploymentVersion = `subscription OnUpdateDeploymentVersion
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl
@@ -408,7 +206,8 @@ export const onDeleteDeploymentVersion = `subscription OnDeleteDeploymentVersion
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -420,11 +219,8 @@ export const onDeleteDeploymentVersion = `subscription OnDeleteDeploymentVersion
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl

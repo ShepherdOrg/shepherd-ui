@@ -1,21 +1,11 @@
-import API, { graphqlOperation } from '@aws-amplify/api'
 import config from './src/aws-exports'
 import {
   CreateDeploymentInput,
   DeployerRole,
   DeploymentType,
   CreateDeploymentVersionInput,
-  CreateShepherdHrefInput,
-  CreateKubernetesDeploymentFileInput,
 } from './src/API'
-import {
-  updateDeployment,
-  updateDeploymentVersion,
-  updateShepherdHref,
-  updateKubernetesDeploymentFile,
-} from './src/graphql/mutations'
-
-API.configure(config)
+import { createClient } from './api'
 
 const deployment: CreateDeploymentInput = {
   id: 'dev-images-fluentd2',
@@ -24,6 +14,16 @@ const deployment: CreateDeploymentInput = {
   env: 'dev',
   deployerRole: DeployerRole.Install,
   deploymentType: DeploymentType.Kubernetes,
+  hyperlinks: [
+    {
+      url: 'http://jenkins.oryggi.tm.is:8082/job/tm-dockerimages/',
+      title: 'Builds',
+    },
+    {
+      url: 'https://gitlab.tm.is/tmdev/tm-docker-images',
+      title: 'Git source',
+    },
+  ],
 }
 
 const deploymentVersion: CreateDeploymentVersionInput = {
@@ -56,25 +56,10 @@ Fri, 24 Aug 2018 10:08:54 +0000 by Guðlaugur S. Egilsson. --- Use docker image 
     { key: 'LOG_FORMAT', value: '%s %s %s', isSecret: false },
     { key: 'SUPER_SECRET', value: '--REDACTED--', isSecret: true },
   ],
-}
-
-const links: CreateShepherdHrefInput[] = [
-  {
-    url: 'http://jenkins.oryggi.tm.is:8082/job/tm-dockerimages/',
-    title: 'Builds',
-    shepherdHrefMetadataId: deployment.id,
-  },
-  {
-    url: 'https://gitlab.tm.is/tmdev/tm-docker-images',
-    title: 'Git source',
-    shepherdHrefMetadataId: deployment.id,
-  },
-]
-
-const k8sFiles: CreateKubernetesDeploymentFileInput[] = [
-  {
-    path: './deployment/fluentd.kube.yaml',
-    content: `
+  kubernetesDeploymentFiles: [
+    {
+      path: './deployment/fluentd.kube.yaml',
+      content: `
     apiVersion: v1
     kind: ServiceAccount
     metadata:
@@ -186,30 +171,24 @@ const k8sFiles: CreateKubernetesDeploymentFileInput[] = [
       accessKey: \${Base64Encode:LOGWRITER_AWS_ACCESS_KEY_ID}
       secretKey: \${Base64Encode:LOGWRITER_AWS_SECRET_KEY}        
 `,
-    kubernetesDeploymentFileVersionId: deploymentVersion.versionId,
-  },
-]
+    },
+  ],
+}
 
 const compose = <A, B, C>(f: (a: B) => C, g: (b: A) => B) => (x: A) => f(g(x))
 const id = <T>(x: T) => x
 
 const populateData = async () => {
-  const deploy = API.graphql(
-    graphqlOperation(updateDeployment, { input: deployment })
-  )
-  const version = API.graphql(
-    graphqlOperation(updateDeploymentVersion, { input: deploymentVersion })
-  )
-  const link = links.map(l =>
-    API.graphql(graphqlOperation(updateShepherdHref, { input: l }))
-  )
+  const client = createClient(config.aws_appsync_graphqlEndpoint, {
+    headers: { 'X-Api-Key': config.aws_appsync_apiKey },
+  })
 
-  const file = k8sFiles.map(f =>
-    API.graphql(graphqlOperation(updateKubernetesDeploymentFile, { input: f }))
-  )
+  const deploy = client.createDeployment(deployment)
+
+  // const version = client.createDeploymentVersion(deploymentVersion)
 
   // @ts-ignore
-  return await Promise.all([deploy, version, ...link, ...file])
+  return await Promise.all([deploy])
 }
 
 populateData()

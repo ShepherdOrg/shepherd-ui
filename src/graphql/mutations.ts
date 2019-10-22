@@ -10,11 +10,8 @@ export const createDeployment = `mutation CreateDeployment($input: CreateDeploym
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -48,11 +45,8 @@ export const updateDeployment = `mutation UpdateDeployment($input: UpdateDeploym
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -86,11 +80,8 @@ export const deleteDeployment = `mutation DeleteDeployment($input: DeleteDeploym
     deployerRole
     dbMigrationImage
     hyperlinks {
-      items {
-        title
-        url
-      }
-      nextToken
+      title
+      url
     }
     lastDeploymentTimestamp
     env
@@ -115,201 +106,6 @@ export const deleteDeployment = `mutation DeleteDeployment($input: DeleteDeploym
   }
 }
 `;
-export const createKubernetesDeploymentFile = `mutation CreateKubernetesDeploymentFile(
-  $input: CreateKubernetesDeploymentFileInput!
-) {
-  createKubernetesDeploymentFile(input: $input) {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const updateKubernetesDeploymentFile = `mutation UpdateKubernetesDeploymentFile(
-  $input: UpdateKubernetesDeploymentFileInput!
-) {
-  updateKubernetesDeploymentFile(input: $input) {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const deleteKubernetesDeploymentFile = `mutation DeleteKubernetesDeploymentFile(
-  $input: DeleteKubernetesDeploymentFileInput!
-) {
-  deleteKubernetesDeploymentFile(input: $input) {
-    path
-    content
-    version {
-      versionId
-      version
-      deployment {
-        id
-        displayName
-        description
-        deploymentType
-        deployerRole
-        dbMigrationImage
-        lastDeploymentTimestamp
-        env
-      }
-      env
-      deployedAt
-      builtAt
-      kubernetesDeploymentFiles {
-        nextToken
-      }
-      lastCommits
-      gitUrl
-      gitBranch
-      gitHash
-      gitCommit
-      dockerImage
-      dockerImageTag
-      buildHostName
-      configuration {
-        key
-        value
-        isSecret
-      }
-    }
-  }
-}
-`;
-export const createShepherdHref = `mutation CreateShepherdHref($input: CreateShepherdHrefInput!) {
-  createShepherdHref(input: $input) {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const updateShepherdHref = `mutation UpdateShepherdHref($input: UpdateShepherdHrefInput!) {
-  updateShepherdHref(input: $input) {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
-export const deleteShepherdHref = `mutation DeleteShepherdHref($input: DeleteShepherdHrefInput!) {
-  deleteShepherdHref(input: $input) {
-    title
-    url
-    metadata {
-      id
-      displayName
-      description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        nextToken
-      }
-      lastDeploymentTimestamp
-      env
-      versions {
-        nextToken
-      }
-    }
-  }
-}
-`;
 export const createDeploymentVersion = `mutation CreateDeploymentVersion($input: CreateDeploymentVersionInput!) {
   createDeploymentVersion(input: $input) {
     versionId
@@ -322,7 +118,8 @@ export const createDeploymentVersion = `mutation CreateDeploymentVersion($input:
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -334,11 +131,8 @@ export const createDeploymentVersion = `mutation CreateDeploymentVersion($input:
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl
@@ -368,7 +162,8 @@ export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input:
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -380,11 +175,8 @@ export const updateDeploymentVersion = `mutation UpdateDeploymentVersion($input:
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl
@@ -414,7 +206,8 @@ export const deleteDeploymentVersion = `mutation DeleteDeploymentVersion($input:
       deployerRole
       dbMigrationImage
       hyperlinks {
-        nextToken
+        title
+        url
       }
       lastDeploymentTimestamp
       env
@@ -426,11 +219,8 @@ export const deleteDeploymentVersion = `mutation DeleteDeploymentVersion($input:
     deployedAt
     builtAt
     kubernetesDeploymentFiles {
-      items {
-        path
-        content
-      }
-      nextToken
+      path
+      content
     }
     lastCommits
     gitUrl

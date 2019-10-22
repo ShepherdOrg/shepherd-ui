@@ -33,11 +33,9 @@ export const DeploymentDetails = function({
         <h3>Deployment information</h3>
         <h4>Kubernetes deployment files</h4>
         <ul>
-          {deploymentVersion.kubernetesDeploymentFiles &&
-            deploymentVersion.kubernetesDeploymentFiles.items &&
-            deploymentVersion.kubernetesDeploymentFiles.items.map(
-              x => x && <li key={x.path}>{x.path}</li>
-            )}
+          {deploymentVersion.kubernetesDeploymentFiles.map(
+            x => x && <li key={x.path}>{x.path}</li>
+          )}
         </ul>
         <h4>Last 5 commits</h4>
         <div className="codeContainer">
@@ -63,7 +61,7 @@ export const DeploymentDetails = function({
       <section>
         <h3>Links</h3>
         <ul>
-          {((deployment.hyperlinks && deployment.hyperlinks.items) || []).map(
+          {deployment.hyperlinks.map(
             x =>
               x && (
                 <li key={x.url}>

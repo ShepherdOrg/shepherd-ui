@@ -8,6 +8,7 @@ export type CreateDeploymentInput = {
   deploymentType: DeploymentType,
   deployerRole: DeployerRole,
   dbMigrationImage?: string | null,
+  hyperlinks: Array< ShepherdHrefInput >,
   lastDeploymentTimestamp: string,
   env: string,
 };
@@ -25,6 +26,11 @@ export enum DeployerRole {
 }
 
 
+export type ShepherdHrefInput = {
+  title: string,
+  url: string,
+};
+
 export type UpdateDeploymentInput = {
   id: string,
   displayName?: string | null,
@@ -32,6 +38,7 @@ export type UpdateDeploymentInput = {
   deploymentType?: DeploymentType | null,
   deployerRole?: DeployerRole | null,
   dbMigrationImage?: string | null,
+  hyperlinks?: Array< ShepherdHrefInput > | null,
   lastDeploymentTimestamp?: string | null,
   env?: string | null,
 };
@@ -40,44 +47,13 @@ export type DeleteDeploymentInput = {
   id: string,
 };
 
-export type CreateKubernetesDeploymentFileInput = {
-  path: string,
-  content: string,
-  kubernetesDeploymentFileVersionId: string,
-};
-
-export type UpdateKubernetesDeploymentFileInput = {
-  path?: string | null,
-  content?: string | null,
-  kubernetesDeploymentFileVersionId?: string | null,
-};
-
-export type DeleteKubernetesDeploymentFileInput = {
-  id?: string | null,
-};
-
-export type CreateShepherdHrefInput = {
-  title: string,
-  url: string,
-  shepherdHrefMetadataId: string,
-};
-
-export type UpdateShepherdHrefInput = {
-  title?: string | null,
-  url?: string | null,
-  shepherdHrefMetadataId?: string | null,
-};
-
-export type DeleteShepherdHrefInput = {
-  id?: string | null,
-};
-
 export type CreateDeploymentVersionInput = {
   versionId: string,
   version: string,
   env: string,
   deployedAt: string,
   builtAt: string,
+  kubernetesDeploymentFiles: Array< KubernetesDeploymentFileInput >,
   lastCommits: string,
   gitUrl: string,
   gitBranch: string,
@@ -88,6 +64,11 @@ export type CreateDeploymentVersionInput = {
   buildHostName: string,
   configuration?: Array< ConfigurationItemInput > | null,
   deploymentVersionDeploymentId: string,
+};
+
+export type KubernetesDeploymentFileInput = {
+  path: string,
+  content: string,
 };
 
 export type ConfigurationItemInput = {
@@ -102,6 +83,7 @@ export type UpdateDeploymentVersionInput = {
   env?: string | null,
   deployedAt?: string | null,
   builtAt?: string | null,
+  kubernetesDeploymentFiles?: Array< KubernetesDeploymentFileInput > | null,
   lastCommits?: string | null,
   gitUrl?: string | null,
   gitBranch?: string | null,
@@ -174,22 +156,6 @@ export enum ModelSortDirection {
 }
 
 
-export type ModelKubernetesDeploymentFileFilterInput = {
-  path?: ModelStringFilterInput | null,
-  content?: ModelStringFilterInput | null,
-  and?: Array< ModelKubernetesDeploymentFileFilterInput | null > | null,
-  or?: Array< ModelKubernetesDeploymentFileFilterInput | null > | null,
-  not?: ModelKubernetesDeploymentFileFilterInput | null,
-};
-
-export type ModelShepherdHrefFilterInput = {
-  title?: ModelStringFilterInput | null,
-  url?: ModelStringFilterInput | null,
-  and?: Array< ModelShepherdHrefFilterInput | null > | null,
-  or?: Array< ModelShepherdHrefFilterInput | null > | null,
-  not?: ModelShepherdHrefFilterInput | null,
-};
-
 export type ModelDeploymentVersionFilterInput = {
   versionId?: ModelIDFilterInput | null,
   version?: ModelStringFilterInput | null,
@@ -222,15 +188,11 @@ export type CreateDeploymentMutation = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -269,15 +231,11 @@ export type UpdateDeploymentMutation = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -316,15 +274,11 @@ export type DeleteDeploymentMutation = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -350,246 +304,6 @@ export type DeleteDeploymentMutation = {
   } | null,
 };
 
-export type CreateKubernetesDeploymentFileMutationVariables = {
-  input: CreateKubernetesDeploymentFileInput,
-};
-
-export type CreateKubernetesDeploymentFileMutation = {
-  createKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type UpdateKubernetesDeploymentFileMutationVariables = {
-  input: UpdateKubernetesDeploymentFileInput,
-};
-
-export type UpdateKubernetesDeploymentFileMutation = {
-  updateKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type DeleteKubernetesDeploymentFileMutationVariables = {
-  input: DeleteKubernetesDeploymentFileInput,
-};
-
-export type DeleteKubernetesDeploymentFileMutation = {
-  deleteKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type CreateShepherdHrefMutationVariables = {
-  input: CreateShepherdHrefInput,
-};
-
-export type CreateShepherdHrefMutation = {
-  createShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
-export type UpdateShepherdHrefMutationVariables = {
-  input: UpdateShepherdHrefInput,
-};
-
-export type UpdateShepherdHrefMutation = {
-  updateShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
-export type DeleteShepherdHrefMutationVariables = {
-  input: DeleteShepherdHrefInput,
-};
-
-export type DeleteShepherdHrefMutation = {
-  deleteShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
 export type CreateDeploymentVersionMutationVariables = {
   input: CreateDeploymentVersionInput,
 };
@@ -607,10 +321,11 @@ export type CreateDeploymentVersionMutation = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -621,15 +336,11 @@ export type CreateDeploymentVersionMutation = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -664,10 +375,11 @@ export type UpdateDeploymentVersionMutation = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -678,15 +390,11 @@ export type UpdateDeploymentVersionMutation = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -721,10 +429,11 @@ export type DeleteDeploymentVersionMutation = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -735,15 +444,11 @@ export type DeleteDeploymentVersionMutation = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -774,15 +479,11 @@ export type GetDeploymentQuery = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -827,159 +528,17 @@ export type ListDeploymentsQuery = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
         __typename: "ModelDeploymentVersionConnection",
         nextToken: string | null,
       } | null,
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type GetKubernetesDeploymentFileQueryVariables = {
-  id: string,
-};
-
-export type GetKubernetesDeploymentFileQuery = {
-  getKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type ListKubernetesDeploymentFilesQueryVariables = {
-  filter?: ModelKubernetesDeploymentFileFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListKubernetesDeploymentFilesQuery = {
-  listKubernetesDeploymentFiles:  {
-    __typename: "ModelKubernetesDeploymentFileConnection",
-    items:  Array< {
-      __typename: "KubernetesDeploymentFile",
-      path: string,
-      content: string,
-      version:  {
-        __typename: "DeploymentVersion",
-        versionId: string,
-        version: string,
-        env: string,
-        deployedAt: string,
-        builtAt: string,
-        lastCommits: string,
-        gitUrl: string,
-        gitBranch: string,
-        gitHash: string,
-        gitCommit: string,
-        dockerImage: string,
-        dockerImageTag: string,
-        buildHostName: string,
-      },
-    } | null > | null,
-    nextToken: string | null,
-  } | null,
-};
-
-export type GetShepherdHrefQueryVariables = {
-  id: string,
-};
-
-export type GetShepherdHrefQuery = {
-  getShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
-export type ListShepherdHrefsQueryVariables = {
-  filter?: ModelShepherdHrefFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type ListShepherdHrefsQuery = {
-  listShepherdHrefs:  {
-    __typename: "ModelShepherdHrefConnection",
-    items:  Array< {
-      __typename: "ShepherdHref",
-      title: string,
-      url: string,
-      metadata:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -1002,10 +561,11 @@ export type GetDeploymentVersionQuery = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -1016,15 +576,11 @@ export type GetDeploymentVersionQuery = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -1071,10 +627,11 @@ export type ListDeploymentVersionsQuery = {
       env: string,
       deployedAt: string,
       builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
+      kubernetesDeploymentFiles:  Array< {
+        __typename: "KubernetesDeploymentFile",
+        path: string,
+        content: string,
+      } >,
       lastCommits: string,
       gitUrl: string,
       gitBranch: string,
@@ -1103,15 +660,11 @@ export type OnCreateDeploymentSubscription = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -1146,15 +699,11 @@ export type OnUpdateDeploymentSubscription = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -1189,15 +738,11 @@ export type OnDeleteDeploymentSubscription = {
     deploymentType: DeploymentType,
     deployerRole: DeployerRole,
     dbMigrationImage: string | null,
-    hyperlinks:  {
-      __typename: "ModelShepherdHrefConnection",
-      items:  Array< {
-        __typename: "ShepherdHref",
-        title: string,
-        url: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    hyperlinks:  Array< {
+      __typename: "ShepherdHref",
+      title: string,
+      url: string,
+    } >,
     lastDeploymentTimestamp: string,
     env: string,
     versions:  {
@@ -1223,222 +768,6 @@ export type OnDeleteDeploymentSubscription = {
   } | null,
 };
 
-export type OnCreateKubernetesDeploymentFileSubscription = {
-  onCreateKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type OnUpdateKubernetesDeploymentFileSubscription = {
-  onUpdateKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type OnDeleteKubernetesDeploymentFileSubscription = {
-  onDeleteKubernetesDeploymentFile:  {
-    __typename: "KubernetesDeploymentFile",
-    path: string,
-    content: string,
-    version:  {
-      __typename: "DeploymentVersion",
-      versionId: string,
-      version: string,
-      deployment:  {
-        __typename: "Deployment",
-        id: string,
-        displayName: string,
-        description: string | null,
-        deploymentType: DeploymentType,
-        deployerRole: DeployerRole,
-        dbMigrationImage: string | null,
-        lastDeploymentTimestamp: string,
-        env: string,
-      },
-      env: string,
-      deployedAt: string,
-      builtAt: string,
-      kubernetesDeploymentFiles:  {
-        __typename: "ModelKubernetesDeploymentFileConnection",
-        nextToken: string | null,
-      } | null,
-      lastCommits: string,
-      gitUrl: string,
-      gitBranch: string,
-      gitHash: string,
-      gitCommit: string,
-      dockerImage: string,
-      dockerImageTag: string,
-      buildHostName: string,
-      configuration:  Array< {
-        __typename: "ConfigurationItem",
-        key: string,
-        value: string,
-        isSecret: boolean,
-      } > | null,
-    },
-  } | null,
-};
-
-export type OnCreateShepherdHrefSubscription = {
-  onCreateShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
-export type OnUpdateShepherdHrefSubscription = {
-  onUpdateShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
-export type OnDeleteShepherdHrefSubscription = {
-  onDeleteShepherdHref:  {
-    __typename: "ShepherdHref",
-    title: string,
-    url: string,
-    metadata:  {
-      __typename: "Deployment",
-      id: string,
-      displayName: string,
-      description: string | null,
-      deploymentType: DeploymentType,
-      deployerRole: DeployerRole,
-      dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
-      lastDeploymentTimestamp: string,
-      env: string,
-      versions:  {
-        __typename: "ModelDeploymentVersionConnection",
-        nextToken: string | null,
-      } | null,
-    },
-  } | null,
-};
-
 export type OnCreateDeploymentVersionSubscription = {
   onCreateDeploymentVersion:  {
     __typename: "DeploymentVersion",
@@ -1452,10 +781,11 @@ export type OnCreateDeploymentVersionSubscription = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -1466,15 +796,11 @@ export type OnCreateDeploymentVersionSubscription = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -1505,10 +831,11 @@ export type OnUpdateDeploymentVersionSubscription = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -1519,15 +846,11 @@ export type OnUpdateDeploymentVersionSubscription = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
@@ -1558,10 +881,11 @@ export type OnDeleteDeploymentVersionSubscription = {
       deploymentType: DeploymentType,
       deployerRole: DeployerRole,
       dbMigrationImage: string | null,
-      hyperlinks:  {
-        __typename: "ModelShepherdHrefConnection",
-        nextToken: string | null,
-      } | null,
+      hyperlinks:  Array< {
+        __typename: "ShepherdHref",
+        title: string,
+        url: string,
+      } >,
       lastDeploymentTimestamp: string,
       env: string,
       versions:  {
@@ -1572,15 +896,11 @@ export type OnDeleteDeploymentVersionSubscription = {
     env: string,
     deployedAt: string,
     builtAt: string,
-    kubernetesDeploymentFiles:  {
-      __typename: "ModelKubernetesDeploymentFileConnection",
-      items:  Array< {
-        __typename: "KubernetesDeploymentFile",
-        path: string,
-        content: string,
-      } | null > | null,
-      nextToken: string | null,
-    } | null,
+    kubernetesDeploymentFiles:  Array< {
+      __typename: "KubernetesDeploymentFile",
+      path: string,
+      content: string,
+    } >,
     lastCommits: string,
     gitUrl: string,
     gitBranch: string,
