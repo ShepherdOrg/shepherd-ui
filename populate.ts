@@ -5,11 +5,11 @@ import {
   DeploymentType,
   CreateDeploymentVersionInput,
 } from './src/API'
-import { createClient } from './api'
+import { createClient } from './tools/api'
 
 const deployment: CreateDeploymentInput = {
-  id: 'dev-images-fluentd2',
-  displayName: 'Fluentd aws appender2',
+  id: 'dev-images-fluentd',
+  displayName: 'Fluentd aws appender',
   lastDeploymentTimestamp: '2019-10-17T16:02:20.500Z',
   env: 'dev',
   deployerRole: DeployerRole.Install,
@@ -27,7 +27,7 @@ const deployment: CreateDeploymentInput = {
 }
 
 const deploymentVersion: CreateDeploymentVersionInput = {
-  versionId: 'dev-dev-images-fluentd2-1.0.0-2019-10-17T16:02:20.500Z',
+  versionId: 'dev-dev-images-fluentd-1.0.0-2019-10-17T16:02:20.500Z',
   version: '1.0.0',
   env: 'dev',
 

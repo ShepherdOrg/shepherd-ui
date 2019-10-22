@@ -1,5 +1,5 @@
 {
-  "name": "@shepherdorg/graphql-api",
+  "name": "@shepherdorg/ui-graphql-client",
   "version": "1.0.1",
   "description": "Shepherd Graphql Client Library",
   "main": "dist/tools/api/api.js",

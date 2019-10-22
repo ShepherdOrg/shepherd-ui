@@ -39,9 +39,6 @@ interface GqlResponse<T> {
 
 export function createClient(apiUrl: string, fetchOptions: RequestInit = {}) {
   const runQuery = <T = any>(body: QueryBody): Promise<GqlResponse<T>> => {
-    console.log(
-      JSON.stringify({ message: 'sending graphql request', body, fetchOptions })
-    )
     return fetch(apiUrl, {
       ...fetchOptions,
       headers: {
@@ -85,7 +82,7 @@ export function createClient(apiUrl: string, fetchOptions: RequestInit = {}) {
     }
   }
   return {
-    createDeployment: upsert({
+    upsertDeployment: upsert({
       getQuery: getDeployment,
       createQuery: createDeployment,
       updateQuery: updateDeployment,
@@ -96,7 +93,7 @@ export function createClient(apiUrl: string, fetchOptions: RequestInit = {}) {
       createAccessor: (x: CreateDeploymentMutation) => x.createDeployment,
       updateAccessor: (x: UpdateDeploymentMutation) => x.updateDeployment,
     }),
-    createDeploymentVersion: upsert({
+    upsertDeploymentVersion: upsert({
       getQuery: getDeploymentVersion,
       createQuery: createDeploymentVersion,
       updateQuery: updateDeploymentVersion,
