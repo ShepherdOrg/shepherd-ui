@@ -5,6 +5,7 @@ import {
   SubscriptionOptions,
   ApolloQueryResult,
 } from 'apollo-client'
+import { Left, Right, Either } from 'data.either'
 interface SubscriptionProps<TQueryResult = any, TSubscriptionResult = any> {
   query: QueryOptions
   subscription: SubscriptionOptions
@@ -35,6 +36,13 @@ export const isSuccess = <T>(
   value: UseSubscriptionResult<T>
 ): value is Success<T> => {
   return !value.loading && !('error' in value)
+}
+
+export const toEither = <T>(
+  result: UseSubscriptionResult<T>
+): Either<Loading | Failure, Success<T>> => {
+  if (result.loading || 'error' in result) return Left(result)
+  return Right(result)
 }
 
 export const useSubscription = function<

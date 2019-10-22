@@ -108,7 +108,8 @@ export const Sidebar = function() {
         }
         :global(body) {
           background: ${colors.wet_asphalt};
-          padding-left: 320px;
+          padding-left: 256px;
+          margin: 0;
           font-family: 'Helvetica Neue';
         }
         ul {
