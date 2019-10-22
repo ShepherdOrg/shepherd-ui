@@ -8,7 +8,7 @@ const Home = () => {
     <div>
       <Head>
         <title>Shepherd</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.ico?v=3" />
       </Head>
 
       <Nav />
