@@ -1,16 +1,17 @@
 // import 'cross-fetch/polyfill'
 import awsconfig from './aws-exports'
-import ApolloClient, { NormalizedCacheObject } from 'apollo-boost'
+import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync'
 
-let client: ApolloClient<NormalizedCacheObject>
+let client: AWSAppSyncClient<any>
 
 export default () => {
   if (!client) {
-    client = new ApolloClient({
-      uri: awsconfig.aws_appsync_graphqlEndpoint,
-      credentials: 'same-origin',
-      headers: {
-        'X-Api-Key': awsconfig.aws_appsync_apiKey,
+    client = new AWSAppSyncClient({
+      url: awsconfig.aws_appsync_graphqlEndpoint,
+      region: awsconfig.aws_appsync_region,
+      auth: {
+        type: AUTH_TYPE.API_KEY,
+        apiKey: awsconfig.aws_appsync_apiKey,
       },
     })
   }

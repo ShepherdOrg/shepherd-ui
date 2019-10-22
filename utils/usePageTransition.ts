@@ -15,7 +15,7 @@ export function usePageTransition() {
 
   const startExit = useCallback(async (left: () => void) => {
     setLeaving(true)
-    wait(1000)
+    wait(16)
       .then(() => left())
       .catch(() => {
         setLeaving(false)

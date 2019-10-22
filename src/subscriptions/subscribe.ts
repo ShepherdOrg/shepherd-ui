@@ -1,14 +1,11 @@
 import { useState, useEffect } from 'react'
 import apiClient from '../apiClient'
-import {
-  QueryOptions,
-  SubscriptionOptions,
-  ApolloQueryResult,
-} from 'apollo-client'
 import { Left, Right, Either } from 'data.either'
+import { QuerySyncOptions } from 'aws-appsync'
+import { DocumentNode } from 'graphql'
 interface SubscriptionProps<TQueryResult = any, TSubscriptionResult = any> {
-  query: QueryOptions
-  subscription: SubscriptionOptions
+  query: { query: DocumentNode }
+  subscription: { query: DocumentNode }
   run?: boolean
   onSubscriptionMsg(
     previous: TQueryResult,
@@ -72,7 +69,7 @@ export const useSubscription = function<
       })
 
     const gqlSubscription = apiClient()
-      .subscribe<TSubscriptionResult>(subscription)
+      .subscribe<{ data?: TSubscriptionResult }>(subscription)
       .subscribe({
         next(next) {
           setValue(value => {
