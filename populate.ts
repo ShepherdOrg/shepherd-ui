@@ -5,7 +5,7 @@ import {
   DeploymentType,
   CreateDeploymentVersionInput,
 } from './src/API'
-import { createClient } from './tools/api'
+import { createClient } from './tools/api/api'
 
 const deployment: CreateDeploymentInput = {
   id: 'dev-images-fluentd',
@@ -185,10 +185,10 @@ const populateData = async () => {
 
   const deploy = client.upsertDeployment(deployment)
 
-  // const version = client.createDeploymentVersion(deploymentVersion)
+  const version = client.upsertDeploymentVersion(deploymentVersion)
 
   // @ts-ignore
-  return await Promise.all([deploy])
+  return await Promise.all([deploy, version])
 }
 
 populateData()
