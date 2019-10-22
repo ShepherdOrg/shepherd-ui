@@ -183,7 +183,7 @@ const populateData = async () => {
     headers: { 'X-Api-Key': config.aws_appsync_apiKey },
   })
 
-  const deploy = client.createDeployment(deployment)
+  const deploy = client.upsertDeployment(deployment)
 
   // const version = client.createDeploymentVersion(deploymentVersion)
 
