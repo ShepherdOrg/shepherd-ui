@@ -69,7 +69,7 @@ export const useSubscription = function<
       })
 
     const gqlSubscription = apiClient()
-      .subscribe<{ data?: TSubscriptionResult }>(subscription)
+      .subscribe<TSubscriptionResult>(subscription)
       .subscribe({
         next(next) {
           setValue(value => {

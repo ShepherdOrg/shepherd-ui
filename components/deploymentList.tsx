@@ -30,63 +30,59 @@ export const DeploymentList = function() {
     <>
       <Curtain visible={leaving} />
       <ul className="deploymentList">
-        {toEither(result)
-          .chain(x =>
-            fromNullable(x.data.listDeployments && x.data.listDeployments.items)
-          )
-          .fold(
-            x =>
-              !x ? (
-                <li className="item">
-                  <a>Not found</a>
-                </li>
-              ) : x.loading ? (
-                <li className="item">
-                  <a>
-                    <section className="center">
-                      <h1>Loading</h1>
-                    </section>
-                  </a>
-                </li>
-              ) : (
-                <li className="item">Error!</li>
-              ),
-            items =>
-              items.map(
-                x =>
-                  x && (
-                    <li key={x.id} className="item">
-                      <Link href={`/deployment?id=${x.id}`}>
-                        <a
-                          href={`/deployment?id=${x.id}`}
-                          onClick={ev => (
-                            ev.preventDefault(), navigateToDeployment(x.id)
-                          )}
-                        >
-                          <section className="center">
-                            <div className="name">{x.displayName || x.id}</div>
-                          </section>
-                          <section className="grow">
-                            <div className="deployerRole">{x.deployerRole}</div>
-                            <div className="deploymentType">
-                              {x.deploymentType}
-                            </div>
-                          </section>
-                          <section>
-                            <div className="time">
-                              {formatDistanceToNow(
-                                new Date(x.lastDeploymentTimestamp)
-                              )}{' '}
-                              ago
-                            </div>
-                            <div className="env">{x.env}</div>
-                          </section>
-                        </a>
-                      </Link>
-                    </li>
-                  )
-              )
-          )}
+        {result.asEither().fold(
+          x =>
+            !x ? (
+              <li className="item">
+                <a>Not found</a>
+              </li>
+            ) : x.loading ? (
+              <li className="item">
+                <a>
+                  <section className="center">
+                    <h1>Loading</h1>
+                  </section>
+                </a>
+              </li>
+            ) : (
+              <li className="item">Error!</li>
+            ),
+          items =>
+            items.map(
+              x =>
+                x && (
+                  <li key={x.id} className="item">
+                    <Link href={`/deployment?id=${x.id}`}>
+                      <a
+                        href={`/deployment?id=${x.id}`}
+                        onClick={ev => (
+                          ev.preventDefault(), navigateToDeployment(x.id)
+                        )}
+                      >
+                        <section className="center">
+                          <div className="name">{x.displayName || x.id}</div>
+                        </section>
+                        <section className="grow">
+                          <div className="deployerRole">{x.deployerRole}</div>
+                          <div className="deploymentType">
+                            {x.deploymentType}
+                          </div>
+                        </section>
+                        <section>
+                          <div className="time">
+                            {formatDistanceToNow(
+                              new Date(x.lastDeploymentTimestamp)
+                            )}{' '}
+                            ago
+                          </div>
+                          <div className="env">{x.env}</div>
+                        </section>
+                      </a>
+                    </Link>
+                  </li>
+                )
+            )
+        )}
       </ul>
       <style jsx>{`
         .header {

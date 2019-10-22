@@ -8,8 +8,8 @@ import {
 import { createClient } from './tools/api/api'
 
 const deployment: CreateDeploymentInput = {
-  id: 'dev-images-fluentd',
-  displayName: 'Fluentd aws appender',
+  id: 'dev-images-fluentd2',
+  displayName: 'Fluentd aws appender 2',
   lastDeploymentTimestamp: '2019-10-17T16:02:20.500Z',
   env: 'dev',
   deployerRole: DeployerRole.Install,

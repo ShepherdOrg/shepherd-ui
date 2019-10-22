@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { DeploymentDetails } from '../../components/deploymentDetails'
 import { Sidebar } from '../../components/sidebar'
 import { useDeployment } from '../../src/subscriptions/useDeployment'
@@ -7,15 +7,18 @@ import { useDeploymentVersion } from '../../src/subscriptions/useDeploymentVersi
 import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
 import omit from 'ramda/src/omit'
+import apiClient from '../../src/apiClient'
+import { ApolloProvider } from '@apollo/react-hooks'
 
 export default function DeploymentPage() {
   const router = useRouter()
   const deploymentId = String(router.query.id || '')
+  const client = useMemo(() => apiClient(), [])
 
   const { entering, leaving } = usePageTransition()
 
   return (
-    <>
+    <ApolloProvider client={client}>
       <Curtain visible={entering || leaving} />
       <Sidebar />
       <main>
@@ -28,7 +31,7 @@ export default function DeploymentPage() {
           margin: 0 auto;
         }
       `}</style>
-    </>
+    </ApolloProvider>
   )
 }
 

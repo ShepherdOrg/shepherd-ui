@@ -28,16 +28,12 @@ export const Sidebar = function() {
   const currentDeploymentId = String(router.query.id)
   const currentDeploymentResult = useDeployment(currentDeploymentId)
 
-  if (!isSuccess(result) || !isSuccess(currentDeploymentResult)) return null
+  if (!isSuccess(currentDeploymentResult)) return null
 
-  if (
-    !result.data.listDeployments ||
-    !currentDeploymentResult.data.getDeployment
-  ) {
+  if (!currentDeploymentResult.data.getDeployment) {
     return null
   }
 
-  const deployments = result.data.listDeployments.items || []
   const currentDeployment = currentDeploymentResult.data.getDeployment
   return (
     <nav className="nav">
@@ -48,38 +44,44 @@ export const Sidebar = function() {
         </Link>
       </h3>
       <ul>
-        {deployments.map(
-          deployment =>
-            deployment && (
-              <li
-                key={deployment.id}
-                className={
-                  currentDeploymentId === deployment.id ? 'active' : ''
-                }
-              >
-                <Link href={`/deployment?id=${deployment.id}`}>
-                  <a>{deployment.displayName}</a>
-                </Link>
-                <ul className="versionList">
-                  {currentDeploymentId === deployment.id &&
-                    currentDeployment.versions &&
-                    currentDeployment.versions.items &&
-                    currentDeployment.versions.items.map(
-                      x =>
-                        x && (
-                          <li key={x.versionId}>
-                            <Link
-                              href={`/deployment?id=${encodeURIComponent(
-                                deployment.id
-                              )}&version=${encodeURIComponent(x.versionId)}`}
-                            >
-                              <a>{x.versionId}</a>
-                            </Link>
-                          </li>
-                        )
-                    )}
-                </ul>
-              </li>
+        {result.asEither().fold(
+          () => null,
+          deployments =>
+            deployments.map(
+              deployment =>
+                deployment && (
+                  <li
+                    key={deployment.id}
+                    className={
+                      currentDeploymentId === deployment.id ? 'active' : ''
+                    }
+                  >
+                    <Link href={`/deployment?id=${deployment.id}`}>
+                      <a>{deployment.displayName}</a>
+                    </Link>
+                    <ul className="versionList">
+                      {currentDeploymentId === deployment.id &&
+                        currentDeployment.versions &&
+                        currentDeployment.versions.items &&
+                        currentDeployment.versions.items.map(
+                          x =>
+                            x && (
+                              <li key={x.versionId}>
+                                <Link
+                                  href={`/deployment?id=${encodeURIComponent(
+                                    deployment.id
+                                  )}&version=${encodeURIComponent(
+                                    x.versionId
+                                  )}`}
+                                >
+                                  <a>{x.versionId}</a>
+                                </Link>
+                              </li>
+                            )
+                        )}
+                    </ul>
+                  </li>
+                )
             )
         )}
       </ul>
