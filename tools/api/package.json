@@ -1,9 +1,16 @@
 {
   "name": "@shepherdorg/graphql-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Shepherd Graphql Client Library",
   "main": "dist/tools/api/api.js",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc -p .",
+    "prepublishOnly": "npm run build"
+  },
+  "files": [
+    "dist/"
+  ],
   "dependencies": {
     "@types/node-fetch": "^2.5.2",
     "node-fetch": "^2.6.0",
