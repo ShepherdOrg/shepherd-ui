@@ -35,11 +35,6 @@ const Home = () => {
           font-size: 48px;
         }
 
-        .deploymentListContainer {
-          background: ${colors.silver};
-          padding: 8px;
-          border-radius 12px;
-        }
         main {
           width: 800px;
           margin: 40px auto 0;

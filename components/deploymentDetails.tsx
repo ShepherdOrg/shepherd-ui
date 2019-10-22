@@ -97,7 +97,7 @@ export const DeploymentDetails = function({
           margin-right: 16px;
           padding: 8px 16px;
           border-radius: 2em;
-          background: ${colors.amethyst};
+          background: ${colors.turquoise};
           color: ${colors.white};
         }
         .codeContainer {

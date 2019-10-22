@@ -32,12 +32,7 @@ export const DeploymentList = function() {
   return (
     <>
       <Curtain visible={leaving} />
-      <ul>
-        <li key="head" className="header">
-          <div className="name">Deployment Name</div>
-          <div className="deploymentType">Type</div>
-          <div className="time">Time</div>
-        </li>
+      <ul className="deploymentList">
         {result.data.listDeployments.items.map(
           x =>
             x && (
@@ -49,50 +44,74 @@ export const DeploymentList = function() {
                       ev.preventDefault(), navigateToDeployment(x.id)
                     )}
                   >
-                    <div className="name">{x.displayName || x.id}</div>
-                    <div className="deploymentType">{x.deploymentType}</div>
-                    <div className="time">
-                      {formatDistanceToNow(new Date(x.lastDeploymentTimestamp))}{' '}
-                      ago
-                    </div>
+                    <section className="center">
+                      <div className="name">{x.displayName || x.id}</div>
+                    </section>
+                    <section className="grow">
+                      <div className="deployerRole">{x.deployerRole}</div>
+                      <div className="deploymentType">{x.deploymentType}</div>
+                    </section>
+                    <section>
+                      <div className="time">
+                        {formatDistanceToNow(
+                          new Date(x.lastDeploymentTimestamp)
+                        )}{' '}
+                        ago
+                      </div>
+                      <div className="env">{x.env}</div>
+                    </section>
                   </a>
                 </Link>
               </li>
             )
         )}
         <style jsx>{`
-        .header {
-          font-weight: 600;
-        }
-        ul {
-          list-style-type: none;
-          margin: 0;
-          padding: 0;
-        }
-        li.header, li.item > a {
-          display: grid;
-          grid-column-gap: 16px;
-          grid-template-columns: 1fr 1fr 1fr;
-          padding 8px;
-        }
+          .header {
+            font-weight: 600;
+          }
+          ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+          }
+          li.item > a {
+            background: ${colors.clouds};
+            text-decoration: none;
+            color: ${colors.midnight_blue};
+            display: flex;
+            flex-flow: row wrap;
+            width: 100%;
 
-        li.item {
-          margin-top: 8px;
-        }
+            justify-content: space-between;
 
-        li.item > a {
-          text-decoration: none;
-          border-radius: 12px;
-          color: ${colors.midnight_blue};
-          background: ${colors.clouds};
-          transition: all .2s ease-out;
-        }
+            box-shadow: 0;
+            transition: all 0.2s ease-out;
+            border-radius: 12px;
+          }
 
-        li.item > a:hover {
-          background: ${colors.wet_asphalt};
-          color: ${colors.clouds};
-        }
-      `}</style>
+          li.item > a:hover {
+            box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+          }
+
+          li.item > a > section {
+            padding: 16px;
+            border-right: 1px solid ${colors.concrete};
+          }
+
+          li.item > a > section:last-child {
+            border-right: 0;
+          }
+
+          .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .grow {
+            flex-grow: 1;
+          }
+        `}</style>
       </ul>
     </>
   )
