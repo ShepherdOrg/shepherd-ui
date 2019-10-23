@@ -5,9 +5,21 @@ const Either = require('data.either')
 
 const readFileSync = Either.try(fs.readFileSync)
 
+const fromEntries = entries =>
+  entries.reduce((p, v) => {
+    p[v[0]] = v[1]
+    return p
+  }, {})
+
 const env = readFileSync('./.env')
   .chain(Either.try(dotenv.parse))
-  .fold(err => process.env, x => x)
+  .fold(
+    err =>
+      fromEntries(
+        Object.entries(process.env).filter(([key]) => key.startsWith('COGNITO'))
+      ),
+    x => x
+  )
 
 const nextConfig = {
   env,
