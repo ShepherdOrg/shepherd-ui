@@ -180,7 +180,9 @@ const id = <T>(x: T) => x
 
 const populateData = async () => {
   const client = createClient(config.aws_appsync_graphqlEndpoint, {
-    headers: { 'X-Api-Key': config.aws_appsync_apiKey },
+    fetchOptions: {
+      headers: { 'X-Api-Key': config.aws_appsync_apiKey },
+    },
   })
 
   const deploy = client.upsertDeployment(deployment)
