@@ -10,7 +10,7 @@ import { toEither } from '../src/subscriptions/subscribe'
 import { fromNullable } from 'data.either'
 
 export const DeploymentList = function() {
-  const result = useDeploymentList()
+  const deploymentList = useDeploymentList()
   const { startExit, leaving } = usePageTransition()
   const router = useRouter()
   const navigateToDeployment = useCallback(
@@ -30,13 +30,13 @@ export const DeploymentList = function() {
     <>
       <Curtain visible={leaving} />
       <ul className="deploymentList">
-        {result.asEither().fold(
+        {deploymentList.fold(
           x =>
-            !x ? (
+            x === 'Not found' ? (
               <li className="item">
                 <a>Not found</a>
               </li>
-            ) : x.loading ? (
+            ) : x === 'loading' ? (
               <li className="item">
                 <a>
                   <section className="center">
@@ -92,6 +92,10 @@ export const DeploymentList = function() {
           list-style-type: none;
           margin: 0;
           padding: 0;
+        }
+
+        li {
+          margin-top: 16px;
         }
         li.item > a {
           background: ${colors.clouds};

@@ -5,10 +5,10 @@ declare module 'data.either' {
     // Functor
     map<V>(fn: (value: R) => V): Either<L, V>
     // Apply
-    ap<A, B>(
+    ap<A, B, L2>(
       this: Either<L, (value: A) => B>,
-      other: Either<unknown, A>
-    ): Either<L, B>
+      other: Either<L2, A>
+    ): Either<L | L2, B>
     // Chain
     chain<T, V>(fn: (value: R) => Either<T, V>): Either<L | T, V>
     // Eq

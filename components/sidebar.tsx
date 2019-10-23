@@ -7,10 +7,11 @@ import { isSuccess } from '../src/subscriptions/subscribe'
 import { usePageTransition } from '../utils/usePageTransition'
 import { Curtain } from './curtain'
 import { useCallback, MouseEvent } from 'react'
+import { fromNullable } from 'data.either'
 
 export const Sidebar = function() {
   const router = useRouter()
-  const result = useDeploymentList()
+  const deploymentList = useDeploymentList()
 
   const { startExit, leaving } = usePageTransition()
 
@@ -26,15 +27,8 @@ export const Sidebar = function() {
   )
 
   const currentDeploymentId = String(router.query.id)
-  const currentDeploymentResult = useDeployment(currentDeploymentId)
+  const currentDeployment = useDeployment(currentDeploymentId)
 
-  if (!isSuccess(currentDeploymentResult)) return null
-
-  if (!currentDeploymentResult.data.getDeployment) {
-    return null
-  }
-
-  const currentDeployment = currentDeploymentResult.data.getDeployment
   return (
     <nav className="nav">
       <Curtain visible={leaving} />
@@ -44,7 +38,7 @@ export const Sidebar = function() {
         </Link>
       </h3>
       <ul>
-        {result.asEither().fold(
+        {deploymentList.fold(
           () => null,
           deployments =>
             deployments.map(
@@ -61,24 +55,29 @@ export const Sidebar = function() {
                     </Link>
                     <ul className="versionList">
                       {currentDeploymentId === deployment.id &&
-                        currentDeployment.versions &&
-                        currentDeployment.versions.items &&
-                        currentDeployment.versions.items.map(
-                          x =>
-                            x && (
-                              <li key={x.versionId}>
-                                <Link
-                                  href={`/deployment?id=${encodeURIComponent(
-                                    deployment.id
-                                  )}&version=${encodeURIComponent(
-                                    x.versionId
-                                  )}`}
-                                >
-                                  <a>{x.versionId}</a>
-                                </Link>
-                              </li>
+                        currentDeployment
+                          .chain(x =>
+                            fromNullable(x.versions && x.versions.items)
+                          )
+                          .map(versions =>
+                            versions.map(
+                              x =>
+                                x && (
+                                  <li key={x.versionId}>
+                                    <Link
+                                      href={`/deployment?id=${encodeURIComponent(
+                                        deployment.id
+                                      )}&version=${encodeURIComponent(
+                                        x.versionId
+                                      )}`}
+                                    >
+                                      <a>{x.versionId}</a>
+                                    </Link>
+                                  </li>
+                                )
                             )
-                        )}
+                          )
+                          .getOrElse(null)}
                     </ul>
                   </li>
                 )

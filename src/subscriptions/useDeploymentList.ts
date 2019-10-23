@@ -3,16 +3,20 @@ import { listDeployments } from '../graphql/queries'
 import { onCreateDeployment } from '../graphql/subscriptions'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Right, Left, Either } from 'data.either'
+import { ApolloError } from 'apollo-client'
 // import { useSubscription } from './subscribe'
 
 const LIST_DEPLOYMENTS = gql(listDeployments)
 
-type DeploymentList = NonNullable<
+export type DeploymentList = NonNullable<
   NonNullable<ListDeploymentsQuery['listDeployments']>['items']
 >
 export const useDeploymentList = () => {
+  const [deploymentList, setDeploymentList] = useState<
+    Either<'loading' | 'Not found' | ApolloError, DeploymentList>
+  >(Left('loading'))
   const { subscribeToMore, ...result } = useQuery<ListDeploymentsQuery>(
     LIST_DEPLOYMENTS
   )
@@ -21,25 +25,36 @@ export const useDeploymentList = () => {
     subscribeToMore<OnCreateDeploymentSubscription>({
       document: gql(onCreateDeployment),
       updateQuery(prev, next) {
-        if (prev.listDeployments && prev.listDeployments.items) {
-          prev.listDeployments.items.push(
-            next.subscriptionData.data.onCreateDeployment
+        setDeploymentList(l =>
+          l.map(list =>
+            list.concat([next.subscriptionData.data.onCreateDeployment])
           )
-        }
+        )
         return prev
       },
     })
   }, [])
 
-  return {
-    result,
-    asEither: (): Either<typeof result, DeploymentList> =>
+  useEffect(() => {
+    if (
+      result.data &&
+      (result.data.listDeployments == null ||
+        result.data.listDeployments.items == null)
+    ) {
+      setDeploymentList(Left('Not found'))
+    }
+    if (
       result.data &&
       result.data.listDeployments &&
       result.data.listDeployments.items
-        ? Right(result.data.listDeployments.items)
-        : Left(result),
-  }
+    ) {
+      setDeploymentList(Right(result.data.listDeployments.items))
+    } else if (result.error) {
+      setDeploymentList(Left(result.error))
+    }
+  }, [result.data, result.error])
+
+  return deploymentList
 }
 // useSubscription<ListDeploymentsQuery, OnCreateDeploymentSubscription>({
 //   query,
