@@ -1,6 +1,5 @@
-import { useSubscription } from './subscribe'
 import { GetDeploymentQuery, OnUpdateDeploymentSubscription } from '../API'
-import { useMemo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { getDeployment } from '../graphql/queries'
 import { onUpdateDeployment } from '../graphql/subscriptions'
 import gql from 'graphql-tag'
