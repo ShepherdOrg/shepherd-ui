@@ -1,6 +1,5 @@
 const { resolve } = require('path')
 const dotenv = require('dotenv')
-const withCSS = require('@zeit/next-css')
 const fs = require('fs')
 const Either = require('data.either')
 
@@ -10,7 +9,7 @@ const env = readFileSync('./.env')
   .chain(Either.try(dotenv.parse))
   .fold(err => process.env, x => x)
 
-const nextConfig = withCSS({
+const nextConfig = {
   env,
   webpack(config, options) {
     // For absolute path imports
@@ -21,6 +20,6 @@ const nextConfig = withCSS({
 
     return config
   },
-})
+}
 
 module.exports = nextConfig
