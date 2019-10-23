@@ -14,7 +14,6 @@ import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
 import omit from 'ramda/src/omit'
 import apiClient from '../../src/apiClient'
-import { ApolloProvider } from '@apollo/react-hooks'
 import { fromNullable, Right } from 'data.either'
 
 export default function DeploymentPage() {
@@ -25,7 +24,7 @@ export default function DeploymentPage() {
   const { entering, leaving } = usePageTransition()
 
   return (
-    <ApolloProvider client={client}>
+    <>
       <Curtain visible={entering || leaving} />
       <Sidebar />
       <main>
@@ -38,7 +37,7 @@ export default function DeploymentPage() {
           margin: 0 auto;
         }
       `}</style>
-    </ApolloProvider>
+    </>
   )
 }
 
