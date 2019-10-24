@@ -58,7 +58,7 @@ export const useDeploymentList = () => {
       updateQuery(prev, next) {
         const updated = next.subscriptionData.data.onUpdateDeployment!
         setDeploymentList(l =>
-          l.map(list => list.map(x => (x.id === updated.id ? updated : x)))
+          l.map(list => list.map(x => (x && x.id === updated.id ? updated : x)))
         )
         return prev
       },
