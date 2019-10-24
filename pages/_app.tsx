@@ -6,7 +6,6 @@ import { useState, useEffect, useCallback } from 'react'
 import { Login } from 'components/login'
 import { CognitoUserSession } from 'amazon-cognito-identity-js'
 
-// if (process.env.NODE_ENV === 'production') {
 Auth.configure({
   // REQUIRED - Amazon Cognito Region
   region: process.env.COGNITO_REGION,
@@ -23,7 +22,6 @@ Auth.configure({
   // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
   authenticationFlowType: 'USER_PASSWORD_AUTH',
 })
-// }
 
 export default class MyApp extends App {
   render() {
@@ -38,14 +36,22 @@ const RootComponent = ({ Component, pageProps }: any) => {
   >(undefined)
 
   const checkAuthenticated = useCallback(async () => {
-    const user = await Auth.currentSession()
-    setCurrentSession(user)
+    const session = await Auth.currentSession()
+    setCurrentSession(session)
   }, [])
   useEffect(() => {
-    if (process.env.NODE_ENV === 'production') {
-      checkAuthenticated()
-    }
+    checkAuthenticated()
   }, [])
+
+  useEffect(() => {
+    if (!currentSession) return
+    const expiresAt = currentSession.getAccessToken().getExpiration()
+    const timeout = expiresAt - Date.now()
+    const timeoutId = setTimeout(checkAuthenticated, timeout)
+    return () => {
+      clearTimeout(timeoutId)
+    }
+  }, [currentSession && currentSession.getAccessToken().getExpiration()])
   if (!currentSession || !currentSession.isValid()) {
     return <Login onSignin={checkAuthenticated} />
   }
