@@ -105,7 +105,7 @@ export const DeploymentList = function() {
         li.item > a {
           background: ${colors.clouds};
           text-decoration: none;
-          color: ${colors.midnight_blue};
+          color: ${colors.midnightBlue};
           display: flex;
           flex-flow: row wrap;
           width: 100%;

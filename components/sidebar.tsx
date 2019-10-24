@@ -83,7 +83,7 @@ export const Sidebar = function() {
           height: 100vh;
           width: 256px;
           overflow-y: scroll;
-          background: ${colors.midnight_blue};
+          background: ${colors.midnightBlue};
           color: ${colors.clouds};
           transition: left 0.2s ease-out;
         }
@@ -103,7 +103,7 @@ export const Sidebar = function() {
           box-sizing: border-box;
         }
         :global(body) {
-          background: ${colors.wet_asphalt};
+          background: ${colors.wetAsphalt};
           padding-left: 256px;
           margin: 0;
           font-family: 'Helvetica Neue';

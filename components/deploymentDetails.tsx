@@ -112,7 +112,7 @@ export const DeploymentDetails = function({
         }
         .codeContainer {
           overflow-x: scroll;
-          background: ${colors.midnight_blue};
+          background: ${colors.midnightBlue};
           padding: 16px;
           border-radius: 16px;
         }

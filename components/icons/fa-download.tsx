@@ -5,7 +5,7 @@ interface Props {
   size?: number
 }
 export const FaDownload = function({
-  color = colors.midnight_blue,
+  color = colors.midnightBlue,
   size = 36,
 }: Props) {
   return (

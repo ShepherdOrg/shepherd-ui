@@ -180,7 +180,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
       </section>
       <style jsx>{`
         :global(body) {
-          background: ${colors.wet_asphalt};
+          background: ${colors.wetAsphalt};
           color: ${colors.clouds};
           font-family: 'Helvetica Neue';
         }
@@ -211,7 +211,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
           border-radius: 12px;
           padding: 16px;
           background: ${colors.clouds};
-          color: ${colors.midnight_blue};
+          color: ${colors.midnightBlue};
           justify-content: center;
           display: flex;
           flex-flow: column;
@@ -240,8 +240,8 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
           font-family: 'Helvetica Neue';
           font-size: 20px;
           font-weight: 600;
-          color: ${colors.midnight_blue};
-          caret-color: ${colors.midnight_blue};
+          color: ${colors.midnightBlue};
+          caret-color: ${colors.midnightBlue};
           transition: border-color 0.2s;
         }
         h1 {

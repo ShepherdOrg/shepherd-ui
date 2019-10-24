@@ -25,7 +25,7 @@ export const Curtain = ({ left, delay, visible, zIndex = 100 }: Props) => (
         right: 0;
         left: 0;
         bottom: 0;
-        background-color: ${colors.midnight_blue};
+        background-color: ${colors.midnightBlue};
       }
 
       .transition-enter {

@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const FaDocker = function({
-  color = colors.midnight_blue,
+  color = colors.midnightBlue,
   size = 36,
 }: Props) {
   return (

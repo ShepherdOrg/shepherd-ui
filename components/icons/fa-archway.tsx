@@ -6,7 +6,7 @@ interface Props {
 }
 
 export const FaArchway = function({
-  color = colors.midnight_blue,
+  color = colors.midnightBlue,
   size = 36,
 }: Props) {
   return (
