@@ -7,7 +7,42 @@ import { useQuery } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
 
-const GET_DEPLOYMENT = gql(getDeployment)
+const GET_DEPLOYMENT = gql`
+  query GetDeployment($id: ID!) {
+    getDeployment(id: $id) {
+      id
+      displayName
+      description
+      deploymentType
+      deployerRole
+      dbMigrationImage
+      hyperlinks {
+        title
+        url
+      }
+      lastDeploymentTimestamp
+      env
+      versions(sortDirection: DESC) {
+        items {
+          versionId
+          version
+          env
+          deployedAt
+          builtAt
+          lastCommits
+          gitUrl
+          gitBranch
+          gitHash
+          gitCommit
+          dockerImage
+          dockerImageTag
+          buildHostName
+        }
+        nextToken
+      }
+    }
+  }
+`
 
 export interface Deployment
   extends NonNullable<GetDeploymentQuery['getDeployment']> {}

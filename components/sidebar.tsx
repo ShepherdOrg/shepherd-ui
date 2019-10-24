@@ -7,12 +7,10 @@ import { usePageTransition } from '../utils/usePageTransition'
 import { Curtain } from './curtain'
 import { useCallback, MouseEvent } from 'react'
 import { fromNullable } from 'data.either'
-import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import format from 'date-fns/format'
 
 export const Sidebar = function() {
   const router = useRouter()
-  const deploymentList = useDeploymentList()
-
   const { startExit, leaving } = usePageTransition()
 
   const goToMainPage = useCallback(
@@ -30,65 +28,54 @@ export const Sidebar = function() {
   const currentDeployment = useDeployment(currentDeploymentId)
 
   return (
-    <nav className={`nav ${deploymentList.isLeft ? 'hide-left' : ''}`}>
+    <nav className={`nav ${currentDeployment.isLeft ? 'hide-left' : ''}`}>
       <Curtain visible={leaving} />
       <h3 className="navTitle">
         <Link href="/">
           <a onClick={goToMainPage}>Shepherd</a>
         </Link>
       </h3>
-      <ul>
-        {deploymentList.fold(
-          () => null,
-          deployments =>
-            deployments.map(
-              deployment =>
-                deployment && (
-                  <li
-                    key={deployment.id}
-                    className={
-                      currentDeploymentId === deployment.id ? 'active' : ''
-                    }
-                  >
-                    <Link href={`/deployment?id=${deployment.id}`}>
-                      <a>{deployment.displayName}</a>
-                    </Link>
-                    <ul className="versionList">
-                      {currentDeploymentId === deployment.id &&
-                        currentDeployment
-                          .chain(x =>
-                            fromNullable(x.versions && x.versions.items)
-                          )
-                          .map(versions =>
-                            versions.map(
-                              x =>
-                                x && (
-                                  <li key={x.versionId}>
-                                    <Link
-                                      href={`/deployment?id=${encodeURIComponent(
-                                        deployment.id
-                                      )}&version=${encodeURIComponent(
-                                        x.versionId
-                                      )}`}
-                                    >
-                                      <a>
-                                        {formatDistanceToNow(
-                                          new Date(x.deployedAt)
-                                        )}{' '}
-                                        ago
-                                      </a>
-                                    </Link>
-                                  </li>
-                                )
-                            )
-                          )
-                          .getOrElse(null)}
-                    </ul>
-                  </li>
+      {currentDeployment.fold(
+        () => null,
+        deployment => (
+          <>
+            <Link href={`/deployment?id=${deployment.id}`}>
+              <a>{deployment.displayName}</a>
+            </Link>
+            <ul className="versionList">
+              {currentDeployment
+                .chain(x => fromNullable(x.versions && x.versions.items))
+                .map(versions =>
+                  versions.map(
+                    x =>
+                      x && (
+                        <li
+                          key={x.versionId}
+                          className={
+                            x.versionId === router.query.version ? 'active' : ''
+                          }
+                        >
+                          <Link
+                            href={`/deployment?id=${encodeURIComponent(
+                              deployment.id
+                            )}&version=${encodeURIComponent(x.versionId)}`}
+                          >
+                            <a>
+                              {format(
+                                new Date(x.deployedAt),
+                                'MMM d, yyyy h:mm a'
+                              )}{' '}
+                            </a>
+                          </Link>
+                        </li>
+                      )
+                  )
                 )
-            )
-        )}
-      </ul>
+                .getOrElse(null)}
+            </ul>
+          </>
+        )
+      )}
       <style jsx>{`
         .nav {
           position: fixed;
@@ -131,7 +118,7 @@ export const Sidebar = function() {
           width: 100%;
         }
 
-        li > a {
+        a {
           border-radius: 12px;
           padding: 8px 16px;
           margin: 0 16px;
@@ -143,18 +130,19 @@ export const Sidebar = function() {
 
         ul.versionList > li > a {
           margin-top: 16px;
-          background: ${colors.silver};
-          color: ${colors.midnight_blue};
-          margin-left: 32px;
+          background: ${colors.turquoise};
+          color: white;
+          transition: background 0.2s ease-out;
+        }
+
+        ul.versionList > li.active > a,
+        ul.versionList > li > a:hover {
+          background: #48c9b0;
         }
 
         li > a:hover,
         li > a:active {
           color: blue;
-        }
-        li.active > a {
-          background: ${colors.clouds};
-          color: ${colors.midnight_blue};
         }
       `}</style>
     </nav>

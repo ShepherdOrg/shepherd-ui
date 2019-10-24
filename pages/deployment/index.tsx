@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { DeploymentDetails } from '../../components/deploymentDetails'
 import { Sidebar } from '../../components/sidebar'
 import {
@@ -14,6 +14,7 @@ import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
 import omit from 'ramda/src/omit'
 import { fromNullable, Right } from 'data.either'
+import { colors } from '../../src/colors'
 
 export default function DeploymentPage() {
   const router = useRouter()
@@ -42,36 +43,60 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
   const router = useRouter()
   const deployment = useDeployment(deploymentId)
   const versionId = String(router.query.version || '')
+  const deploymentVersion = useDeploymentVersion(versionId)
+  const [hasVersion, setHasVersion] = useState(true)
 
+  useEffect(() => {
+    setHasVersion(true)
+  }, [deploymentId])
   useEffect(() => {
     if (!versionId) {
       deployment
         .chain(x => fromNullable(x.versions && x.versions.items))
         .chain(x => fromNullable(x[0]))
-        .map(version => {
-          router.replace({
-            pathname: router.pathname,
-            query: omit(['reveal'], {
-              ...router.query,
-              version: version.versionId,
-            }),
-          })
-        })
+        .fold(
+          () => {
+            setHasVersion(false)
+          },
+          version => {
+            setHasVersion(true)
+            router.replace({
+              pathname: router.pathname,
+              query: omit(['reveal'], {
+                ...router.query,
+                version: version.versionId,
+              }),
+            })
+          }
+        )
     }
   }, [deployment, versionId])
 
-  const deploymentVersion = useDeploymentVersion(versionId)
-
+  if (!hasVersion) {
+    return (
+      <section className="error">
+        <h1>This deployment has never been deployed</h1>
+        <style jsx>{`
+          section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color ${colors.clouds};
+          }
+        `}</style>
+      </section>
+    )
+  }
   return Right(
-    (deployment: Deployment) => (deploymentVersion: DeploymentVersion) => (
+    (deploymentVersion: DeploymentVersion) => (deployment: Deployment) => (
       <DeploymentDetails
         deployment={deployment}
         deploymentVersion={deploymentVersion}
       />
     )
   )
-    .ap(deployment)
     .ap(deploymentVersion)
+    .ap(deployment)
     .fold(
       x =>
         x === 'loading' ? (
