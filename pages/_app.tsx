@@ -5,24 +5,24 @@ import Auth, { CognitoUser } from '@aws-amplify/auth'
 import { useState, useEffect, useCallback } from 'react'
 import { Login } from '../components/login'
 
-if (process.env.NODE_ENV === 'production') {
-  Auth.configure({
-    // REQUIRED - Amazon Cognito Region
-    region: process.env.COGNITO_REGION,
+// if (process.env.NODE_ENV === 'production') {
+Auth.configure({
+  // REQUIRED - Amazon Cognito Region
+  region: process.env.COGNITO_REGION,
 
-    // OPTIONAL - Amazon Cognito User Pool ID
-    userPoolId: process.env.COGNITO_USER_POOL_ID,
+  // OPTIONAL - Amazon Cognito User Pool ID
+  userPoolId: process.env.COGNITO_USER_POOL_ID,
 
-    // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-    userPoolWebClientId: process.env.COGNITO_WEB_CLIENT_ID,
+  // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+  userPoolWebClientId: process.env.COGNITO_WEB_CLIENT_ID,
 
-    // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-    mandatorySignIn: true,
+  // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+  mandatorySignIn: true,
 
-    // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
-    authenticationFlowType: 'USER_PASSWORD_AUTH',
-  })
-}
+  // OPTIONAL - Manually set the authentication flow type. Default is 'USER_SRP_AUTH'
+  authenticationFlowType: 'USER_PASSWORD_AUTH',
+})
+// }
 
 export default class MyApp extends App {
   render() {
@@ -46,7 +46,7 @@ const RootComponent = ({ Component, pageProps }: any) => {
     }
   }, [])
   const client = apiClient()
-  if (process.env.NODE_ENV === 'production' && !currentUser) {
+  if (!currentUser) {
     return <Login onSignin={checkAuthenticated} />
   }
   return (

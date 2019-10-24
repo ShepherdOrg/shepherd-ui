@@ -4,6 +4,7 @@ import { createAppSyncLink, AUTH_TYPE } from 'aws-appsync/lib/client'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
+import Auth, { CognitoUser } from '@aws-amplify/auth'
 
 let client: ApolloClient<NormalizedCacheObject>
 
@@ -18,8 +19,13 @@ export default () => {
       url: awsconfig.aws_appsync_graphqlEndpoint,
       region: awsconfig.aws_appsync_region,
       auth: {
-        type: AUTH_TYPE.API_KEY,
-        apiKey: awsconfig.aws_appsync_apiKey,
+        type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS as const,
+        jwtToken: async () => {
+          const user = (await Auth.currentAuthenticatedUser()) as CognitoUser
+          const session = user.getSignInUserSession()
+          if (session) return session.getAccessToken().getJwtToken()
+          return ''
+        },
       },
       complexObjectsCredentials: () => null,
     })

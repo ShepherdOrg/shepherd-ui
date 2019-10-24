@@ -8,6 +8,7 @@ import { usePageTransition } from '../utils/usePageTransition'
 import { Curtain } from './curtain'
 import { useCallback, MouseEvent } from 'react'
 import { fromNullable } from 'data.either'
+import { formatDistanceToNow } from 'date-fns/esm'
 
 export const Sidebar = function() {
   const router = useRouter()
@@ -71,7 +72,12 @@ export const Sidebar = function() {
                                         x.versionId
                                       )}`}
                                     >
-                                      <a>{x.versionId}</a>
+                                      <a>
+                                        {formatDistanceToNow(
+                                          new Date(x.deployedAt)
+                                        )}{' '}
+                                        ago
+                                      </a>
                                     </Link>
                                   </li>
                                 )
