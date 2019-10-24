@@ -1,4 +1,9 @@
-import { ListDeploymentsQuery, OnCreateDeploymentSubscription } from '../API'
+import {
+  ListDeploymentsQuery,
+  OnCreateDeploymentSubscription,
+  OnDeleteDeploymentSubscription,
+  OnUpdateDeploymentSubscription,
+} from '../API'
 import { listDeployments } from '../graphql/queries'
 import {
   onCreateDeployment,
@@ -10,10 +15,6 @@ import { useQuery } from '@apollo/react-hooks'
 import { useEffect, useState } from 'react'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
-import {
-  OnDeleteDeploymentSubscription,
-  OnUpdateDeploymentSubscription,
-} from '../../tools/api/dist/src/API'
 
 const LIST_DEPLOYMENTS = gql(listDeployments)
 
