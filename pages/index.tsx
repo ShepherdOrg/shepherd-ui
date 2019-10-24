@@ -8,7 +8,6 @@ import apiClient from '../src/apiClient'
 
 const Home = () => {
   const { entering, leaving } = usePageTransition()
-  const client = useMemo(() => apiClient(), [])
   return (
     <div>
       <Head>

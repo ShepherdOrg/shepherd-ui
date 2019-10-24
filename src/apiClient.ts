@@ -8,11 +8,11 @@ import Auth, { CognitoUser } from '@aws-amplify/auth'
 
 let client: ApolloClient<NormalizedCacheObject>
 
-export default () => {
+export default (token: string) => {
   if (!client) {
     const httpLink = createHttpLink({
       uri: awsconfig.aws_appsync_graphqlEndpoint,
-      headers: { 'X-Api-Key': awsconfig.aws_appsync_apiKey },
+      headers: { Authorization: token },
     })
 
     const awsLink = createAppSyncLink({
@@ -20,12 +20,7 @@ export default () => {
       region: awsconfig.aws_appsync_region,
       auth: {
         type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS as const,
-        jwtToken: async () => {
-          const user = (await Auth.currentAuthenticatedUser()) as CognitoUser
-          const session = user.getSignInUserSession()
-          if (session) return session.getAccessToken().getJwtToken()
-          return ''
-        },
+        jwtToken: token,
       },
       complexObjectsCredentials: () => null,
     })

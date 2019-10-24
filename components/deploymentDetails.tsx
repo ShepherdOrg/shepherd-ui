@@ -1,6 +1,7 @@
 import { GetDeploymentQuery, GetDeploymentVersionQuery } from '../src/API'
 import format from 'date-fns/format'
 import { colors } from '../src/colors'
+import { useEffect, useState } from 'react'
 
 interface Props {
   deployment: NonNullable<GetDeploymentQuery['getDeployment']>
@@ -13,8 +14,13 @@ export const DeploymentDetails = function({
   deployment,
   deploymentVersion,
 }: Props) {
+  const [hidden, setHidden] = useState(true)
+
+  useEffect(() => {
+    setHidden(false)
+  }, [])
   return (
-    <section className="deploymentDetails">
+    <section className={`deploymentDetails ${hidden ? 'hide-opacity' : ''}`}>
       <h1>{deployment.displayName}</h1>
       <aside>
         <ul className="pellets">
@@ -88,6 +94,12 @@ export const DeploymentDetails = function({
           padding: 16px;
           border-radius: 12px;
           margin-top: 48px;
+          transition: opacity 0.2s ease-out;
+          opacity: 1;
+        }
+
+        .deploymentDetails.hide-opacity {
+          opacity: 0;
         }
 
         .pellets > li {

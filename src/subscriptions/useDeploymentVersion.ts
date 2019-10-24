@@ -1,4 +1,3 @@
-import { useSubscription } from './subscribe'
 import {
   GetDeploymentVersionQuery,
   OnUpdateDeploymentVersionSubscription,

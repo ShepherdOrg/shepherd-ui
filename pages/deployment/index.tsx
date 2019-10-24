@@ -13,14 +13,11 @@ import {
 import { usePageTransition } from '../../utils/usePageTransition'
 import { Curtain } from '../../components/curtain'
 import omit from 'ramda/src/omit'
-import apiClient from '../../src/apiClient'
 import { fromNullable, Right } from 'data.either'
 
 export default function DeploymentPage() {
   const router = useRouter()
   const deploymentId = String(router.query.id || '')
-  const client = useMemo(() => apiClient(), [])
-
   const { entering, leaving } = usePageTransition()
 
   return (

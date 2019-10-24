@@ -45,10 +45,14 @@ const RootComponent = ({ Component, pageProps }: any) => {
       checkAuthenticated()
     }
   }, [])
-  const client = apiClient()
   if (!currentUser) {
     return <Login onSignin={checkAuthenticated} />
   }
+  const session = currentUser.getSignInUserSession()
+  const client = apiClient(
+    session ? session.getAccessToken().getJwtToken() : ''
+  )
+
   return (
     <ApolloProvider client={client}>
       <Component {...pageProps} />

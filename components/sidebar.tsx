@@ -3,12 +3,11 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { colors } from '../src/colors'
 import { useDeployment } from '../src/subscriptions/useDeployment'
-import { isSuccess } from '../src/subscriptions/subscribe'
 import { usePageTransition } from '../utils/usePageTransition'
 import { Curtain } from './curtain'
 import { useCallback, MouseEvent } from 'react'
 import { fromNullable } from 'data.either'
-import { formatDistanceToNow } from 'date-fns/esm'
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 export const Sidebar = function() {
   const router = useRouter()
@@ -31,7 +30,7 @@ export const Sidebar = function() {
   const currentDeployment = useDeployment(currentDeploymentId)
 
   return (
-    <nav className="nav">
+    <nav className={`nav ${deploymentList.isLeft ? 'hide-left' : ''}`}>
       <Curtain visible={leaving} />
       <h3 className="navTitle">
         <Link href="/">
@@ -100,6 +99,10 @@ export const Sidebar = function() {
           overflow-y: scroll;
           background: ${colors.midnight_blue};
           color: ${colors.clouds};
+          transition: left 0.2s ease-out;
+        }
+        .nav.hide-left {
+          left: -256px;
         }
         .navTitle {
           font-size: 24px;

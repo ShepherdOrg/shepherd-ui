@@ -6,7 +6,6 @@ import { useQuery } from '@apollo/react-hooks'
 import { useEffect, useState } from 'react'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
-// import { useSubscription } from './subscribe'
 
 const LIST_DEPLOYMENTS = gql(listDeployments)
 
@@ -56,12 +55,3 @@ export const useDeploymentList = () => {
 
   return deploymentList
 }
-// useSubscription<ListDeploymentsQuery, OnCreateDeploymentSubscription>({
-//   query,
-//   subscription,
-//   onSubscriptionMsg(prev, next) {
-//     if (!(prev.listDeployments && prev.listDeployments.items)) return prev
-//     prev.listDeployments.items.push(next.onCreateDeployment)
-//     return prev
-//   },
-// })

@@ -6,8 +6,6 @@ import { useCallback } from 'react'
 import { usePageTransition } from '../utils/usePageTransition'
 import { useRouter } from 'next/router'
 import { Curtain } from './curtain'
-import { toEither } from '../src/subscriptions/subscribe'
-import { fromNullable } from 'data.either'
 
 export const DeploymentList = function() {
   const deploymentList = useDeploymentList()
