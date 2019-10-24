@@ -52,7 +52,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
   }, [])
 
   useEffect(() => {
-    Auth.currentAuthenticatedUser().then(() => completeSignin())
+    Auth.currentSession().then(() => completeSignin())
   }, [])
 
   const handleMFA = useCallback(

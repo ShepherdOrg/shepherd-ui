@@ -4,6 +4,7 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import Auth, { CognitoUser } from '@aws-amplify/auth'
 import { useState, useEffect, useCallback } from 'react'
 import { Login } from 'components/login'
+import { CognitoUserSession } from 'amazon-cognito-identity-js'
 
 // if (process.env.NODE_ENV === 'production') {
 Auth.configure({
@@ -32,26 +33,23 @@ export default class MyApp extends App {
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RootComponent = ({ Component, pageProps }: any) => {
-  const [currentUser, setCurrentUser] = useState<CognitoUser | undefined>(
-    undefined
-  )
+  const [currentSession, setCurrentSession] = useState<
+    CognitoUserSession | undefined
+  >(undefined)
 
   const checkAuthenticated = useCallback(async () => {
-    const user = await Auth.currentAuthenticatedUser()
-    setCurrentUser(user)
+    const user = await Auth.currentSession()
+    setCurrentSession(user)
   }, [])
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') {
       checkAuthenticated()
     }
   }, [])
-  if (!currentUser) {
+  if (!currentSession || !currentSession.isValid()) {
     return <Login onSignin={checkAuthenticated} />
   }
-  const session = currentUser.getSignInUserSession()
-  const client = apiClient(
-    session ? session.getAccessToken().getJwtToken() : ''
-  )
+  const client = apiClient(currentSession.getAccessToken().getJwtToken())
 
   return (
     <ApolloProvider client={client}>
