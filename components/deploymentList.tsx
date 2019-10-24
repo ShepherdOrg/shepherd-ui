@@ -54,7 +54,6 @@ export const DeploymentList = function() {
                   <li key={x.id} className="item">
                     <Link href={`/deployment?id=${x.id}`}>
                       <a
-                        href={`/deployment?id=${x.id}`}
                         onClick={ev => (
                           ev.preventDefault(), navigateToDeployment(x.id)
                         )}
