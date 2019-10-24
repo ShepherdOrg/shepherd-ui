@@ -1,11 +1,13 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
-import { useDeploymentList } from '../src/subscriptions/useDeploymentList'
-import { colors } from '../src/colors'
-import { useCallback } from 'react'
-import { usePageTransition } from '../utils/usePageTransition'
 import { useRouter } from 'next/router'
+import { useCallback } from 'react'
+import { colors } from '../src/colors'
+import { useDeploymentList } from '../src/subscriptions/useDeploymentList'
+import { usePageTransition } from '../utils/usePageTransition'
 import { Curtain } from './curtain'
+import { DeploymentTypeIcon } from './deploymentTypeIcon'
+import { DeployerRoleIcon } from './deployerRoleIcon'
 
 export const DeploymentList = function() {
   const deploymentList = useDeploymentList()
@@ -58,15 +60,15 @@ export const DeploymentList = function() {
                         )}
                       >
                         <section className="center">
-                          <div className="name">{x.displayName || x.id}</div>
+                          <DeploymentTypeIcon
+                            deploymentType={x.deploymentType}
+                          />
+                          <DeployerRoleIcon deployerRole={x.deployerRole} />
                         </section>
                         <section className="grow">
-                          <div className="deployerRole">{x.deployerRole}</div>
-                          <div className="deploymentType">
-                            {x.deploymentType}
-                          </div>
+                          <div className="name">{x.displayName || x.id}</div>
                         </section>
-                        <section>
+                        <section className="info">
                           <div className="time">
                             {formatDistanceToNow(
                               new Date(x.lastDeploymentTimestamp)
@@ -85,6 +87,12 @@ export const DeploymentList = function() {
       <style jsx>{`
         .header {
           font-weight: 600;
+        }
+
+        .deploymentType > img {
+          height: 48px;
+          max-height: 48px;
+          width: auto;
         }
         ul {
           list-style-type: none;
@@ -127,6 +135,14 @@ export const DeploymentList = function() {
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        section.info {
+          min-width: 128px;
+        }
+
+        .name {
+          font-size: 20px;
         }
 
         .grow {

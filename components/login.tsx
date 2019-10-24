@@ -1,4 +1,4 @@
-import { useState, useCallback, useReducer } from 'react'
+import { useState, useCallback, useReducer, useEffect } from 'react'
 import Auth, { CognitoUser } from '@aws-amplify/auth'
 import * as R from 'ramda'
 import { colors } from '../src/colors'
@@ -49,6 +49,10 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
     dispatch(R.assoc('bottom', true))
     await wait(375)
     onSignin()
+  }, [])
+
+  useEffect(() => {
+    Auth.currentAuthenticatedUser().then(() => completeSignin())
   }, [])
 
   const handleMFA = useCallback(
