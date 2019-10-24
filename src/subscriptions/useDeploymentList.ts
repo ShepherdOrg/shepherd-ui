@@ -1,11 +1,19 @@
 import { ListDeploymentsQuery, OnCreateDeploymentSubscription } from '../API'
 import { listDeployments } from '../graphql/queries'
-import { onCreateDeployment } from '../graphql/subscriptions'
+import {
+  onCreateDeployment,
+  onDeleteDeployment,
+  onUpdateDeployment,
+} from '../graphql/subscriptions'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { useEffect, useState } from 'react'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
+import {
+  OnDeleteDeploymentSubscription,
+  OnUpdateDeploymentSubscription,
+} from '../../tools/api/dist/src/API'
 
 const LIST_DEPLOYMENTS = gql(listDeployments)
 
@@ -28,6 +36,28 @@ export const useDeploymentList = () => {
           l.map(list =>
             list.concat([next.subscriptionData.data.onCreateDeployment])
           )
+        )
+        return prev
+      },
+    })
+    subscribeToMore<OnDeleteDeploymentSubscription>({
+      document: gql(onDeleteDeployment),
+      updateQuery(prev, next) {
+        const deletedId =
+          next.subscriptionData.data.onDeleteDeployment &&
+          next.subscriptionData.data.onDeleteDeployment.id
+        setDeploymentList(l =>
+          l.map(list => list.filter(x => x && x.id !== deletedId))
+        )
+        return prev
+      },
+    })
+    subscribeToMore<OnUpdateDeploymentSubscription>({
+      document: gql(onUpdateDeployment),
+      updateQuery(prev, next) {
+        const updated = next.subscriptionData.data.onUpdateDeployment!
+        setDeploymentList(l =>
+          l.map(list => list.map(x => (x.id === updated.id ? updated : x)))
         )
         return prev
       },

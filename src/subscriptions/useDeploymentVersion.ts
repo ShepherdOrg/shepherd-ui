@@ -2,7 +2,7 @@ import {
   GetDeploymentVersionQuery,
   OnUpdateDeploymentVersionSubscription,
 } from '../API'
-import { useMemo, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import gql from 'graphql-tag'
 import { getDeploymentVersion } from '../graphql/queries'
 import { onUpdateDeploymentVersion } from '../graphql/subscriptions'

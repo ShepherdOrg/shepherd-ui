@@ -179,11 +179,7 @@ const compose = <A, B, C>(f: (a: B) => C, g: (b: A) => B) => (x: A) => f(g(x))
 const id = <T>(x: T) => x
 
 const populateData = async () => {
-  const client = createClient(config.aws_appsync_graphqlEndpoint, {
-    fetchOptions: {
-      headers: { 'X-Api-Key': config.aws_appsync_apiKey },
-    },
-  })
+  const client = createClient(config.aws_appsync_graphqlEndpoint)
 
   const deploy = client.upsertDeployment(deployment)
 
