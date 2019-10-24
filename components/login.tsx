@@ -45,6 +45,12 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
     bottom: false,
   })
 
+  const completeSignin = useCallback(async () => {
+    dispatch(R.assoc('bottom', true))
+    await wait(375)
+    onSignin()
+  }, [])
+
   const handleMFA = useCallback(
     async (ev: { preventDefault: () => void }) => {
       ev.preventDefault()
@@ -53,9 +59,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
 
       await Auth.confirmSignIn(user, mfaCode, challengeType)
 
-      dispatch(R.assoc('bottom', true))
-      await wait(375)
-      onSignin()
+      await completeSignin()
     },
     [loginState.user, loginState.mfaCode, loginState.challengeType]
   )
@@ -67,9 +71,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
       const { user, newPassword } = loginState
 
       await Auth.completeNewPassword(user, newPassword, {})
-      dispatch(R.assoc('bottom', true))
-      await wait(375)
-      onSignin()
+      await completeSignin()
     },
     [loginState.user, loginState.mfaCode, loginState.challengeType]
   )
@@ -103,21 +105,18 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
           return
         }
 
-        dispatch(R.assoc('bottom', true))
-
-        await wait(375)
-        onSignin()
+        await completeSignin()
       } catch (error) {}
     },
     [loginState, onSignin]
   )
   return (
     <main>
-      <section>
+      <section className={loginState.bottom ? 'bottom' : ''}>
         <img src="/favicon.svg" />
         <h1>Shepherd</h1>
         {loginState.currentState === 'LOGIN' && (
-          <form className={loginState.bottom ? 'bottom' : ''} onSubmit={signIn}>
+          <form onSubmit={signIn}>
             <label>
               <span className="sr-only">
                 Username:
@@ -214,7 +213,7 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
           transition: margin-top 0.375s ease-out;
         }
 
-        form.bottom {
+        section.bottom {
           margin-top: 100vh;
         }
         label {
