@@ -1,10 +1,9 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import { DeploymentList } from '../components/deploymentList'
-import { colors } from '../src/colors'
-import { usePageTransition } from '../utils/usePageTransition'
-import { Curtain } from '../components/curtain'
-import apiClient from '../src/apiClient'
+import { DeploymentList } from 'components/deploymentList'
+import { colors } from 'utils/colors'
+import { usePageTransition } from 'utils/usePageTransition'
+import { Curtain } from 'components/curtain'
 
 const Home = () => {
   const { entering, leaving } = usePageTransition()
@@ -25,7 +24,7 @@ const Home = () => {
 
       <style jsx>{`
         :global(body) {
-          background: ${colors.wet_asphalt};
+          background: ${colors.wetAsphalt};
           color: ${colors.white};
         }
         :global(*) {

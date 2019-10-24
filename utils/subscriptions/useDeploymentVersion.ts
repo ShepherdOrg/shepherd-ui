@@ -1,17 +1,18 @@
 import {
   GetDeploymentVersionQuery,
   OnUpdateDeploymentVersionSubscription,
-} from '../API'
+} from 'src/API'
 import { useEffect, useState } from 'react'
 import gql from 'graphql-tag'
-import { getDeploymentVersion } from '../graphql/queries'
-import { onUpdateDeploymentVersion } from '../graphql/subscriptions'
+import { getDeploymentVersion } from 'src/graphql/queries'
+import { onUpdateDeploymentVersion } from 'src/graphql/subscriptions'
 import { useQuery } from '@apollo/react-hooks'
 import { ApolloError } from 'apollo-client'
 import { Either, Right, Left } from 'data.either'
 
 const GET_DEPLOYMENT_VERSION = gql(getDeploymentVersion)
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface DeploymentVersion
   extends NonNullable<GetDeploymentVersionQuery['getDeploymentVersion']> {}
 

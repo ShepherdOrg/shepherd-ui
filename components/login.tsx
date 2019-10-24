@@ -1,7 +1,7 @@
-import { useState, useCallback, useReducer, useEffect } from 'react'
+import { useCallback, useReducer, useEffect, Dispatch } from 'react'
 import Auth, { CognitoUser } from '@aws-amplify/auth'
 import * as R from 'ramda'
-import { colors } from '../src/colors'
+import { colors } from 'utils/colors'
 interface LoginState {
   currentState: 'LOGIN' | 'NEW_PASSWORD' | 'MFA'
   error: boolean
@@ -22,7 +22,7 @@ const loginReducer = (
 
 const assocFromEvent = (
   prop: string,
-  dispatch: (fn: (a: any) => any) => void
+  dispatch: Dispatch<(value: LoginState) => LoginState>
 ) =>
   R.compose(
     dispatch,
@@ -110,7 +110,9 @@ export const Login = function({ onSignin }: { onSignin: () => void }) {
         }
 
         await completeSignin()
-      } catch (error) {}
+      } catch (error) {
+        // empty
+      }
     },
     [loginState, onSignin]
   )

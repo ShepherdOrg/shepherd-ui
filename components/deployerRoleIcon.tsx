@@ -1,4 +1,4 @@
-import { DeployerRole } from '../src/API'
+import { DeployerRole } from 'src/API'
 import { FaDownload } from './icons/fa-download'
 import { FaDatabase } from './icons/fa-database'
 import { FaArchway } from './icons/fa-archway'

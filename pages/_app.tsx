@@ -1,9 +1,9 @@
 import App from 'next/app'
-import apiClient from '../src/apiClient'
+import apiClient from 'utils/apiClient'
 import { ApolloProvider } from '@apollo/react-hooks'
 import Auth, { CognitoUser } from '@aws-amplify/auth'
 import { useState, useEffect, useCallback } from 'react'
-import { Login } from '../components/login'
+import { Login } from 'components/login'
 
 // if (process.env.NODE_ENV === 'production') {
 Auth.configure({
@@ -30,7 +30,7 @@ export default class MyApp extends App {
     return <RootComponent Component={Component} pageProps={pageProps} />
   }
 }
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RootComponent = ({ Component, pageProps }: any) => {
   const [currentUser, setCurrentUser] = useState<CognitoUser | undefined>(
     undefined

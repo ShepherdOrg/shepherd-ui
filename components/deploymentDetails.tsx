@@ -1,6 +1,6 @@
-import { GetDeploymentQuery, GetDeploymentVersionQuery } from '../src/API'
+import { GetDeploymentQuery, GetDeploymentVersionQuery } from 'src/API'
 import format from 'date-fns/format'
-import { colors } from '../src/colors'
+import { colors } from 'utils/colors'
 import { useEffect, useState } from 'react'
 
 interface Props {

@@ -1,4 +1,4 @@
-import { colors } from '../../src/colors'
+import { colors } from 'utils/colors'
 
 interface Props {
   color?: string

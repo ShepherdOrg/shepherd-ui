@@ -1,4 +1,4 @@
-import { DeploymentType } from '../src/API'
+import { DeploymentType } from 'src/API'
 import { FaDocker } from './icons/fa-docker'
 import { FaKubernetes } from './icons/kubernetes'
 

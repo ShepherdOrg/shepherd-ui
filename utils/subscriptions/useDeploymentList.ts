@@ -3,13 +3,13 @@ import {
   OnCreateDeploymentSubscription,
   OnDeleteDeploymentSubscription,
   OnUpdateDeploymentSubscription,
-} from '../API'
-import { listDeployments } from '../graphql/queries'
+} from 'src/API'
+import { listDeployments } from 'src/graphql/queries'
 import {
   onCreateDeployment,
   onDeleteDeployment,
   onUpdateDeployment,
-} from '../graphql/subscriptions'
+} from 'src/graphql/subscriptions'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { useEffect, useState } from 'react'
@@ -56,6 +56,7 @@ export const useDeploymentList = () => {
     subscribeToMore<OnUpdateDeploymentSubscription>({
       document: gql(onUpdateDeployment),
       updateQuery(prev, next) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const updated = next.subscriptionData.data.onUpdateDeployment!
         setDeploymentList(l =>
           l.map(list => list.map(x => (x && x.id === updated.id ? updated : x)))

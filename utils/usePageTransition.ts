@@ -5,9 +5,7 @@ const wait = (ms: number) => new Promise(res => setTimeout(res, ms))
 
 export function usePageTransition() {
   const router = useRouter()
-  const initialShouldReveal = Boolean(
-    router && router.query && router.query.hasOwnProperty('reveal')
-  )
+  const initialShouldReveal = Boolean(router.query.reveal)
   const [entering, setShouldEnter] = useState<boolean>(initialShouldReveal)
   const [leaving, setLeaving] = useState(false)
 

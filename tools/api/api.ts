@@ -7,19 +7,17 @@ import {
   GetDeploymentVersionQuery,
   CreateDeploymentVersionMutation,
   UpdateDeploymentVersionMutation,
-} from '../../src/API'
+} from 'src/API'
 import fetch, { RequestInit } from 'node-fetch'
 import {
   createDeployment,
   createDeploymentVersion,
   updateDeployment,
   updateDeploymentVersion,
-} from '../../src/graphql/mutations'
-import { getDeployment, getDeploymentVersion } from '../../src/graphql/queries'
+} from 'src/graphql/mutations'
+import { getDeployment, getDeploymentVersion } from 'src/graphql/queries'
 import tap from 'ramda/src/tap'
 import { GraphQLError as GQLErr } from 'graphql'
-import { ApolloError } from 'apollo-client'
-import assoc from 'ramda/es/assoc'
 
 interface QueryBody {
   query: string

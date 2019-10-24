@@ -1,20 +1,17 @@
 import { useRouter } from 'next/router'
-import { useEffect, useMemo, useState } from 'react'
-import { DeploymentDetails } from '../../components/deploymentDetails'
-import { Sidebar } from '../../components/sidebar'
-import {
-  useDeployment,
-  Deployment,
-} from '../../src/subscriptions/useDeployment'
+import { useEffect, useState } from 'react'
+import { DeploymentDetails } from 'components/deploymentDetails'
+import { Sidebar } from 'components/sidebar'
+import { useDeployment, Deployment } from 'utils/subscriptions/useDeployment'
 import {
   useDeploymentVersion,
   DeploymentVersion,
-} from '../../src/subscriptions/useDeploymentVersion'
-import { usePageTransition } from '../../utils/usePageTransition'
-import { Curtain } from '../../components/curtain'
+} from 'utils/subscriptions/useDeploymentVersion'
+import { usePageTransition } from 'utils/usePageTransition'
+import { Curtain } from 'components/curtain'
 import omit from 'ramda/src/omit'
 import { fromNullable, Right } from 'data.either'
-import { colors } from '../../src/colors'
+import { colors } from 'utils/colors'
 
 export default function DeploymentPage() {
   const router = useRouter()
@@ -106,10 +103,6 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
         ) : (
           <h1>Error!</h1>
         ),
-      id
+      x => x
     )
-}
-
-function id<T>(x: T) {
-  return x
 }

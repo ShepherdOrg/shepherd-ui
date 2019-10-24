@@ -1,7 +1,6 @@
-import { GetDeploymentQuery, OnUpdateDeploymentSubscription } from '../API'
+import { GetDeploymentQuery, OnUpdateDeploymentSubscription } from 'src/API'
 import { useEffect, useState } from 'react'
-import { getDeployment } from '../graphql/queries'
-import { onUpdateDeployment } from '../graphql/subscriptions'
+import { onUpdateDeployment } from 'src/graphql/subscriptions'
 import gql from 'graphql-tag'
 import { useQuery } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
@@ -43,7 +42,7 @@ const GET_DEPLOYMENT = gql`
     }
   }
 `
-
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Deployment
   extends NonNullable<GetDeploymentQuery['getDeployment']> {}
 

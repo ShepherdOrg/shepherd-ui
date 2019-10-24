@@ -1,5 +1,5 @@
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
-import { colors } from '../src/colors'
+import { colors } from 'utils/colors'
 
 interface Props {
   left?: string

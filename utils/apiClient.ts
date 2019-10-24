@@ -1,10 +1,9 @@
 import 'cross-fetch/polyfill'
-import awsconfig from './aws-exports'
+import awsconfig from 'src/aws-exports'
 import { createAppSyncLink, AUTH_TYPE } from 'aws-appsync/lib/client'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
-import Auth, { CognitoUser } from '@aws-amplify/auth'
 
 let client: ApolloClient<NormalizedCacheObject>
 
