@@ -16,6 +16,9 @@ jobs:
           name: Place NPM registry token
           command: echo -e "//registry.npmjs.org/:_authToken=$NPMTOKEN \nscope=shepherdorg \naccess=public" > ~/.npmrc
       - run:
+          name: Install lerna
+          command: yarn install --frozen-lockfile
+      - run:
           name: Bootstrap
           command: lerna bootstrap -- --frozen-lockfile
       - run:
