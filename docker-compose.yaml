@@ -8,11 +8,13 @@ services:
     ports:
       - "5432:5432"
   graphql-engine:
-    image: hasura/graphql-engine:v1.0.0-beta.8
+    image: hasura/graphql-engine:v1.0.0-beta.8.cli-migrations
     ports:
       - "8080:8080"
     depends_on:
       - "postgres"
+    volumes:
+      - ./src/hasura/migrations:/hasura-migrations
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
@@ -20,5 +22,12 @@ services:
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
       # HASURA_GRAPHQL_ADMIN_SECRET: myadminsecretkey
+  web:
+    build: ./src/client
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      HASURA_ENDPOINT_URL: http://localhost:8080
 volumes:
   db_data:

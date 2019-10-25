@@ -17,8 +17,9 @@ export default () => {
         uri: process.env.HASURA_ENDPOINT_URL || '',
         options: {
           reconnect: true,
+          lazy: true,
         },
-      }).concat(link)
+      })
     }
 
     client = new ApolloClient({

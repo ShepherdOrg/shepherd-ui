@@ -896,6 +896,16 @@
   dependencies:
     any-observable "^0.3.0"
 
+"@shepherdorg/hasura-types@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@shepherdorg/hasura-types/-/hasura-types-1.0.1.tgz#c05101379569e1040cb3fc39e759f837be5463ee"
+  integrity sha512-2QDiYDv4/IJ6ZPz/1GohfriZ9zS713RXpiI9m5/gI16IML4FZiA87fF4r0clbTuNnzokZitZDmtEtc/c7rx4xQ==
+  dependencies:
+    "@pongsatt/graphql-schema-typescript" "^1.0.25"
+    graphql "^14.5.8"
+    graphql-cli "^3.0.14"
+    typescript "^3.6.4"
+
 "@types/dotenv@^6.1.1":
   version "6.1.1"
   resolved "https://registry.yarnpkg.com/@types/dotenv/-/dotenv-6.1.1.tgz#f7ce1cc4fe34f0a4373ba99fefa437b0bec54b46"

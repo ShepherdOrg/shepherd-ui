@@ -9,7 +9,10 @@ import { Curtain } from 'components/curtain'
 import omit from 'ramda/src/omit'
 import { fromNullable, Right } from 'data.either'
 import { colors } from 'utils/colors'
-import { GQLdeployment_versions, GQLdeployments } from 'gql/apiTypes'
+import {
+  GQLdeployment_versions,
+  GQLdeployments,
+} from '@shepherdorg/hasura-types'
 
 export default function DeploymentPage() {
   const router = useRouter()

@@ -1,7 +1,10 @@
 import format from 'date-fns/format'
 import { colors } from 'utils/colors'
 import { useEffect, useState } from 'react'
-import { GQLdeployments, GQLdeployment_versions } from 'gql/apiTypes'
+import {
+  GQLdeployments,
+  GQLdeployment_versions,
+} from '@shepherdorg/hasura-types'
 import {
   Configuration,
   Href,

@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build && next export",
+    "build": "next build",
     "start": "next start",
     "gen-types": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts graphql/schema.graphql --output graphql/apiTypes.ts"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
+    "@shepherdorg/hasura-types": "^1.0.1",
     "@types/react-transition-group": "^4.2.3",
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
