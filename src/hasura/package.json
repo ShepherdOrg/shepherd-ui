@@ -5,7 +5,9 @@
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts && tsc -p ."
+    "gen-types": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
+    "build": "rm -rf dist/ && tsc -p .",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "dist"

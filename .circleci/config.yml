@@ -17,13 +17,13 @@ jobs:
           command: echo -e "//registry.npmjs.org/:_authToken=$NPMTOKEN \nscope=shepherdorg \naccess=public" > ~/.npmrc
       - run:
           name: Install lerna
-          command: yarn install --frozen-lockfile
+          command: yarn install --frozen-lockfile --check-files
       - run:
           name: Bootstrap
-          command: ./node_modules/.bin/lerna bootstrap -- --frozen-lockfile
+          command: yarn bootstrap
       - run:
           name: Monorepo build and publish
-          command: ./node_modules/.bin/lerna publish from-git --yes
+          command: yarn run publish from-git --yes
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
