@@ -23,7 +23,7 @@ jobs:
           command: yarn bootstrap
       - run:
           name: Monorepo build and publish
-          command: yarn run publish from-git --yes
+          command: yarn run lerna publish from-git --yes
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
