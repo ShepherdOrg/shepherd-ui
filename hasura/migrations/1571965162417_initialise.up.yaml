@@ -1,0 +1,49 @@
+- args:
+    cascade: false
+    sql: |-
+      create table deployments (
+        id text primary key,
+        display_name text not null,
+        description text not null,
+        deployment_type text not null,
+        deployer_role text not null,
+        db_migration_image text,
+        last_deployment_timestamp timestamp not null,
+        hyperlinks jsonb,
+        env text
+      );
+
+      create table deployment_versions (
+        id text primary key,
+        version text,
+        deployment_id text references deployments(id),
+
+        env text,
+
+        deployed_at timestamp,
+        built_at timestamp,
+
+        last_commits text,
+
+        git_url text,
+        git_branch text,
+        git_hash text,
+        git_commit text,
+
+        docker_image text,
+        docker_image_tag text,
+
+        build_host_name text,
+
+        configuration jsonb,
+        kubernetes_deployment_files jsonb
+      );
+  type: run_sql
+- args:
+    name: deployments
+    schema: public
+  type: add_existing_table_or_view
+- args:
+    name: deployment_versions
+    schema: public
+  type: add_existing_table_or_view

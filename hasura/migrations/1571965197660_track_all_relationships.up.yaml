@@ -1,0 +1,20 @@
+- args:
+    name: deployment
+    table:
+      name: deployment_versions
+      schema: public
+    using:
+      foreign_key_constraint_on: deployment_id
+  type: create_object_relationship
+- args:
+    name: deployment_versions
+    table:
+      name: deployments
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: deployment_id
+        table:
+          name: deployment_versions
+          schema: public
+  type: create_array_relationship

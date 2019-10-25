@@ -1,0 +1,12 @@
+- args:
+    relationship: deployment
+    table:
+      name: deployment_versions
+      schema: public
+  type: drop_relationship
+- args:
+    relationship: deployment_versions
+    table:
+      name: deployments
+      schema: public
+  type: drop_relationship
