@@ -1,0 +1,18 @@
+{
+  "name": "@shepherdOrg/hasura-types",
+  "version": "1.0.0",
+  "main": "dist/apiTypes.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts && tsc -p ."
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@pongsatt/graphql-schema-typescript": "^1.0.25",
+    "graphql": "^14.5.8",
+    "graphql-cli": "^3.0.14",
+    "typescript": "^3.6.4"
+  }
+}

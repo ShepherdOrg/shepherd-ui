@@ -6,7 +6,7 @@ import {
   GQLdeployments_mutation_response,
   GQLdeployment_versions_insert_input,
   GQLdeployment_versions_mutation_response,
-} from '../../gql/apiTypes'
+} from '../client/gql/apiTypes'
 
 interface QueryBody {
   query: string
