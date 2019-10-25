@@ -45,7 +45,7 @@ export const useDeployment = (
     variables: { id: deploymentId },
   })
 
-  if (result.data) {
+  if (result.data && result.data.deployments_by_pk) {
     return Right(result.data.deployments_by_pk)
   }
   if (result.loading) {

@@ -14,7 +14,7 @@ export default () => {
 
     if (typeof WebSocket !== 'undefined') {
       link = new WebSocketLink({
-        uri: `ws://localhost:8080/v1/graphql`,
+        uri: process.env.HASURA_ENDPOINT_URL || '',
         options: {
           reconnect: true,
         },
