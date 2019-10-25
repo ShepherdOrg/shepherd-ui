@@ -20,10 +20,10 @@ jobs:
           command: yarn install --frozen-lockfile
       - run:
           name: Bootstrap
-          command: lerna bootstrap -- --frozen-lockfile
+          command: ./node_modules/.bin/lerna bootstrap -- --frozen-lockfile
       - run:
           name: Monorepo build and publish
-          command: lerna publish from-git --yes
+          command: ./node_modules/.bin/lerna publish from-git --yes
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
