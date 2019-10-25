@@ -6,7 +6,7 @@ import {
   GQLdeployments_mutation_response,
   GQLdeployment_versions_insert_input,
   GQLdeployment_versions_mutation_response,
-} from '../client/gql/apiTypes'
+} from '@shepherdorg/hasura-types'
 
 interface QueryBody {
   query: string
