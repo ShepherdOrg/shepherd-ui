@@ -1,6 +1,6 @@
 {
   "name": "@shepherdorg/hasura-types",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "main": "dist/apiTypes.ts",
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
