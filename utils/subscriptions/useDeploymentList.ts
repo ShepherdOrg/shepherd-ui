@@ -1,89 +1,38 @@
-import {
-  ListDeploymentsQuery,
-  OnCreateDeploymentSubscription,
-  OnDeleteDeploymentSubscription,
-  OnUpdateDeploymentSubscription,
-} from 'src/API'
-import { listDeployments } from 'src/graphql/queries'
-import {
-  onCreateDeployment,
-  onDeleteDeployment,
-  onUpdateDeployment,
-} from 'src/graphql/subscriptions'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
-import { useEffect, useState } from 'react'
+import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
+import { GQLdeployments } from 'gql/apiTypes'
 
-const LIST_DEPLOYMENTS = gql(listDeployments)
-
-export type DeploymentList = NonNullable<
-  NonNullable<ListDeploymentsQuery['listDeployments']>['items']
->
-export const useDeploymentList = () => {
-  const [deploymentList, setDeploymentList] = useState<
-    Either<'loading' | 'Not found' | ApolloError, DeploymentList>
-  >(Left('loading'))
-  const { subscribeToMore, ...result } = useQuery<ListDeploymentsQuery>(
-    LIST_DEPLOYMENTS
-  )
-
-  useEffect(() => {
-    subscribeToMore<OnCreateDeploymentSubscription>({
-      document: gql(onCreateDeployment),
-      updateQuery(prev, next) {
-        setDeploymentList(l =>
-          l.map(list =>
-            list.concat([next.subscriptionData.data.onCreateDeployment])
-          )
-        )
-        return prev
-      },
-    })
-    subscribeToMore<OnDeleteDeploymentSubscription>({
-      document: gql(onDeleteDeployment),
-      updateQuery(prev, next) {
-        const deletedId =
-          next.subscriptionData.data.onDeleteDeployment &&
-          next.subscriptionData.data.onDeleteDeployment.id
-        setDeploymentList(l =>
-          l.map(list => list.filter(x => x && x.id !== deletedId))
-        )
-        return prev
-      },
-    })
-    subscribeToMore<OnUpdateDeploymentSubscription>({
-      document: gql(onUpdateDeployment),
-      updateQuery(prev, next) {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const updated = next.subscriptionData.data.onUpdateDeployment!
-        setDeploymentList(l =>
-          l.map(list => list.map(x => (x && x.id === updated.id ? updated : x)))
-        )
-        return prev
-      },
-    })
-  }, [])
-
-  useEffect(() => {
-    if (
-      result.data &&
-      (result.data.listDeployments == null ||
-        result.data.listDeployments.items == null)
-    ) {
-      setDeploymentList(Left('Not found'))
+const LIST_DEPLOYMENTS = gql`
+  subscription {
+    deployments {
+      id
+      db_migration_image
+      deployer_role
+      deployment_type
+      description
+      display_name
+      env
+      hyperlinks
+      last_deployment_timestamp
     }
-    if (
-      result.data &&
-      result.data.listDeployments &&
-      result.data.listDeployments.items
-    ) {
-      setDeploymentList(Right(result.data.listDeployments.items))
-    } else if (result.error) {
-      setDeploymentList(Left(result.error))
-    }
-  }, [result.data, result.error])
+  }
+`
+export const useDeploymentList = (): Either<
+  string | ApolloError,
+  GQLdeployments[]
+> => {
+  const result = useSubscription(LIST_DEPLOYMENTS)
 
-  return deploymentList
+  if (result.data) {
+    return Right(result.data.deployments)
+  }
+  if (result.loading) {
+    return Left('loading')
+  }
+  if (result.error) {
+    return Left(result.error)
+  }
+  return Left('Not found')
 }

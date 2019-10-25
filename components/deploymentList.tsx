@@ -60,17 +60,17 @@ export const DeploymentList = function() {
                       >
                         <section className="center">
                           <DeploymentTypeIcon
-                            deploymentType={x.deploymentType}
+                            deploymentType={x.deployment_type}
                           />
-                          <DeployerRoleIcon deployerRole={x.deployerRole} />
+                          <DeployerRoleIcon deployerRole={x.deployer_role} />
                         </section>
                         <section className="grow">
-                          <div className="name">{x.displayName || x.id}</div>
+                          <div className="name">{x.display_name || x.id}</div>
                         </section>
                         <section className="info">
                           <div className="time">
                             {formatDistanceToNow(
-                              new Date(x.lastDeploymentTimestamp)
+                              new Date(x.last_deployment_timestamp)
                             )}{' '}
                             ago
                           </div>

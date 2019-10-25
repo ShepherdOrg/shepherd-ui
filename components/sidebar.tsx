@@ -39,29 +39,29 @@ export const Sidebar = function() {
         deployment => (
           <>
             <Link href={`/deployment?id=${deployment.id}`}>
-              <a>{deployment.displayName}</a>
+              <a>{deployment.display_name}</a>
             </Link>
             <ul className="versionList">
               {currentDeployment
-                .chain(x => fromNullable(x.versions && x.versions.items))
+                .chain(x => fromNullable(x.deployment_versions))
                 .map(versions =>
                   versions.map(
                     x =>
                       x && (
                         <li
-                          key={x.versionId}
+                          key={x.id}
                           className={
-                            x.versionId === router.query.version ? 'active' : ''
+                            x.id === router.query.version ? 'active' : ''
                           }
                         >
                           <Link
                             href={`/deployment?id=${encodeURIComponent(
                               deployment.id
-                            )}&version=${encodeURIComponent(x.versionId)}`}
+                            )}&version=${encodeURIComponent(x.id)}`}
                           >
                             <a>
                               {format(
-                                new Date(x.deployedAt),
+                                new Date(x.deployed_at),
                                 'MMM d, yyyy h:mm a'
                               )}{' '}
                             </a>

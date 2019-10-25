@@ -1,37 +1,17 @@
-import {
-  CreateDeploymentInput,
-  CreateDeploymentVersionInput,
-  GetDeploymentQuery,
-  CreateDeploymentMutation,
-  UpdateDeploymentMutation,
-  GetDeploymentVersionQuery,
-  CreateDeploymentVersionMutation,
-  UpdateDeploymentVersionMutation,
-} from 'src/API'
 import fetch, { RequestInit } from 'node-fetch'
-import {
-  createDeployment,
-  createDeploymentVersion,
-  updateDeployment,
-  updateDeploymentVersion,
-} from 'src/graphql/mutations'
-import { getDeployment, getDeploymentVersion } from 'src/graphql/queries'
 import tap from 'ramda/src/tap'
 import { GraphQLError as GQLErr } from 'graphql'
+import {
+  GQLdeployments_insert_input,
+  GQLdeployments_mutation_response,
+  GQLdeployment_versions_insert_input,
+  GQLdeployment_versions_mutation_response,
+} from '../../gql/apiTypes'
 
 interface QueryBody {
   query: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   variables?: { [key: string]: any }
-}
-
-interface UpsertOptions<TInput, TCreate, TGet, TUpdate, TResult> {
-  createAccessor: (value: TCreate) => TResult
-  updateAccessor: (value: TUpdate) => TResult
-  exists: (value: TGet) => boolean
-  keyAccessor: (value: TInput) => { [key: string]: any }
-  getQuery: string
-  createQuery: string
-  updateQuery: string
 }
 
 interface GqlResponse<T> {
@@ -44,18 +24,11 @@ interface Options {
   logger?: typeof console
 }
 
-class GQLException extends Error {
-  public errors: ReadonlyArray<GQLErr>
-  constructor(message: string, errors: ReadonlyArray<GQLErr>) {
-    super(message)
-    this.errors = errors
-  }
-}
-
 export function createClient(
   apiUrl: string,
   { logger = console, fetchOptions = {} }: Options = {}
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const runQuery = <T = any>(body: QueryBody): Promise<GqlResponse<T>> => {
     return fetch(apiUrl, {
       ...fetchOptions,
@@ -70,67 +43,77 @@ export function createClient(
       .then(tap(json => logger.debug(JSON.stringify(json))))
   }
 
-  const upsert = <TInput, TCreate, TGet, TUpdate, TResult>({
-    createAccessor,
-    updateAccessor,
-    exists,
-    keyAccessor,
-    getQuery,
-    createQuery,
-    updateQuery,
-  }: UpsertOptions<TInput, TCreate, TGet, TUpdate, TResult>) => async (
+  const upsert = <TInput, TResult>(createQuery: string) => async (
     input: TInput
   ) => {
-    const variables = keyAccessor(input)
-
-    const currentValue = await runQuery<TGet>({ query: getQuery, variables })
-
-    if (currentValue.data && exists(currentValue.data)) {
-      const updated = await runQuery<TUpdate>({
-        query: updateQuery,
-        variables: { input },
-      })
-      if (updated.errors) {
-        throw new GQLException('Failed to update', updated.errors)
-      }
-      return updated.data && updateAccessor(updated.data)
-    } else {
-      const created = await runQuery<TCreate>({
-        query: createQuery,
-        variables: { input },
-      })
-      if (created.errors) {
-        throw new GQLException('Failed to create', created.errors)
-      }
-      return created.data && createAccessor(created.data)
-    }
+    return runQuery<TResult>({
+      query: createQuery,
+      variables: { input },
+    })
   }
   return {
-    upsertDeployment: upsert({
-      getQuery: getDeployment,
-      createQuery: createDeployment,
-      updateQuery: updateDeployment,
-
-      exists: (x: GetDeploymentQuery) => Boolean(x.getDeployment),
-
-      keyAccessor: (x: CreateDeploymentInput) => ({ id: x.id }),
-      createAccessor: (x: CreateDeploymentMutation) => x.createDeployment,
-      updateAccessor: (x: UpdateDeploymentMutation) => x.updateDeployment,
-    }),
-    upsertDeploymentVersion: upsert({
-      getQuery: getDeploymentVersion,
-      createQuery: createDeploymentVersion,
-      updateQuery: updateDeploymentVersion,
-
-      exists: (x: GetDeploymentVersionQuery) => Boolean(x.getDeploymentVersion),
-
-      keyAccessor: (x: CreateDeploymentVersionInput) => ({
-        versionId: x.versionId,
-      }),
-      createAccessor: (x: CreateDeploymentVersionMutation) =>
-        x.createDeploymentVersion,
-      updateAccessor: (x: UpdateDeploymentVersionMutation) =>
-        x.updateDeploymentVersion,
-    }),
+    upsertDeployment: upsert<
+      GQLdeployments_insert_input[],
+      GQLdeployments_mutation_response
+    >(`
+      mutation InsertDeployment($input: [deployments_insert_input!]!) {
+        insert_deployments(objects: $input, on_conflict: {
+          constraint: deployments_pkey,
+          update_columns: [
+            db_migration_image,
+            deployer_role,
+            deployment_type,
+            description,
+            display_name,
+            env,
+            hyperlinks,
+            last_deployment_timestamp
+          ]})
+        {
+          affected_rows
+          returning {
+            id
+          }
+        }
+      }
+    `),
+    upsertDeploymentVersion: upsert<
+      GQLdeployment_versions_insert_input[],
+      GQLdeployment_versions_mutation_response
+    >(`
+      mutation InsertDeploymentVersion(
+        $input: [deployment_versions_insert_input!]!
+      ) {
+        insert_deployment_versions(
+          objects: $input
+          on_conflict: {
+            constraint: deployment_versions_pkey
+            update_columns: [
+              build_host_name
+              built_at
+              configuration
+              deployed_at
+              deployment_id
+              docker_image
+              docker_image_tag
+              env
+              git_branch
+              git_commit
+              git_hash
+              git_url
+              id
+              kubernetes_deployment_files
+              last_commits
+              version
+            ]
+          }
+        ) {
+          affected_rows
+          returning {
+            id
+          }
+        }
+      }
+    `),
   }
 }

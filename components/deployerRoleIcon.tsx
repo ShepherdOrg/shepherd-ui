@@ -1,21 +1,20 @@
-import { DeployerRole } from 'src/API'
 import { FaDownload } from './icons/fa-download'
 import { FaDatabase } from './icons/fa-database'
 import { FaArchway } from './icons/fa-archway'
 
 interface Props {
-  deployerRole: DeployerRole
+  deployerRole: string
 }
 
 export const DeployerRoleIcon = function({ deployerRole }: Props) {
-  if (deployerRole === DeployerRole.Install) {
+  if (deployerRole === 'Install') {
     return <FaDownload />
   }
-  if (deployerRole === DeployerRole.Migration) {
+  if (deployerRole === 'Migration') {
     return <FaDatabase />
   }
 
-  if (deployerRole === DeployerRole.Infrastructure) {
+  if (deployerRole === 'Infrastructure') {
     return <FaArchway />
   }
 

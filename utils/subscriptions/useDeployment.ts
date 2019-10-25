@@ -1,79 +1,59 @@
-import { GetDeploymentQuery, OnUpdateDeploymentSubscription } from 'src/API'
-import { useEffect, useState } from 'react'
-import { onUpdateDeployment } from 'src/graphql/subscriptions'
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks'
+import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
 
+import { GQLdeployments } from 'gql/apiTypes'
+
 const GET_DEPLOYMENT = gql`
-  query GetDeployment($id: ID!) {
-    getDeployment(id: $id) {
+  subscription GetDeployment($id: String!) {
+    deployments_by_pk(id: $id) {
       id
-      displayName
+      db_migration_image
+      deployer_role
+      deployment_type
       description
-      deploymentType
-      deployerRole
-      dbMigrationImage
-      hyperlinks {
-        title
-        url
-      }
-      lastDeploymentTimestamp
+      display_name
       env
-      versions(sortDirection: DESC) {
-        items {
-          versionId
-          version
-          env
-          deployedAt
-          builtAt
-          lastCommits
-          gitUrl
-          gitBranch
-          gitHash
-          gitCommit
-          dockerImage
-          dockerImageTag
-          buildHostName
-        }
-        nextToken
+      hyperlinks
+      last_deployment_timestamp
+      deployment_versions {
+        build_host_name
+        built_at
+        configuration
+        deployed_at
+        deployment_id
+        docker_image
+        docker_image_tag
+        env
+        git_branch
+        git_commit
+        git_hash
+        git_url
+        id
+        kubernetes_deployment_files
+        last_commits
+        version
       }
     }
   }
 `
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface Deployment
-  extends NonNullable<GetDeploymentQuery['getDeployment']> {}
+export const useDeployment = (
+  deploymentId: string
+): Either<string | ApolloError, GQLdeployments> => {
+  const result = useSubscription(GET_DEPLOYMENT, {
+    variables: { id: deploymentId },
+  })
 
-export const useDeployment = (deploymentId: string) => {
-  const [deployment, setDeployment] = useState<
-    Either<'loading' | 'Not found' | ApolloError, Deployment>
-  >(Left('loading'))
-  const { subscribeToMore, ...result } = useQuery<GetDeploymentQuery>(
-    GET_DEPLOYMENT,
-    { variables: { id: deploymentId } }
-  )
+  if (result.data) {
+    return Right(result.data.deployments_by_pk)
+  }
+  if (result.loading) {
+    return Left('loading')
+  }
+  if (result.error) {
+    return Left(result.error)
+  }
 
-  useEffect(() => {
-    subscribeToMore<OnUpdateDeploymentSubscription>({
-      document: gql(onUpdateDeployment),
-      updateQuery(prev, next) {
-        if (next.subscriptionData.data.onUpdateDeployment) {
-          setDeployment(Right(next.subscriptionData.data.onUpdateDeployment))
-        }
-        return prev
-      },
-    })
-  }, [])
-
-  useEffect(() => {
-    if (result.data && result.data.getDeployment) {
-      setDeployment(Right(result.data.getDeployment))
-    } else if (result.error) {
-      setDeployment(Left(result.error))
-    }
-  }, [result.data, result.error])
-
-  return deployment
+  return Left('not found')
 }

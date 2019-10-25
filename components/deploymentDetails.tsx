@@ -1,13 +1,16 @@
-import { GetDeploymentQuery, GetDeploymentVersionQuery } from 'src/API'
 import format from 'date-fns/format'
 import { colors } from 'utils/colors'
 import { useEffect, useState } from 'react'
+import { GQLdeployments, GQLdeployment_versions } from 'gql/apiTypes'
+import {
+  Configuration,
+  Href,
+  KubernetesConfigurationFile,
+} from 'gql/customTypes'
 
 interface Props {
-  deployment: NonNullable<GetDeploymentQuery['getDeployment']>
-  deploymentVersion: NonNullable<
-    GetDeploymentVersionQuery['getDeploymentVersion']
-  >
+  deployment: GQLdeployments
+  deploymentVersion: GQLdeployment_versions
 }
 
 export const DeploymentDetails = function({
@@ -21,15 +24,15 @@ export const DeploymentDetails = function({
   }, [])
   return (
     <section className={`deploymentDetails ${hidden ? 'hide-opacity' : ''}`}>
-      <h1>{deployment.displayName}</h1>
+      <h1>{deployment.display_name}</h1>
       <aside>
         <ul className="pellets">
           <li>version: {deploymentVersion.version}</li>
-          <li>docker tag: {deploymentVersion.dockerImageTag}</li>
+          <li>docker tag: {deploymentVersion.docker_image_tag}</li>
           <li>
             Deployed at:{' '}
             {format(
-              new Date(deploymentVersion.deployedAt),
+              new Date(deploymentVersion.deployed_at),
               'MMM d, yyyy h:mm a'
             )}
           </li>
@@ -39,25 +42,26 @@ export const DeploymentDetails = function({
         <h3>Deployment information</h3>
         <h4>Kubernetes deployment files</h4>
         <ul>
-          {deploymentVersion.kubernetesDeploymentFiles.map(
-            x => x && <li key={x.path}>{x.path}</li>
+          {deploymentVersion.kubernetes_deployment_files.map(
+            (x: KubernetesConfigurationFile) =>
+              x && <li key={x.path}>{x.path}</li>
           )}
         </ul>
         <h4>Last 5 commits</h4>
         <div className="codeContainer">
-          <code>{deploymentVersion.lastCommits}</code>
+          <code>{deploymentVersion.last_commits}</code>
         </div>
         <dl>
           <dt>Git commit:</dt>
           <dd>
-            {deploymentVersion.gitUrl}/{deploymentVersion.gitHash}
+            {deploymentVersion.git_url}/{deploymentVersion.git_hash}
           </dd>
         </dl>
       </section>
       <section>
         <h3>Configuration</h3>
         <ul>
-          {(deploymentVersion.configuration || []).map(x => (
+          {(deploymentVersion.configuration || []).map((x: Configuration) => (
             <li className={x.isSecret ? 'secret' : ''} key={x.key}>
               {x.key}={JSON.stringify(x.value)}
             </li>
@@ -68,7 +72,7 @@ export const DeploymentDetails = function({
         <h3>Links</h3>
         <ul>
           {deployment.hyperlinks.map(
-            x =>
+            (x: Href) =>
               x && (
                 <li key={x.url}>
                   <a href={x.url} target="__blank">

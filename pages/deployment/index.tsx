@@ -2,16 +2,14 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { DeploymentDetails } from 'components/deploymentDetails'
 import { Sidebar } from 'components/sidebar'
-import { useDeployment, Deployment } from 'utils/subscriptions/useDeployment'
-import {
-  useDeploymentVersion,
-  DeploymentVersion,
-} from 'utils/subscriptions/useDeploymentVersion'
+import { useDeployment } from 'utils/subscriptions/useDeployment'
+import { useDeploymentVersion } from 'utils/subscriptions/useDeploymentVersion'
 import { usePageTransition } from 'utils/usePageTransition'
 import { Curtain } from 'components/curtain'
 import omit from 'ramda/src/omit'
 import { fromNullable, Right } from 'data.either'
 import { colors } from 'utils/colors'
+import { GQLdeployment_versions, GQLdeployments } from 'gql/apiTypes'
 
 export default function DeploymentPage() {
   const router = useRouter()
@@ -49,7 +47,7 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
   useEffect(() => {
     if (!versionId) {
       deployment
-        .chain(x => fromNullable(x.versions && x.versions.items))
+        .chain(x => fromNullable(x.deployment_versions))
         .chain(x => fromNullable(x[0]))
         .fold(
           () => {
@@ -61,7 +59,7 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
               pathname: router.pathname,
               query: omit(['reveal'], {
                 ...router.query,
-                version: version.versionId,
+                version: version.id,
               }),
             })
           }
@@ -85,7 +83,9 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
     )
   }
   return Right(
-    (deploymentVersion: DeploymentVersion) => (deployment: Deployment) => (
+    (deploymentVersion: GQLdeployment_versions) => (
+      deployment: GQLdeployments
+    ) => (
       <DeploymentDetails
         deployment={deployment}
         deploymentVersion={deploymentVersion}

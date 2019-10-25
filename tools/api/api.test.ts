@@ -1,19 +1,18 @@
-import config from './src/aws-exports'
+import { createClient } from './api'
 import {
-  CreateDeploymentInput,
-  DeployerRole,
-  DeploymentType,
-  CreateDeploymentVersionInput,
-} from './src/API'
-import { createClient } from './tools/api/api'
+  GQLdeployments_insert_input,
+  GQLdeployment_versions_insert_input,
+} from '../../gql/apiTypes'
 
-const deployment: CreateDeploymentInput = {
+const api = createClient('http://localhost:8080/v1/graphql')
+const deployment: GQLdeployments_insert_input = {
   id: 'dev-images-fluentd2',
-  displayName: 'Fluentd aws appender 2',
-  lastDeploymentTimestamp: '2019-10-17T16:02:20.500Z',
+  display_name: 'Fluentd aws appender 2',
+  last_deployment_timestamp: '2019-10-17T16:02:20.500Z',
   env: 'dev',
-  deployerRole: DeployerRole.Install,
-  deploymentType: DeploymentType.Kubernetes,
+  description: '',
+  deployer_role: 'Install',
+  deployment_type: 'Kubernetes',
   hyperlinks: [
     {
       url: 'http://jenkins.oryggi.tm.is:8082/job/tm-dockerimages/',
@@ -26,16 +25,16 @@ const deployment: CreateDeploymentInput = {
   ],
 }
 
-const deploymentVersion: CreateDeploymentVersionInput = {
-  versionId: 'dev-dev-images-fluentd-1.0.0-2019-10-17T16:02:20.500Z',
+const deploymentVersion: GQLdeployment_versions_insert_input = {
+  id: 'dev-dev-images-fluentd-1.0.0-2019-10-17T16:02:20.500Z',
   version: '1.0.0',
   env: 'dev',
 
-  builtAt: '2019-10-16T16:02:20.500Z',
-  deployedAt: '2019-10-17T16:02:20.500Z',
-  deploymentVersionDeploymentId: deployment.id,
+  built_at: '2019-10-16T16:02:20.500Z',
+  deployed_at: '2019-10-17T16:02:20.500Z',
+  deployment_id: deployment.id,
 
-  lastCommits: `Mon, 8 Jul 2019 15:09:16 +0000 by Guðlaugur S. Egilsson. --- Read from head is probably necessary to ensure reading of logs from start of container. 
+  last_commits: `Mon, 8 Jul 2019 15:09:16 +0000 by Guðlaugur S. Egilsson. --- Read from head is probably necessary to ensure reading of logs from start of container. 
   
 Wed, 12 Dec 2018 16:38:52 +0000 by Guðlaugur S. Egilsson. --- No need to store original log entry in this case, only one source for controlling json format. Moving fields to root of json object for same reason.
 
@@ -45,18 +44,18 @@ Wed, 12 Dec 2018 14:42:18 +0000 by Guðlaugur S. Egilsson. --- Change log format
 
 Fri, 24 Aug 2018 10:08:54 +0000 by Guðlaugur S. Egilsson. --- Use docker image tag with git hash to ensure redeployment.
 `,
-  gitUrl: 'git@gitlab.tm.is:tmdev/tm-docker-images.git',
-  gitBranch: 'HEAD',
-  gitHash: '2b48d1cef5c101ebcf3cd64dc1dbe12b1af1bbc9',
-  gitCommit: '2b48d1cef5c101ebcf3cd64dc1dbe12b1af1bbc9',
-  dockerImage: 'isrvkbuild02:5000/fluentd',
-  dockerImageTag: 'v1.1.2-g-2b48d1c',
-  buildHostName: 'isrvkbuild02',
+  git_url: 'git@gitlab.tm.is:tmdev/tm-docker-images.git',
+  git_branch: 'HEAD',
+  git_hash: '2b48d1cef5c101ebcf3cd64dc1dbe12b1af1bbc9',
+  git_commit: '2b48d1cef5c101ebcf3cd64dc1dbe12b1af1bbc9',
+  docker_image: 'isrvkbuild02:5000/fluentd',
+  docker_image_tag: 'v1.1.2-g-2b48d1c',
+  build_host_name: 'isrvkbuild02',
   configuration: [
     { key: 'LOG_FORMAT', value: '%s %s %s', isSecret: false },
     { key: 'SUPER_SECRET', value: '--REDACTED--', isSecret: true },
   ],
-  kubernetesDeploymentFiles: [
+  kubernetes_deployment_files: [
     {
       path: './deployment/fluentd.kube.yaml',
       content: `
@@ -175,25 +174,9 @@ Fri, 24 Aug 2018 10:08:54 +0000 by Guðlaugur S. Egilsson. --- Use docker image 
   ],
 }
 
-const compose = <A, B, C>(f: (a: B) => C, g: (b: A) => B) => (x: A) => f(g(x))
-const id = <T>(x: T) => x
-
-const populateData = async () => {
-  const client = createClient(config.aws_appsync_graphqlEndpoint)
-
-  const deploy = client.upsertDeployment(deployment)
-
-  const version = client.upsertDeploymentVersion(deploymentVersion)
-
-  // @ts-ignore
-  return await Promise.all([deploy, version])
+async function main() {
+  await api.upsertDeployment([deployment])
+  await api.upsertDeploymentVersion([deploymentVersion])
 }
 
-populateData()
-  .catch(id)
-  .then(
-    compose(
-      console.log,
-      JSON.stringify
-    )
-  )
+main().then(console.log, console.error)

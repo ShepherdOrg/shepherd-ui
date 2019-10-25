@@ -1,31 +1,28 @@
 import 'cross-fetch/polyfill'
-import awsconfig from 'src/aws-exports'
-import { createAppSyncLink, AUTH_TYPE } from 'aws-appsync/lib/client'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
+import { WebSocketLink } from 'apollo-link-ws'
 import { InMemoryCache, NormalizedCacheObject } from 'apollo-cache-inmemory'
 
 let client: ApolloClient<NormalizedCacheObject>
 
-export default (token: string) => {
+export default () => {
   if (!client) {
-    const httpLink = createHttpLink({
-      uri: awsconfig.aws_appsync_graphqlEndpoint,
-      headers: { Authorization: token },
+    let link = createHttpLink({
+      uri: 'http://localhost:8080/v1/graphql',
     })
 
-    const awsLink = createAppSyncLink({
-      url: awsconfig.aws_appsync_graphqlEndpoint,
-      region: awsconfig.aws_appsync_region,
-      auth: {
-        type: AUTH_TYPE.AMAZON_COGNITO_USER_POOLS as const,
-        jwtToken: token,
-      },
-      complexObjectsCredentials: () => null,
-    })
+    if (typeof WebSocket !== 'undefined') {
+      link = new WebSocketLink({
+        uri: `ws://localhost:8080/v1/graphql`,
+        options: {
+          reconnect: true,
+        },
+      }).concat(link)
+    }
 
     client = new ApolloClient({
-      link: awsLink.concat(httpLink),
+      link,
       cache: new InMemoryCache(),
     })
   }

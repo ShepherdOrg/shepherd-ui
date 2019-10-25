@@ -1,0 +1,14 @@
+projects:
+  shepherd:
+    schemaPath: graphql/schema.graphql
+    extensions:
+      endpoints:
+        default:
+          url: "http://localhost:8080/v1/graphql"
+          subscription: "ws://localhost:8080/v1/graphql"
+      codegen:
+        generator: typegen
+        language: typescript
+        input: graphql/*.ts
+        output:
+          typings: graphql/apiTypes.ts

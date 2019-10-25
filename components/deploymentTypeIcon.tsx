@@ -1,16 +1,15 @@
-import { DeploymentType } from 'src/API'
 import { FaDocker } from './icons/fa-docker'
 import { FaKubernetes } from './icons/kubernetes'
 
 interface Props {
-  deploymentType: DeploymentType
+  deploymentType: string
 }
 
 export const DeploymentTypeIcon = function({ deploymentType }: Props) {
-  if (deploymentType === DeploymentType.Deployer) {
+  if (deploymentType === 'Deployer') {
     return <FaDocker />
   }
-  if (deploymentType === DeploymentType.Kubernetes) {
+  if (deploymentType === 'Kubernetes') {
     return <FaKubernetes />
   }
 

@@ -1,0 +1,1127 @@
+# source: http://localhost:8080/v1/graphql
+# timestamp: Thu Oct 24 2019 17:09:53 GMT+0000 (Greenwich Mean Time)
+
+schema {
+  query: query_root
+  mutation: mutation_root
+  subscription: subscription_root
+}
+
+"""
+columns and relationships of "deployment_versions"
+"""
+type deployment_versions {
+  build_host_name: String
+  built_at: timestamp
+  configuration(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  deployed_at: timestamp
+
+  """An object relationship"""
+  deployment: deployments
+  deployment_id: String
+  docker_image: String
+  docker_image_tag: String
+  env: String
+  git_branch: String
+  git_commit: String
+  git_hash: String
+  git_url: String
+  id: String!
+  kubernetes_deployment_files(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  last_commits: String
+  version: String
+}
+
+"""
+aggregated selection of "deployment_versions"
+"""
+type deployment_versions_aggregate {
+  aggregate: deployment_versions_aggregate_fields
+  nodes: [deployment_versions!]!
+}
+
+"""
+aggregate fields of "deployment_versions"
+"""
+type deployment_versions_aggregate_fields {
+  count(columns: [deployment_versions_select_column!], distinct: Boolean): Int
+  max: deployment_versions_max_fields
+  min: deployment_versions_min_fields
+}
+
+"""
+order by aggregate values of table "deployment_versions"
+"""
+input deployment_versions_aggregate_order_by {
+  count: order_by
+  max: deployment_versions_max_order_by
+  min: deployment_versions_min_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input deployment_versions_append_input {
+  configuration: jsonb
+  kubernetes_deployment_files: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "deployment_versions"
+"""
+input deployment_versions_arr_rel_insert_input {
+  data: [deployment_versions_insert_input!]!
+  on_conflict: deployment_versions_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "deployment_versions". All fields are combined with a logical 'AND'.
+"""
+input deployment_versions_bool_exp {
+  _and: [deployment_versions_bool_exp]
+  _not: deployment_versions_bool_exp
+  _or: [deployment_versions_bool_exp]
+  build_host_name: String_comparison_exp
+  built_at: timestamp_comparison_exp
+  configuration: jsonb_comparison_exp
+  deployed_at: timestamp_comparison_exp
+  deployment: deployments_bool_exp
+  deployment_id: String_comparison_exp
+  docker_image: String_comparison_exp
+  docker_image_tag: String_comparison_exp
+  env: String_comparison_exp
+  git_branch: String_comparison_exp
+  git_commit: String_comparison_exp
+  git_hash: String_comparison_exp
+  git_url: String_comparison_exp
+  id: String_comparison_exp
+  kubernetes_deployment_files: jsonb_comparison_exp
+  last_commits: String_comparison_exp
+  version: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "deployment_versions"
+"""
+enum deployment_versions_constraint {
+  """unique or primary key constraint"""
+  deployment_versions_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input deployment_versions_delete_at_path_input {
+  configuration: [String]
+  kubernetes_deployment_files: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input deployment_versions_delete_elem_input {
+  configuration: Int
+  kubernetes_deployment_files: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input deployment_versions_delete_key_input {
+  configuration: String
+  kubernetes_deployment_files: String
+}
+
+"""
+input type for inserting data into table "deployment_versions"
+"""
+input deployment_versions_insert_input {
+  build_host_name: String
+  built_at: timestamp
+  configuration: jsonb
+  deployed_at: timestamp
+  deployment: deployments_obj_rel_insert_input
+  deployment_id: String
+  docker_image: String
+  docker_image_tag: String
+  env: String
+  git_branch: String
+  git_commit: String
+  git_hash: String
+  git_url: String
+  id: String
+  kubernetes_deployment_files: jsonb
+  last_commits: String
+  version: String
+}
+
+"""aggregate max on columns"""
+type deployment_versions_max_fields {
+  build_host_name: String
+  deployment_id: String
+  docker_image: String
+  docker_image_tag: String
+  env: String
+  git_branch: String
+  git_commit: String
+  git_hash: String
+  git_url: String
+  id: String
+  last_commits: String
+  version: String
+}
+
+"""
+order by max() on columns of table "deployment_versions"
+"""
+input deployment_versions_max_order_by {
+  build_host_name: order_by
+  deployment_id: order_by
+  docker_image: order_by
+  docker_image_tag: order_by
+  env: order_by
+  git_branch: order_by
+  git_commit: order_by
+  git_hash: order_by
+  git_url: order_by
+  id: order_by
+  last_commits: order_by
+  version: order_by
+}
+
+"""aggregate min on columns"""
+type deployment_versions_min_fields {
+  build_host_name: String
+  deployment_id: String
+  docker_image: String
+  docker_image_tag: String
+  env: String
+  git_branch: String
+  git_commit: String
+  git_hash: String
+  git_url: String
+  id: String
+  last_commits: String
+  version: String
+}
+
+"""
+order by min() on columns of table "deployment_versions"
+"""
+input deployment_versions_min_order_by {
+  build_host_name: order_by
+  deployment_id: order_by
+  docker_image: order_by
+  docker_image_tag: order_by
+  env: order_by
+  git_branch: order_by
+  git_commit: order_by
+  git_hash: order_by
+  git_url: order_by
+  id: order_by
+  last_commits: order_by
+  version: order_by
+}
+
+"""
+response of any mutation on the table "deployment_versions"
+"""
+type deployment_versions_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [deployment_versions!]!
+}
+
+"""
+input type for inserting object relation for remote table "deployment_versions"
+"""
+input deployment_versions_obj_rel_insert_input {
+  data: deployment_versions_insert_input!
+  on_conflict: deployment_versions_on_conflict
+}
+
+"""
+on conflict condition type for table "deployment_versions"
+"""
+input deployment_versions_on_conflict {
+  constraint: deployment_versions_constraint!
+  update_columns: [deployment_versions_update_column!]!
+  where: deployment_versions_bool_exp
+}
+
+"""
+ordering options when selecting data from "deployment_versions"
+"""
+input deployment_versions_order_by {
+  build_host_name: order_by
+  built_at: order_by
+  configuration: order_by
+  deployed_at: order_by
+  deployment: deployments_order_by
+  deployment_id: order_by
+  docker_image: order_by
+  docker_image_tag: order_by
+  env: order_by
+  git_branch: order_by
+  git_commit: order_by
+  git_hash: order_by
+  git_url: order_by
+  id: order_by
+  kubernetes_deployment_files: order_by
+  last_commits: order_by
+  version: order_by
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input deployment_versions_prepend_input {
+  configuration: jsonb
+  kubernetes_deployment_files: jsonb
+}
+
+"""
+select columns of table "deployment_versions"
+"""
+enum deployment_versions_select_column {
+  """column name"""
+  build_host_name
+
+  """column name"""
+  built_at
+
+  """column name"""
+  configuration
+
+  """column name"""
+  deployed_at
+
+  """column name"""
+  deployment_id
+
+  """column name"""
+  docker_image
+
+  """column name"""
+  docker_image_tag
+
+  """column name"""
+  env
+
+  """column name"""
+  git_branch
+
+  """column name"""
+  git_commit
+
+  """column name"""
+  git_hash
+
+  """column name"""
+  git_url
+
+  """column name"""
+  id
+
+  """column name"""
+  kubernetes_deployment_files
+
+  """column name"""
+  last_commits
+
+  """column name"""
+  version
+}
+
+"""
+input type for updating data in table "deployment_versions"
+"""
+input deployment_versions_set_input {
+  build_host_name: String
+  built_at: timestamp
+  configuration: jsonb
+  deployed_at: timestamp
+  deployment_id: String
+  docker_image: String
+  docker_image_tag: String
+  env: String
+  git_branch: String
+  git_commit: String
+  git_hash: String
+  git_url: String
+  id: String
+  kubernetes_deployment_files: jsonb
+  last_commits: String
+  version: String
+}
+
+"""
+update columns of table "deployment_versions"
+"""
+enum deployment_versions_update_column {
+  """column name"""
+  build_host_name
+
+  """column name"""
+  built_at
+
+  """column name"""
+  configuration
+
+  """column name"""
+  deployed_at
+
+  """column name"""
+  deployment_id
+
+  """column name"""
+  docker_image
+
+  """column name"""
+  docker_image_tag
+
+  """column name"""
+  env
+
+  """column name"""
+  git_branch
+
+  """column name"""
+  git_commit
+
+  """column name"""
+  git_hash
+
+  """column name"""
+  git_url
+
+  """column name"""
+  id
+
+  """column name"""
+  kubernetes_deployment_files
+
+  """column name"""
+  last_commits
+
+  """column name"""
+  version
+}
+
+"""
+columns and relationships of "deployments"
+"""
+type deployments {
+  db_migration_image: String
+  deployer_role: String!
+  deployment_type: String!
+
+  """An array relationship"""
+  deployment_versions(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): [deployment_versions!]!
+
+  """An aggregated array relationship"""
+  deployment_versions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): deployment_versions_aggregate!
+  description: String!
+  display_name: String!
+  env: String
+  hyperlinks(
+    """JSON select path"""
+    path: String
+  ): jsonb
+  id: String!
+  last_deployment_imestamp: timestamp!
+}
+
+"""
+aggregated selection of "deployments"
+"""
+type deployments_aggregate {
+  aggregate: deployments_aggregate_fields
+  nodes: [deployments!]!
+}
+
+"""
+aggregate fields of "deployments"
+"""
+type deployments_aggregate_fields {
+  count(columns: [deployments_select_column!], distinct: Boolean): Int
+  max: deployments_max_fields
+  min: deployments_min_fields
+}
+
+"""
+order by aggregate values of table "deployments"
+"""
+input deployments_aggregate_order_by {
+  count: order_by
+  max: deployments_max_order_by
+  min: deployments_min_order_by
+}
+
+"""append existing jsonb value of filtered columns with new jsonb value"""
+input deployments_append_input {
+  hyperlinks: jsonb
+}
+
+"""
+input type for inserting array relation for remote table "deployments"
+"""
+input deployments_arr_rel_insert_input {
+  data: [deployments_insert_input!]!
+  on_conflict: deployments_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "deployments". All fields are combined with a logical 'AND'.
+"""
+input deployments_bool_exp {
+  _and: [deployments_bool_exp]
+  _not: deployments_bool_exp
+  _or: [deployments_bool_exp]
+  db_migration_image: String_comparison_exp
+  deployer_role: String_comparison_exp
+  deployment_type: String_comparison_exp
+  deployment_versions: deployment_versions_bool_exp
+  description: String_comparison_exp
+  display_name: String_comparison_exp
+  env: String_comparison_exp
+  hyperlinks: jsonb_comparison_exp
+  id: String_comparison_exp
+  last_deployment_imestamp: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "deployments"
+"""
+enum deployments_constraint {
+  """unique or primary key constraint"""
+  deployments_pkey
+}
+
+"""
+delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+"""
+input deployments_delete_at_path_input {
+  hyperlinks: [String]
+}
+
+"""
+delete the array element with specified index (negative integers count from the
+end). throws an error if top level container is not an array
+"""
+input deployments_delete_elem_input {
+  hyperlinks: Int
+}
+
+"""
+delete key/value pair or string element. key/value pairs are matched based on their key value
+"""
+input deployments_delete_key_input {
+  hyperlinks: String
+}
+
+"""
+input type for inserting data into table "deployments"
+"""
+input deployments_insert_input {
+  db_migration_image: String
+  deployer_role: String
+  deployment_type: String
+  deployment_versions: deployment_versions_arr_rel_insert_input
+  description: String
+  display_name: String
+  env: String
+  hyperlinks: jsonb
+  id: String
+  last_deployment_imestamp: timestamp
+}
+
+"""aggregate max on columns"""
+type deployments_max_fields {
+  db_migration_image: String
+  deployer_role: String
+  deployment_type: String
+  description: String
+  display_name: String
+  env: String
+  id: String
+}
+
+"""
+order by max() on columns of table "deployments"
+"""
+input deployments_max_order_by {
+  db_migration_image: order_by
+  deployer_role: order_by
+  deployment_type: order_by
+  description: order_by
+  display_name: order_by
+  env: order_by
+  id: order_by
+}
+
+"""aggregate min on columns"""
+type deployments_min_fields {
+  db_migration_image: String
+  deployer_role: String
+  deployment_type: String
+  description: String
+  display_name: String
+  env: String
+  id: String
+}
+
+"""
+order by min() on columns of table "deployments"
+"""
+input deployments_min_order_by {
+  db_migration_image: order_by
+  deployer_role: order_by
+  deployment_type: order_by
+  description: order_by
+  display_name: order_by
+  env: order_by
+  id: order_by
+}
+
+"""
+response of any mutation on the table "deployments"
+"""
+type deployments_mutation_response {
+  """number of affected rows by the mutation"""
+  affected_rows: Int!
+
+  """data of the affected rows by the mutation"""
+  returning: [deployments!]!
+}
+
+"""
+input type for inserting object relation for remote table "deployments"
+"""
+input deployments_obj_rel_insert_input {
+  data: deployments_insert_input!
+  on_conflict: deployments_on_conflict
+}
+
+"""
+on conflict condition type for table "deployments"
+"""
+input deployments_on_conflict {
+  constraint: deployments_constraint!
+  update_columns: [deployments_update_column!]!
+  where: deployments_bool_exp
+}
+
+"""
+ordering options when selecting data from "deployments"
+"""
+input deployments_order_by {
+  db_migration_image: order_by
+  deployer_role: order_by
+  deployment_type: order_by
+  deployment_versions_aggregate: deployment_versions_aggregate_order_by
+  description: order_by
+  display_name: order_by
+  env: order_by
+  hyperlinks: order_by
+  id: order_by
+  last_deployment_imestamp: order_by
+}
+
+"""prepend existing jsonb value of filtered columns with new jsonb value"""
+input deployments_prepend_input {
+  hyperlinks: jsonb
+}
+
+"""
+select columns of table "deployments"
+"""
+enum deployments_select_column {
+  """column name"""
+  db_migration_image
+
+  """column name"""
+  deployer_role
+
+  """column name"""
+  deployment_type
+
+  """column name"""
+  description
+
+  """column name"""
+  display_name
+
+  """column name"""
+  env
+
+  """column name"""
+  hyperlinks
+
+  """column name"""
+  id
+
+  """column name"""
+  last_deployment_imestamp
+}
+
+"""
+input type for updating data in table "deployments"
+"""
+input deployments_set_input {
+  db_migration_image: String
+  deployer_role: String
+  deployment_type: String
+  description: String
+  display_name: String
+  env: String
+  hyperlinks: jsonb
+  id: String
+  last_deployment_imestamp: timestamp
+}
+
+"""
+update columns of table "deployments"
+"""
+enum deployments_update_column {
+  """column name"""
+  db_migration_image
+
+  """column name"""
+  deployer_role
+
+  """column name"""
+  deployment_type
+
+  """column name"""
+  description
+
+  """column name"""
+  display_name
+
+  """column name"""
+  env
+
+  """column name"""
+  hyperlinks
+
+  """column name"""
+  id
+
+  """column name"""
+  last_deployment_imestamp
+}
+
+scalar jsonb
+
+"""
+expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
+"""
+input jsonb_comparison_exp {
+  """is the column contained in the given json value"""
+  _contained_in: jsonb
+
+  """does the column contain the given json value at the top level"""
+  _contains: jsonb
+  _eq: jsonb
+  _gt: jsonb
+  _gte: jsonb
+
+  """does the string exist as a top-level key in the column"""
+  _has_key: String
+
+  """do all of these strings exist as top-level keys in the column"""
+  _has_keys_all: [String!]
+
+  """do any of these strings exist as top-level keys in the column"""
+  _has_keys_any: [String!]
+  _in: [jsonb!]
+  _is_null: Boolean
+  _lt: jsonb
+  _lte: jsonb
+  _neq: jsonb
+  _nin: [jsonb!]
+}
+
+"""mutation root"""
+type mutation_root {
+  """
+  delete data from the table: "deployment_versions"
+  """
+  delete_deployment_versions(
+    """filter the rows which have to be deleted"""
+    where: deployment_versions_bool_exp!
+  ): deployment_versions_mutation_response
+
+  """
+  delete data from the table: "deployments"
+  """
+  delete_deployments(
+    """filter the rows which have to be deleted"""
+    where: deployments_bool_exp!
+  ): deployments_mutation_response
+
+  """
+  insert data into the table: "deployment_versions"
+  """
+  insert_deployment_versions(
+    """the rows to be inserted"""
+    objects: [deployment_versions_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: deployment_versions_on_conflict
+  ): deployment_versions_mutation_response
+
+  """
+  insert data into the table: "deployments"
+  """
+  insert_deployments(
+    """the rows to be inserted"""
+    objects: [deployments_insert_input!]!
+
+    """on conflict condition"""
+    on_conflict: deployments_on_conflict
+  ): deployments_mutation_response
+
+  """
+  update data of the table: "deployment_versions"
+  """
+  update_deployment_versions(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: deployment_versions_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: deployment_versions_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: deployment_versions_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: deployment_versions_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: deployment_versions_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: deployment_versions_set_input
+
+    """filter the rows which have to be updated"""
+    where: deployment_versions_bool_exp!
+  ): deployment_versions_mutation_response
+
+  """
+  update data of the table: "deployments"
+  """
+  update_deployments(
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    _append: deployments_append_input
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    _delete_at_path: deployments_delete_at_path_input
+
+    """
+    delete the array element with specified index (negative integers count from
+    the end). throws an error if top level container is not an array
+    """
+    _delete_elem: deployments_delete_elem_input
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    _delete_key: deployments_delete_key_input
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    _prepend: deployments_prepend_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: deployments_set_input
+
+    """filter the rows which have to be updated"""
+    where: deployments_bool_exp!
+  ): deployments_mutation_response
+}
+
+"""column ordering options"""
+enum order_by {
+  """in the ascending order, nulls last"""
+  asc
+
+  """in the ascending order, nulls first"""
+  asc_nulls_first
+
+  """in the ascending order, nulls last"""
+  asc_nulls_last
+
+  """in the descending order, nulls first"""
+  desc
+
+  """in the descending order, nulls first"""
+  desc_nulls_first
+
+  """in the descending order, nulls last"""
+  desc_nulls_last
+}
+
+"""query root"""
+type query_root {
+  """
+  fetch data from the table: "deployment_versions"
+  """
+  deployment_versions(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): [deployment_versions!]!
+
+  """
+  fetch aggregated fields from the table: "deployment_versions"
+  """
+  deployment_versions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): deployment_versions_aggregate!
+
+  """
+  fetch data from the table: "deployment_versions" using primary key columns
+  """
+  deployment_versions_by_pk(id: String!): deployment_versions
+
+  """
+  fetch data from the table: "deployments"
+  """
+  deployments(
+    """distinct select on columns"""
+    distinct_on: [deployments_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployments_order_by!]
+
+    """filter the rows returned"""
+    where: deployments_bool_exp
+  ): [deployments!]!
+
+  """
+  fetch aggregated fields from the table: "deployments"
+  """
+  deployments_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployments_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployments_order_by!]
+
+    """filter the rows returned"""
+    where: deployments_bool_exp
+  ): deployments_aggregate!
+
+  """fetch data from the table: "deployments" using primary key columns"""
+  deployments_by_pk(id: String!): deployments
+}
+
+"""
+expression to compare columns of type String. All fields are combined with logical 'AND'.
+"""
+input String_comparison_exp {
+  _eq: String
+  _gt: String
+  _gte: String
+  _ilike: String
+  _in: [String!]
+  _is_null: Boolean
+  _like: String
+  _lt: String
+  _lte: String
+  _neq: String
+  _nilike: String
+  _nin: [String!]
+  _nlike: String
+  _nsimilar: String
+  _similar: String
+}
+
+"""subscription root"""
+type subscription_root {
+  """
+  fetch data from the table: "deployment_versions"
+  """
+  deployment_versions(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): [deployment_versions!]!
+
+  """
+  fetch aggregated fields from the table: "deployment_versions"
+  """
+  deployment_versions_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployment_versions_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployment_versions_order_by!]
+
+    """filter the rows returned"""
+    where: deployment_versions_bool_exp
+  ): deployment_versions_aggregate!
+
+  """
+  fetch data from the table: "deployment_versions" using primary key columns
+  """
+  deployment_versions_by_pk(id: String!): deployment_versions
+
+  """
+  fetch data from the table: "deployments"
+  """
+  deployments(
+    """distinct select on columns"""
+    distinct_on: [deployments_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployments_order_by!]
+
+    """filter the rows returned"""
+    where: deployments_bool_exp
+  ): [deployments!]!
+
+  """
+  fetch aggregated fields from the table: "deployments"
+  """
+  deployments_aggregate(
+    """distinct select on columns"""
+    distinct_on: [deployments_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [deployments_order_by!]
+
+    """filter the rows returned"""
+    where: deployments_bool_exp
+  ): deployments_aggregate!
+
+  """fetch data from the table: "deployments" using primary key columns"""
+  deployments_by_pk(id: String!): deployments
+}
+
+scalar timestamp
+
+"""
+expression to compare columns of type timestamp. All fields are combined with logical 'AND'.
+"""
+input timestamp_comparison_exp {
+  _eq: timestamp
+  _gt: timestamp
+  _gte: timestamp
+  _in: [timestamp!]
+  _is_null: Boolean
+  _lt: timestamp
+  _lte: timestamp
+  _neq: timestamp
+  _nin: [timestamp!]
+}
