@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+    working_directory: ~/repo
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - yarn-{{ .Branch }}
+          paths:
+            - ~/.cache/yarn
+      - run:
+          name: Place NPM registry token
+          command: echo -e "//registry.npmjs.org/:_authToken=$NPMTOKEN \nscope=shepherdorg \naccess=public" > ~/.npmrc
+      - run:
+          name: Bootstrap
+          command: lerna bootstrap -- --frozen-lockfile
+      - run:
+          name: Monorepo build and publish
+          command: lerna publish from-git --yes
+      - save_cache:
+          key: yarn-{{ .Branch }}-{{ epoch }}
+          paths:
+            - ~/.cache/yarn
