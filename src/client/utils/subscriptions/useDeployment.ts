@@ -17,7 +17,7 @@ const GET_DEPLOYMENT = gql`
       env
       hyperlinks
       last_deployment_timestamp
-      deployment_versions {
+      deployment_versions(order_by: { deployed_at: desc }) {
         build_host_name
         built_at
         configuration
