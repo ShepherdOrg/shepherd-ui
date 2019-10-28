@@ -1,7 +1,7 @@
 {
   "name": "@shepherdorg/hasura",
   "version": "3.0.3",
-  "main": "src/apiTypes.ts",
+  "main": "src/apiTypes.js",
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
   "scripts": {
