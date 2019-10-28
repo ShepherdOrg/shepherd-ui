@@ -1,6 +1,6 @@
 {
   "name": "@shepherdorg/ui-graphql-client",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "Shepherd Graphql Client Library",
   "main": "dist/tools/api/api.js",
   "license": "MIT",
@@ -12,7 +12,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@shepherdorg/hasura": "^3.0.1",
+    "@shepherdorg/hasura": "^3.0.3",
     "@types/node-fetch": "^2.5.2",
     "graphql": "^14.5.8",
     "node-fetch": "^2.6.0",
