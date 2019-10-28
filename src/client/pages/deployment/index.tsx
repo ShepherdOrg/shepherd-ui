@@ -9,10 +9,7 @@ import { Curtain } from 'components/curtain'
 import omit from 'ramda/src/omit'
 import { fromNullable, Right } from 'data.either'
 import { colors } from 'utils/colors'
-import {
-  GQLdeployment_versions,
-  GQLdeployments,
-} from '@shepherdorg/hasura-types'
+import { GQLdeployment_versions, GQLdeployments } from '@shepherdorg/hasura'
 import Head from 'next/head'
 
 export default function DeploymentPage() {

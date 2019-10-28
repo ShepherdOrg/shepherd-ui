@@ -2,7 +2,7 @@ import { createClient } from './api'
 import {
   GQLdeployments_insert_input,
   GQLdeployment_versions_insert_input,
-} from '@shepherdorg/hasura-types'
+} from '@shepherdorg/hasura'
 
 const api = createClient('http://localhost:8080/v1/graphql')
 const deployment: GQLdeployments_insert_input = {
