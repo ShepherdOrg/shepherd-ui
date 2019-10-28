@@ -13,6 +13,7 @@ import {
   GQLdeployment_versions,
   GQLdeployments,
 } from '@shepherdorg/hasura-types'
+import Head from 'next/head'
 
 export default function DeploymentPage() {
   const router = useRouter()
@@ -89,10 +90,17 @@ function DeploymentDetailsLoader({ deploymentId }: { deploymentId: string }) {
     (deploymentVersion: GQLdeployment_versions) => (
       deployment: GQLdeployments
     ) => (
-      <DeploymentDetails
-        deployment={deployment}
-        deploymentVersion={deploymentVersion}
-      />
+      <>
+        <Head>
+          <title>
+            Shepherd - {deployment.display_name} - {deploymentVersion.version}
+          </title>
+        </Head>
+        <DeploymentDetails
+          deployment={deployment}
+          deploymentVersion={deploymentVersion}
+        />
+      </>
     )
   )
     .ap(deploymentVersion)

@@ -1,6 +1,7 @@
 import App from 'next/app'
 import apiClient from 'utils/apiClient'
 import { ApolloProvider } from '@apollo/react-hooks'
+import Head from 'next/head'
 
 export default class MyApp extends App {
   render() {
@@ -14,6 +15,10 @@ const RootComponent = ({ Component, pageProps }: any) => {
 
   return (
     <ApolloProvider client={client}>
+      <Head>
+        <title>Shepherd</title>
+        <link rel="icon" href="/favicon.ico?v=3" />
+      </Head>
       <Component {...pageProps} />
     </ApolloProvider>
   )
