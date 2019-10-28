@@ -26,6 +26,8 @@ jobs:
       - run:
           name: Build docker images
           command: ./scripts/build.js
+          environment:
+            BUILD_NUMBER: $CIRCLE_BUILD_NUM
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
