@@ -27,9 +27,8 @@ jobs:
       - run:
           name: Restore docker layer restore
           command: |
-            mkdir -p /caches
             set +o pipefail
-            docker load -i /caches/layercache.tar | true
+            docker load -i /tmp/layercache.tar | true
       - run:
           name: Login to docker registry
           command: docker login -u $DOCKER_USER -p $DOCKER_PASSWD
@@ -39,6 +38,9 @@ jobs:
       - run:
           name: Push docker images
           command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/deploy-docker.js
+      - run:
+          name: Save Docker Layer Cache
+          command: ./scripts/save-docker-cache.js > /tmp/layercache.tar
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
@@ -46,4 +48,4 @@ jobs:
       - save_cache:
           key: docker-{{ .Branch }}-{{ epoch }}
           paths:
-            - /caches/layercache.tar
+            - /tmp/layercache.tar
