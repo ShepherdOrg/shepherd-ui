@@ -1,12 +1,20 @@
 #!/usr/bin/env node
 const path = require('path')
 const fs = require('fs')
+const { spawnSync } = require('child_process')
+const onlyChanged = process.argv.includes('--only-changed')
 
 const baseDirectory = path.resolve(__dirname, '../../')
 
 const packageDirectory = path.resolve(baseDirectory, './src')
 
-const packages = fs.readdirSync(packageDirectory)
+let packages = []
+if (onlyChanged) {
+  const changed = spawnSync('lerna', ['changed', '--json', '--toposort', '-a'])
+  packages = JSON.parse(changed.stdout.toString()).map(x => x.location)
+} else {
+  packages = fs.readdirSync(packageDirectory)
+}
 
 const buildInfo = packages
   .filter(package => {

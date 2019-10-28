@@ -34,13 +34,13 @@ jobs:
           command: docker login -u $DOCKER_USER -p $DOCKER_PASSWD
       - run:
           name: Build docker images
-          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js
+          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js --only-changed
       - run:
           name: Push docker images
-          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/deploy-docker.js
+          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/deploy-docker.js --only-changed
       - run:
           name: Save Docker Layer Cache
-          command: ./scripts/save-docker-cache.js > /tmp/layercache.tar
+          command: ./scripts/save-docker-cache.js --only-changed > /tmp/layercache.tar
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
