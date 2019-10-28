@@ -10,6 +10,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
+            - docker-{{ .Branch }}
             - yarn-{{ .Branch }}
       - run:
           name: Place NPM registry token
@@ -24,6 +25,15 @@ jobs:
           name: Monorepo build and publish
           command: yarn run lerna publish from-package --yes
       - run:
+          name: Restore docker layer restore
+          command: |
+            mkdir -p /caches
+            set +o pipefail
+            docker load -i /caches/layercache.tar | true
+      - run:
+          name: Login to docker registry
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASSWD
+      - run:
           name: Build docker images
           command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js
       - run:
@@ -33,3 +43,7 @@ jobs:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
             - ~/.cache/yarn
+      - save_cache:
+          key: docker-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/layercache.tar
