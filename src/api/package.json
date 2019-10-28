@@ -5,8 +5,7 @@
   "main": "dist/tools/api/api.js",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p .",
-    "prepublishOnly": "npm run build"
+    "tsc": "rm -rf dist/ && tsc -p ."
   },
   "files": [
     "dist/"

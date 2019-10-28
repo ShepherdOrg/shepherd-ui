@@ -22,7 +22,10 @@ jobs:
           name: Bootstrap
           command: yarn bootstrap
       - run:
-          name: Monorepo build and publish
+          name: Build
+          command: yarn run lerna run tsc --since $(./scripts/base-commit.sh) --include-dependencies --stream
+      - run:
+          name: Publish to NPM
           command: yarn run lerna publish from-package --yes
       - run:
           name: Restore docker layer restore

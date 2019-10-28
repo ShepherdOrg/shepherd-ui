@@ -1,13 +1,12 @@
 {
   "name": "@shepherdorg/hasura",
   "version": "3.0.3",
-  "main": "dist/apiTypes.ts",
+  "main": "src/apiTypes.ts",
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
   "scripts": {
     "gen-types": "npx graphql-cli get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
-    "build": "rm -rf dist/ && tsc -p .",
-    "prepublishOnly": "npm run build"
+    "tsc": "rm -rf dist/ && tsc -p ."
   },
   "files": [
     "dist"
