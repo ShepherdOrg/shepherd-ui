@@ -12,7 +12,14 @@ let packages = []
 if (onlyChanged) {
   const changed = spawnSync(
     path.resolve(baseDirectory, 'node_modules/.bin/lerna'),
-    ['changed', '--json', '--toposort', '-a']
+    [
+      'ls',
+      '--json',
+      '--toposort',
+      '-a',
+      '--since',
+      process.env.BASE_COMMIT || 'HEAD~1',
+    ]
   )
   packages = JSON.parse(changed.stdout.toString()).map(x => x.location)
 } else {

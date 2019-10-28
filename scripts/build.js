@@ -8,6 +8,11 @@ const packages = require('./utils/get-docker-projects')
 const max = (a, b) => Math.max(a, b)
 const nameLength = packages.map(x => x.dockerImageName.length).reduce(max, 0)
 
+if (packages.length === 0) {
+  console.log('Nothing ot build. exiting')
+  process.exit(0)
+}
+
 Future.parallel(
   cpuCount,
   packages.map(info =>
