@@ -25,9 +25,7 @@ jobs:
           command: yarn run lerna publish from-package --yes
       - run:
           name: Build docker images
-          command: ./scripts/build.js
-          environment:
-            BUILD_NUMBER: $CIRCLE_BUILD_NUM
+          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
