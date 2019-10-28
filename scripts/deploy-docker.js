@@ -2,22 +2,13 @@
 const Future = require('fluture')
 const os = require('os')
 const cpuCount = os.cpus().length
-const spawnProcess = require('./utils/spawn-process')
 const getDockerProjects = require('./utils/get-docker-projects')
+const spawnProcess = require('./utils/spawn-process')
 
 Future.parallel(
   cpuCount,
   getDockerProjects().map(info =>
-    spawnProcess(info.dockerImageName, 'docker', [
-      'build',
-      info.path,
-      '--tag',
-      `${info.dockerImageName}:${info.tag}`,
-      '--tag',
-      `${info.dockerImageName}:latest`,
-      '--cache-from',
-      `${info.dockerImageName}:latest`,
-    ])
+    spawnProcess(info.dockerImageName, 'docker', ['push', info.dockerImageName])
   )
 ).fork(
   code => {

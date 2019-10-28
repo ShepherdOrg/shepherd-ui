@@ -26,6 +26,9 @@ jobs:
       - run:
           name: Build docker images
           command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js
+      - run:
+          name: Push docker images
+          command: BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/deploy-docker.js
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
