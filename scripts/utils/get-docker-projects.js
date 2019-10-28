@@ -10,7 +10,10 @@ const packageDirectory = path.resolve(baseDirectory, './src')
 
 let packages = []
 if (onlyChanged) {
-  const changed = spawnSync('lerna', ['changed', '--json', '--toposort', '-a'])
+  const changed = spawnSync(
+    path.resolve(baseDirectory, 'node_modules/.bin/lerna'),
+    ['changed', '--json', '--toposort', '-a']
+  )
   packages = JSON.parse(changed.stdout.toString()).map(x => x.location)
 } else {
   packages = fs.readdirSync(packageDirectory)
@@ -35,4 +38,5 @@ const buildInfo = packages
     }
   })
 
+console.log(buildInfo)
 module.exports = buildInfo
