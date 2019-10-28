@@ -1,3 +1,7 @@
+const Future = require('fluture')
+const chalk = require('chalk').default
+const { spawn } = require('child_process')
+
 const spawnProcess = (name, command, spawnOptions) => {
   return Future((reject, resolve) => {
     const proc = spawn(command, spawnOptions)
