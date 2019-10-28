@@ -2,7 +2,7 @@
 const path = require('path')
 const fs = require('fs')
 
-const baseDirectory = path.resolve(__dirname, '../')
+const baseDirectory = path.resolve(__dirname, '../../')
 
 const packageDirectory = path.resolve(baseDirectory, './src')
 
