@@ -38,5 +38,4 @@ const buildInfo = packages
     }
   })
 
-console.log(buildInfo)
 module.exports = buildInfo
