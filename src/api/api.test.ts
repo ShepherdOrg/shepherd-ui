@@ -1,11 +1,7 @@
-import { createClient } from './api'
-import {
-  GQLdeployments_insert_input,
-  GQLdeployment_versions_insert_input,
-} from '@shepherdorg/hasura'
+import { createClient, Deployment, DeploymentVersion } from './api'
 
 const api = createClient('http://localhost:8080/v1/graphql')
-const deployment: GQLdeployments_insert_input = {
+const deployment: Deployment = {
   id: 'dev-images-fluentd2',
   display_name: 'Fluentd aws appender 2',
   last_deployment_timestamp: '2019-10-17T16:02:20.500Z',
@@ -25,7 +21,7 @@ const deployment: GQLdeployments_insert_input = {
   ],
 }
 
-const deploymentVersion: GQLdeployment_versions_insert_input = {
+const deploymentVersion: DeploymentVersion = {
   id: 'dev-dev-images-fluentd-1.0.0-2019-10-17T16:02:20.500Z',
   version: '1.0.0',
   env: 'dev',

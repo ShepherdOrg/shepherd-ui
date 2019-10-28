@@ -8,6 +8,30 @@ import {
   GQLdeployment_versions_mutation_response,
 } from '@shepherdorg/hasura'
 
+export interface Hyperlink {
+  url: string
+  title: string
+}
+export interface Deployment extends GQLdeployments_insert_input {
+  hyperlinks?: Hyperlink[]
+}
+
+export interface ConfigurationItem {
+  key: string
+  value: string
+  isSecret: boolean
+}
+
+export interface KubernetesFile {
+  path: string
+  content: string
+}
+
+export interface DeploymentVersion extends GQLdeployment_versions_insert_input {
+  configuration?: ConfigurationItem[]
+  kubernetes_deployment_files?: KubernetesFile[]
+}
+
 interface QueryBody {
   query: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -52,10 +76,7 @@ export function createClient(
     })
   }
   return {
-    upsertDeployment: upsert<
-      GQLdeployments_insert_input[],
-      GQLdeployments_mutation_response
-    >(`
+    upsertDeployment: upsert<Deployment[], GQLdeployments_mutation_response>(`
       mutation InsertDeployment($input: [deployments_insert_input!]!) {
         insert_deployments(objects: $input, on_conflict: {
           constraint: deployments_pkey,
@@ -78,7 +99,7 @@ export function createClient(
       }
     `),
     upsertDeploymentVersion: upsert<
-      GQLdeployment_versions_insert_input[],
+      DeploymentVersion[],
       GQLdeployment_versions_mutation_response
     >(`
       mutation InsertDeploymentVersion(
