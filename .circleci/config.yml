@@ -7,11 +7,10 @@ jobs:
 
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           keys:
             - yarn-{{ .Branch }}
-          paths:
-            - ~/.cache/yarn
       - run:
           name: Place NPM registry token
           command: echo -e "//registry.npmjs.org/:_authToken=$NPMTOKEN \nscope=shepherdorg \naccess=public" > ~/.npmrc
@@ -24,6 +23,9 @@ jobs:
       - run:
           name: Monorepo build and publish
           command: yarn run lerna publish from-package --yes
+      - run:
+          name: Build docker images
+          command: ./scripts/build.js
       - save_cache:
           key: yarn-{{ .Branch }}-{{ epoch }}
           paths:
