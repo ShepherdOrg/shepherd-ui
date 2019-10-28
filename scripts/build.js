@@ -24,6 +24,6 @@ Future.parallel(
     process.exit(code)
   },
   () => {
-    process.exit(1)
+    process.exit(0)
   }
 )
