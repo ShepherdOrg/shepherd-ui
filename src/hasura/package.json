@@ -16,5 +16,6 @@
     "@pongsatt/graphql-schema-typescript": "^1.0.25",
     "graphql": "^0.13.0",
     "typescript": "^3.6.4"
-  }
+  },
+  "gitHead": "bea2cc8864feedd62c10472ca6392a5811627593"
 }
