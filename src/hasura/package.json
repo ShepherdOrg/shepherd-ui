@@ -1,5 +1,5 @@
 {
-  "name": "@shepherdorg/hasura",
+  "name": "@shepherdorg/shepherd-ui-api",
   "version": "3.0.3",
   "main": "src/apiTypes.js",
   "types": "dist/apiTypes.d.ts",
@@ -14,7 +14,8 @@
   "dependencies": {
     "@pongsatt/graphql-schema-typescript": "^1.0.25",
     "graphql": "^0.13.0",
-    "typescript": "^3.6.4"
+    "typescript": "^3.6.4",
+    "undefined": "/Users/nordfjord/git/shepherdOrg/shepherd-ui/src/hasura"
   },
   "gitHead": "bea2cc8864feedd62c10472ca6392a5811627593"
 }
