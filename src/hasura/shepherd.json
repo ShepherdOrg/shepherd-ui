@@ -1,5 +1,6 @@
 {
   "displayName": "Shepherd UI API",
+  "imageName": "shepherdorg/shepherd-ui-api",
   "hyperlinks": [
     {
       "title": "Git repository",
