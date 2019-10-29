@@ -16,6 +16,9 @@ jobs:
                   name: Place NPM registry token
                   command: echo -e "//registry.npmjs.org/:_authToken=$NPMTOKEN \nscope=shepherdorg \naccess=public" > ~/.npmrc
             - run:
+                  name: Set yarn cache location
+                  command: yarn config set cache-folder ~/.cache/yarn
+            - run:
                   name: Yarn install
                   command: yarn install --frozen-lockfile --check-files
             - run:

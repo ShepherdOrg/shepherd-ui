@@ -1674,10 +1674,10 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@shepherdorg/cli@0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@shepherdorg/cli/-/cli-0.0.12.tgz#3e11d430b8142364d800acc9ff404c375fc52b5b"
-  integrity sha512-vfaUXgsCYekwhtVFMpRsXCsjp4Z5i7fQXcXiD7DE7oY363NgDUh2Pz3gW5ZHEOYDpgq43/tb/kbwJ7q7gr1p7g==
+"@shepherdorg/cli@0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@shepherdorg/cli/-/cli-0.0.13.tgz#c85348baa9fbe46e6c482767713abfb6ff1b1a05"
+  integrity sha512-34SdPOB9+loFwQcTWmgk48GEfzLNr9M0KYevtmwQlaXdY8LisDcEKJbONYYEzwzzDKlCWHLwoEUnM97c7T3oFQ==
   dependencies:
     "@shepherdorg/docker-image-metadata-loader" "^0.0.2"
     "@shepherdorg/metadata" "^0.0.11"

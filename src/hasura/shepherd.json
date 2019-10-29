@@ -3,11 +3,11 @@
   "hyperlinks": [
     {
       "title": "Git repository",
-      "url": "https://github.com/shepherdorg/shepherd-ui"
+      "url": "https://github.com/shepherdorg/shepherd-ui/"
     },
     {
       "title": "Build",
-      "url": "https://circleci.com/gh/ShepherdOrg/shepherd-ui"
+      "url": "https://circleci.com/gh/ShepherdOrg/shepherd-ui/"
     }
   ]
 }
