@@ -8,6 +8,14 @@ export default class MyApp extends App {
     const { Component, pageProps } = this.props
     return <RootComponent Component={Component} pageProps={pageProps} />
   }
+
+  // eslint-disable-next-line
+  static async getInitialProps(appContext: any) {
+    // calls page's `getInitialProps` and fills `appProps.pageProps`
+    const appProps = await App.getInitialProps(appContext)
+
+    return { ...appProps }
+  }
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RootComponent = ({ Component, pageProps }: any) => {
