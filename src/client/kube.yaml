@@ -64,7 +64,7 @@ kind: Ingress
 metadata:
   name: shepherd-ui-service-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
 spec:
   rules:
     - host: shepherd-ui{{SERVICE_SUFFIX}}
