@@ -11,7 +11,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@shepherdorg/hasura": "^3.0.3",
+    "@shepherdorg/shepherd-ui-api": "^3.0.3",
     "@types/node-fetch": "^2.5.2",
     "graphql": "^14.5.8",
     "node-fetch": "^2.6.0",

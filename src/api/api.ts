@@ -6,7 +6,7 @@ import {
   GQLdeployments_mutation_response,
   GQLdeployment_versions_insert_input,
   GQLdeployment_versions_mutation_response,
-} from '@shepherdorg/hasura'
+} from '@shepherdorg/shepherd-ui-api'
 
 export interface Hyperlink {
   url: string

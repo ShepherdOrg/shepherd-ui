@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { useSubscription } from '@apollo/react-hooks'
 import { ApolloError } from 'apollo-client'
 import { Either, Right, Left } from 'data.either'
-import { GQLdeployment_versions } from '@shepherdorg/hasura'
+import { GQLdeployment_versions } from '@shepherdorg/shepherd-ui-api'
 
 const GET_DEPLOYMENT_VERSION = gql`
   subscription GetDeploymentVersion($id: String!) {
