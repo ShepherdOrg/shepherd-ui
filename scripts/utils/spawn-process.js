@@ -21,9 +21,9 @@ const colors = [
 
 const getColor = () => colors[currentIdx++ % colors.length]
 
-const spawnProcess = (name, command, spawnOptions) => {
+const spawnProcess = (name, command, args, spawnOptions = {}) => {
   return Future((reject, resolve) => {
-    const proc = spawn(command, spawnOptions)
+    const proc = spawn(command, args, spawnOptions)
 
     const color = getColor()
 

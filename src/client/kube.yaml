@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: shepherd-ui-service
+  labels:
+    name: shepherd-ui-service
+    environment: { { ENV } }
+spec:
+  ports:
+    - port: 80 # the port that this service should serve on
+      # the container on each pod to connect to, can be a name
+      # (e.g. 'www') or a number (e.g. 80)
+      name: serviceport
+      targetPort: 3000
+      protocol: TCP
+  # just like the selector in the replication controller,
+  # but this time it identifies the set of pods to load balance
+  # traffic to.
+  selector:
+    app: shepherd-ui-service-pod
+    environment: { { ENV } }
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: shepherd-ui-service-deployment
+  annotations:
+    kubernetes.io/change-cause: { { TAG_NAME } }
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: shepherd-ui-service-pod
+        environment: { { ENV } }
+    spec:
+      containers:
+        - name: shepherd-ui-service-pod
+          image: DOCKER_IMAGE
+          imagePullPolicy: Always
+          env:
+            - name: HASURA_ENDPOINT_URL
+              value: ws://localhost:8080/v1/graphql
+          ports:
+            - containerPort: 3000
+              name: service-port
+          livenessProbe:
+            httpGet:
+              path: /
+              port: service-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 4
+            failureThreshold: 2
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /
+              port: service-port
+            initialDelaySeconds: 15
+            timeoutSeconds: 4
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: shepherd-ui-service-ingress
+spec:
+  rules:
+    - host: shepherd-ui{{SERVICE_SUFFIX}}
+      http:
+        paths:
+          - backend:
+              serviceName: shepherd-ui-service
+              servicePort: 80
