@@ -1,9 +1,0 @@
- Mon, 28 Oct 2019 16:36:59 +0000 by Einar Nordfjord. --- fix main file in hasura 
-
- Mon, 28 Oct 2019 16:11:25 +0000 by Einar Nordfjord. --- hopefully the pipeline works better this way 
-
- Mon, 28 Oct 2019 14:55:20 +0000 by Einar Nordfjord. --- v3.0.3 
-
- Mon, 28 Oct 2019 10:50:30 +0000 by Einar Nordfjord. --- githead 
-
- Mon, 28 Oct 2019 10:49:13 +0000 by Einar Nordfjord. --- hasura-types -> hasura 
