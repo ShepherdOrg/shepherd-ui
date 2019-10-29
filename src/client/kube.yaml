@@ -4,7 +4,7 @@ metadata:
   name: shepherd-ui-service
   labels:
     name: shepherd-ui-service
-    environment: { { ENV } }
+    environment: {{ENV}}
 spec:
   ports:
     - port: 80 # the port that this service should serve on
@@ -18,21 +18,21 @@ spec:
   # traffic to.
   selector:
     app: shepherd-ui-service-pod
-    environment: { { ENV } }
+    environment: {{ENV}}
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: shepherd-ui-service-deployment
   annotations:
-    kubernetes.io/change-cause: { { TAG_NAME } }
+    kubernetes.io/change-cause: {{TAG_NAME}}
 spec:
   replicas: 1
   template:
     metadata:
       labels:
         app: shepherd-ui-service-pod
-        environment: { { ENV } }
+        environment: {{ENV}}
     spec:
       containers:
         - name: shepherd-ui-service-pod

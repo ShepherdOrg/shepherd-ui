@@ -42,7 +42,7 @@ spec:
             - name: HASURA_GRAPHQL_DATABASE_URL
               value: {{SHEPHERD_UI_POSTGRES_URL}}
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
-              value: "true"
+              value: 'true'
             - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
               value: startup, http-log, webhook-log, websocket-log, query-log
           ports:

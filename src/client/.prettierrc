@@ -3,5 +3,13 @@
   "semi": false,
   "singleQuote": true,
   "arrowParens": "avoid",
-  "printWidth": 80 
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": "**/*.{yaml,yml}",
+      "options": {
+        "bracketSpacing": false
+      }
+    }
+  ]
 }
