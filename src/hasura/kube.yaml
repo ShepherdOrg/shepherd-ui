@@ -46,7 +46,7 @@ spec:
             - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
               value: startup, http-log, webhook-log, websocket-log, query-log
           ports:
-            - containerPort: 3000
+            - containerPort: 8080
               name: service-port
           livenessProbe:
             httpGet:
