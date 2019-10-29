@@ -13,3 +13,6 @@ RUN yarn build
 EXPOSE 3000
 
 CMD ["yarn", "start"]
+
+ARG SHEPHERD_METADATA
+LABEL shepherd.metadata=${SHEPHERD_METADATA}
