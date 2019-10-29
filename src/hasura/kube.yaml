@@ -40,7 +40,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: HASURA_GRAPHQL_DATABASE_URL
-              value: postgres://postgres:@postgres:5432/postgres
+              value: { { SHEPHERD_UI_POSTGRES_URL } }
             - name: HASURA_GRAPHQL_ENABLE_CONSOLE
               value: "true"
             - name: HASURA_GRAPHQL_ENABLED_LOG_TYPES
@@ -66,12 +66,22 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: shepherd-ui-api-service-ingress
+  name: shepherd-ui-api-path-ingress
+  namespace: default
+  labels:
+    app: shepherd-ui-api-service
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: shepherd-ui-api{{SERVICE_SUFFIX}}
+    - host: iapi{{SERVICE_SUFFIX}}
       http:
         paths:
-          - backend:
+          - path: /shepherd-ui-api
+            backend:
               serviceName: shepherd-ui-api-service
               servicePort: 80
+  tls:
+    - hosts:
+        - iapi{{SERVICE_SUFFIX}}
+      secretName: services-cert

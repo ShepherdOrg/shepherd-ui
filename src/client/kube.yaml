@@ -40,7 +40,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: HASURA_ENDPOINT_URL
-              value: ws://localhost:8080/v1/graphql
+              value: wss://iapi{{SERVICE_SUFFIX}}/shepherd-ui-api/v1/graphql
           ports:
             - containerPort: 3000
               name: service-port
@@ -63,6 +63,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: shepherd-ui-service-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
     - host: shepherd-ui{{SERVICE_SUFFIX}}
@@ -71,3 +73,7 @@ spec:
           - backend:
               serviceName: shepherd-ui-service
               servicePort: 80
+  tls:
+    - hosts:
+        - shepherd-ui{{SERVICE_SUFFIX}}
+      secretName: services-cert
