@@ -26,6 +26,7 @@ Future.parallel(
       [path.resolve(info.path, 'Dockerfile')],
       {
         env: {
+          ...process.env,
           PATH: `${process.env.PATH}:${binDirectory}`,
           IMAGE_NAME: info.dockerImageName,
           SEMANTIC_VERSION: info.version,
