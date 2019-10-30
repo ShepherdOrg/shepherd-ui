@@ -1,6 +1,6 @@
 {
   "name": "@shepherdorg/shepherd-ui-api",
-  "version": "3.0.3",
+  "version": "3.0.5",
   "main": "src/apiTypes.js",
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
