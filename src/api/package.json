@@ -2,7 +2,8 @@
   "name": "@shepherdorg/ui-graphql-client",
   "version": "3.0.5",
   "description": "Shepherd Graphql Client Library",
-  "main": "dist/tools/api/api.js",
+  "main": "dist/api.js",
+  "types": "dist/api.d.ts",
   "license": "MIT",
   "scripts": {
     "tsc": "rm -rf dist/ && tsc -p ."
