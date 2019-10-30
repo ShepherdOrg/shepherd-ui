@@ -1,6 +1,6 @@
 {
   "name": "@shepherdorg/ui-graphql-client",
-  "version": "3.0.5",
+  "version": "3.0.6",
   "description": "Shepherd Graphql Client Library",
   "main": "dist/api.js",
   "types": "dist/api.d.ts",
