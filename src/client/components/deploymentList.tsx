@@ -8,6 +8,15 @@ import { usePageTransition } from 'utils/usePageTransition'
 import { Curtain } from './curtain'
 import { DeploymentTypeIcon } from './deploymentTypeIcon'
 import { DeployerRoleIcon } from './deployerRoleIcon'
+import { ApolloError } from 'apollo-client'
+
+function renderErrorText(x: ApolloError | string) {
+  if (x instanceof ApolloError) {
+    return x.message
+  } else {
+    return x
+  }
+}
 
 export const DeploymentList = function() {
   const deploymentList = useDeploymentList()
@@ -45,7 +54,7 @@ export const DeploymentList = function() {
                 </a>
               </li>
             ) : (
-              <li className="item">Error!</li>
+              <li className="item">Error loading! {renderErrorText(x)}</li>
             ),
           items =>
             items.map(
