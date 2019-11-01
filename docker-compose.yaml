@@ -24,7 +24,7 @@ services:
     build: ./src/client
     restart: always
     ports:
-      - '3000:3000'
+      - '3030:3000'
     environment:
       HASURA_ENDPOINT_URL: ws://localhost:8080/v1/graphql
 volumes:

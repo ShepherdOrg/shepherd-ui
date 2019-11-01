@@ -2,16 +2,17 @@ import fetch, { RequestInit } from 'node-fetch'
 import tap from 'ramda/src/tap'
 import { GraphQLError as GQLErr } from 'graphql'
 import {
-  GQLdeployments_insert_input,
-  GQLdeployments_mutation_response,
   GQLdeployment_versions_insert_input,
   GQLdeployment_versions_mutation_response,
+  GQLdeployments_insert_input,
+  GQLdeployments_mutation_response,
 } from '@shepherdorg/shepherd-ui-api'
 
 export interface Hyperlink {
   url: string
   title: string
 }
+
 export interface Deployment extends GQLdeployments_insert_input {
   hyperlinks?: Hyperlink[]
 }
@@ -32,28 +33,47 @@ export interface DeploymentVersion extends GQLdeployment_versions_insert_input {
   kubernetes_deployment_files?: KubernetesFile[]
 }
 
-interface QueryBody {
+export interface QueryBody {
   query: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   variables?: { [key: string]: any }
 }
 
-interface GqlResponse<T> {
+export interface GqlResponse<T> {
   data?: T
   errors?: ReadonlyArray<GQLErr>
 }
 
-interface Options {
+export interface Options {
   fetchOptions?: RequestInit
   logger?: typeof console
 }
 
+export interface HasuraError {
+  extensions: any
+  message: string
+}
+
+function rejectOnErrors(operationContext: string) {
+
+  return function(response: any) {
+    if (response.errors && response.errors.length) {
+      const joinedMessage = response.errors.map((hasuraError: HasuraError) => {
+        return hasuraError.message
+      }).join('\n')
+      throw new Error(`In ${operationContext}: ${joinedMessage}`)
+    }
+
+    return response
+  }
+}
+
 export function createClient(
   apiUrl: string,
-  { logger = console, fetchOptions = {} }: Options = {}
+  { logger = console, fetchOptions = {} }: Options = {},
 ) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const runQuery = <T = any>(body: QueryBody): Promise<GqlResponse<T>> => {
+  const runQuery = <T = any>(body: QueryBody, queryContext: string): Promise<GqlResponse<T>> => {
     return fetch(apiUrl, {
       ...fetchOptions,
       headers: {
@@ -64,19 +84,20 @@ export function createClient(
       body: JSON.stringify(body),
     })
       .then(res => res.json())
-      .then(tap(json => logger.debug(JSON.stringify(json))))
+      .then(tap(json => logger.debug('Query response:', JSON.stringify(json))))
+      .then(rejectOnErrors(queryContext))
   }
 
-  const upsert = <TInput, TResult>(createQuery: string) => async (
-    input: TInput
+  const upsert = <TInput, TResult>(createQuery: string, queryContext: string) => async (
+    input: TInput,
   ) => {
     return runQuery<TResult>({
       query: createQuery,
       variables: { input },
-    })
+    }, queryContext)
   }
   return {
-    upsertDeployment: upsert<Deployment[], GQLdeployments_mutation_response>(`
+    upsertDeployment: upsert(`
       mutation InsertDeployment($input: [deployments_insert_input!]!) {
         insert_deployments(objects: $input, on_conflict: {
           constraint: deployments_pkey,
@@ -97,11 +118,8 @@ export function createClient(
           }
         }
       }
-    `),
-    upsertDeploymentVersion: upsert<
-      DeploymentVersion[],
-      GQLdeployment_versions_mutation_response
-    >(`
+    `, 'upsert deployment'),
+    upsertDeploymentVersion: upsert(`
       mutation InsertDeploymentVersion(
         $input: [deployment_versions_insert_input!]!
       ) {
@@ -135,6 +153,6 @@ export function createClient(
           }
         }
       }
-    `),
+    `, 'upsert deployment'),
   }
 }

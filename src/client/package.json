@@ -3,7 +3,7 @@
   "version": "3.0.5",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "HASURA_ENDPOINT_URL=ws://localhost:8080/v1/graphql next dev",
     "build": "next build",
     "start": "next start",
     "gen-types": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts graphql/schema.graphql --output graphql/apiTypes.ts"
