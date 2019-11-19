@@ -1,20 +1,8 @@
 const { resolve } = require('path')
-const fs = require('fs')
-const Either = require('data.either')
 
-const readFileSync = Either.try(fs.readFileSync)
-
-const fromEntries = entries =>
-  entries.reduce((p, v) => {
-    p[v[0]] = v[1]
-    return p
-  }, {})
-
-const env = fromEntries(
-  Object.entries(process.env).filter(
-    ([key]) => key.startsWith('HASURA') || key.startsWith('SHEPHERD')
-  )
-)
+const env = {
+  HASURA_ENDPOINT_URL: process.env.HASURA_ENDPOINT_URL,
+}
 
 const nextConfig = {
   env,
