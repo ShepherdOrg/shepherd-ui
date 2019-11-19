@@ -21,6 +21,7 @@ export interface KubernetesConfigurationFile {
 
 export interface Deployment extends GQLdeployments {
   hyperlinks: Href[]
+  deployment_versions: DeploymentVersion[]
 }
 
 export interface DeploymentVersion extends GQLdeployment_versions {
