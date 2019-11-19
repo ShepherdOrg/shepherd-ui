@@ -3,7 +3,7 @@
   "version": "3.0.7",
   "private": true,
   "scripts": {
-    "dev": "HASURA_ENDPOINT_URL=ws://localhost:8080/v1/graphql next dev",
+    "dev": "HASURA_ENDPOINT_URL=wss://iapi.dev.it.tm.is/shepherd-ui-api/v1/graphql next dev",
     "build": "next build",
     "start": "next start",
     "gen-types": "graphql get-schema --project shepherd && graphql-schema-typescript generate-ts graphql/schema.graphql --output graphql/apiTypes.ts"
@@ -45,6 +45,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^2.2.0",
     "husky": ">=1",
+    "lerna": "^3.18.3",
     "lint-staged": ">=8",
     "prettier": "^1.18.2",
     "ts-node": "^8.4.1",

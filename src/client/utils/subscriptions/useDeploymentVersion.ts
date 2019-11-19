@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { useSubscription } from '@apollo/react-hooks'
 import { ApolloError } from 'apollo-client'
 import { Either, Right, Left } from 'data.either'
-import { GQLdeployment_versions } from '@shepherdorg/shepherd-ui-api'
+import { DeploymentVersion } from 'gql/customTypes'
 
 const GET_DEPLOYMENT_VERSION = gql`
   subscription GetDeploymentVersion($id: String!) {
@@ -29,7 +29,7 @@ const GET_DEPLOYMENT_VERSION = gql`
 
 export const useDeploymentVersion = (
   version: string
-): Either<string | ApolloError, GQLdeployment_versions> => {
+): Either<string | ApolloError, DeploymentVersion> => {
   const result = useSubscription(GET_DEPLOYMENT_VERSION, {
     variables: { id: version },
   })

@@ -3,10 +3,14 @@ import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
 
-import { GQLdeployments } from '@shepherdorg/shepherd-ui-api'
+import { GQLdeployment_versions_bool_exp } from '@shepherdorg/shepherd-ui-api'
+import { Deployment } from 'gql/customTypes'
 
 const GET_DEPLOYMENT = gql`
-  subscription GetDeployment($id: String!) {
+  subscription GetDeployment(
+    $id: String!
+    $versionFilter: deployment_versions_bool_exp
+  ) {
     deployments_by_pk(id: $id) {
       id
       db_migration_image
@@ -17,7 +21,10 @@ const GET_DEPLOYMENT = gql`
       env
       hyperlinks
       last_deployment_timestamp
-      deployment_versions(order_by: { deployed_at: desc }) {
+      deployment_versions(
+        order_by: { deployed_at: desc }
+        where: $versionFilter
+      ) {
         build_host_name
         built_at
         configuration
@@ -39,10 +46,11 @@ const GET_DEPLOYMENT = gql`
   }
 `
 export const useDeployment = (
-  deploymentId: string
-): Either<string | ApolloError, GQLdeployments> => {
+  deploymentId: string,
+  versionFilter?: GQLdeployment_versions_bool_exp
+): Either<string | ApolloError, Deployment> => {
   const result = useSubscription(GET_DEPLOYMENT, {
-    variables: { id: deploymentId },
+    variables: { id: deploymentId, versionFilter },
   })
 
   if (result.data && result.data.deployments_by_pk) {

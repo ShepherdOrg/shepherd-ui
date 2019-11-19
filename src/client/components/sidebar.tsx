@@ -2,45 +2,39 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { colors } from 'utils/colors'
 import { useDeployment } from 'utils/subscriptions/useDeployment'
-import { usePageTransition } from 'utils/usePageTransition'
-import { Curtain } from './curtain'
 import { useCallback, MouseEvent } from 'react'
 import { fromNullable } from 'data.either'
 import format from 'date-fns/format'
+import { useDeploymentVersion } from 'utils/subscriptions/useDeploymentVersion'
 
 export const Sidebar = function() {
   const router = useRouter()
-  const { startExit, leaving } = usePageTransition()
-
-  const goToMainPage = useCallback(
-    async (ev: MouseEvent<HTMLAnchorElement>) => {
-      ev.preventDefault()
-      await startExit(async () => {
-        await router.push('/?reveal=true', '/')
-        window.scrollTo(0, 0)
-      })
-    },
-    []
-  )
 
   const currentDeploymentId = String(router.query.id)
-  const currentDeployment = useDeployment(currentDeploymentId)
+  const currentDeploymentVersionId = String(router.query.versionId)
+  const currentDeploymentVersion = useDeploymentVersion(
+    currentDeploymentVersionId
+  )
+  const branch = currentDeploymentVersion.map(x => x.git_branch).getOrElse('')
+  const currentDeployment = useDeployment(currentDeploymentId, {
+    git_branch: { _eq: branch },
+  })
 
   return (
-    <nav className={`nav ${currentDeployment.isLeft ? 'hide-left' : ''}`}>
-      <Curtain visible={leaving} />
+    <nav className="nav">
       <h3 className="navTitle">
         <Link href="/">
-          <a onClick={goToMainPage}>Shepherd</a>
+          <a>Shepherd</a>
         </Link>
       </h3>
       {currentDeployment.fold(
         () => null,
         deployment => (
           <>
-            <Link href={`/deployment?id=${deployment.id}`}>
+            <Link href={`/deployment/[id]?id=${deployment.id}`}>
               <a>{deployment.display_name}</a>
             </Link>
+            <h3>Deployments from {branch}</h3>
             <ul className="versionList">
               {currentDeployment
                 .chain(x => fromNullable(x.deployment_versions))
@@ -51,13 +45,20 @@ export const Sidebar = function() {
                         <li
                           key={x.id}
                           className={
-                            x.id === router.query.version ? 'active' : ''
+                            x.id === router.query.versionId ? 'active' : ''
                           }
                         >
                           <Link
-                            href={`/deployment?id=${encodeURIComponent(
+                            href={{
+                              pathname: `/deployment/[id]/version/[versionId]`,
+                              query: {
+                                id: deployment.id,
+                                versionId: x.id,
+                              },
+                            }}
+                            as={`/deployment/${encodeURIComponent(
                               deployment.id
-                            )}&version=${encodeURIComponent(x.id)}`}
+                            )}/version/${encodeURIComponent(x.id)}`}
                           >
                             <a>
                               {format(
@@ -83,12 +84,9 @@ export const Sidebar = function() {
           height: 100vh;
           width: 256px;
           overflow-y: scroll;
-          background: ${colors.midnightBlue};
-          color: ${colors.clouds};
+          color: black;
           transition: left 0.2s ease-out;
-        }
-        .nav.hide-left {
-          left: -256px;
+          box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.12);
         }
         .navTitle {
           font-size: 24px;
@@ -97,16 +95,12 @@ export const Sidebar = function() {
 
         .navTitle > a {
           text-decoration: none;
-          color: ${colors.clouds};
+          color: black;
         }
-        :global(*) {
-          box-sizing: border-box;
-        }
-        :global(body) {
-          background: ${colors.wetAsphalt};
-          padding-left: 256px;
-          margin: 0;
-          font-family: 'Helvetica Neue';
+
+        h3 {
+          font-size: 16px;
+          padding: 8px 0 8px 32px;
         }
         ul {
           list-style-type: none;
@@ -123,20 +117,25 @@ export const Sidebar = function() {
           margin: 0 16px;
           display: block;
           text-decoration: none;
-          color: ${colors.clouds};
+          color: black;
           transition: all 0.2s ease-out;
         }
 
         ul.versionList > li > a {
           margin-top: 16px;
-          background: ${colors.turquoise};
-          color: white;
-          transition: background 0.2s ease-out;
+          color: black;
+          transition: all 0.2s ease-out;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24);
         }
 
-        ul.versionList > li.active > a,
+        ul.versionList > li.active > a {
+          background: ${colors.clouds};
+        }
+
         ul.versionList > li > a:hover {
-          background: #48c9b0;
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
         }
 
         li > a:hover,

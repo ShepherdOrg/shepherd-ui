@@ -11,6 +11,7 @@ const { publicRuntimeConfig } = getConfig()
 
 export default () => {
   if (!client) {
+    console.log('CREATING NEW API CLIENT WATCH OUT')
     let link = createHttpLink({
       uri: 'http://localhost:8080/v1/graphql',
     })

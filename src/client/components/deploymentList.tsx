@@ -1,11 +1,8 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
-import { useCallback } from 'react'
+import { useState } from 'react'
 import { colors } from 'utils/colors'
 import { useDeploymentList } from 'utils/subscriptions/useDeploymentList'
-import { usePageTransition } from 'utils/usePageTransition'
-import { Curtain } from './curtain'
 import { DeploymentTypeIcon } from './deploymentTypeIcon'
 import { DeployerRoleIcon } from './deployerRoleIcon'
 import { ApolloError } from 'apollo-client'
@@ -19,25 +16,16 @@ function renderErrorText(x: ApolloError | string) {
 }
 
 export const DeploymentList = function() {
-  const deploymentList = useDeploymentList()
-  const { startExit, leaving } = usePageTransition()
-  const router = useRouter()
-  const navigateToDeployment = useCallback(
-    async (deploymentId: string) => {
-      await startExit(async () => {
-        await router.push(
-          `/deployment?id=${encodeURIComponent(deploymentId)}&reveal=true`,
-          `/deployment?id=${encodeURIComponent(deploymentId)}`
-        )
-        window.scrollTo(0, 0)
-      })
-    },
-    [startExit]
-  )
+  const [filter, setFilter] = useState<string>('')
+  const deploymentList = useDeploymentList(filter)
 
   return (
     <>
-      <Curtain visible={leaving} />
+      <input
+        type="text"
+        onChange={ev => setFilter(ev.currentTarget.value)}
+        placeholder="Filter"
+      />
       <ul className="deploymentList">
         {deploymentList.fold(
           x =>
@@ -61,29 +49,32 @@ export const DeploymentList = function() {
               x =>
                 x && (
                   <li key={x.id} className="item">
-                    <Link href={`/deployment?id=${x.id}`}>
-                      <a
-                        onClick={ev => (
-                          ev.preventDefault(), navigateToDeployment(x.id)
-                        )}
-                      >
-                        <section className="center">
+                    <Link
+                      href={`/deployment/[id]?reveal=true&id=${x.id}`}
+                      as={`/deployment/${x.id}`}
+                      scroll
+                    >
+                      <a className="deploymentCard">
+                        <h3 className="name">{x.display_name || x.id}</h3>
+                        <section className="types">
                           <DeploymentTypeIcon
                             deploymentType={x.deployment_type}
                           />
                           <DeployerRoleIcon deployerRole={x.deployer_role} />
                         </section>
-                        <section className="grow">
-                          <div className="name">{x.display_name || x.id}</div>
+                        <section className="stats">
+                          <strong>Stats</strong> <br />
+                          Versions: {x.countAggregate.aggregate.count} <br />
+                          Branches: {x.branchAggregate.aggregate.count}
                         </section>
                         <section className="info">
-                          <div className="time">
-                            {formatDistanceToNow(
-                              new Date(x.last_deployment_timestamp)
-                            )}{' '}
-                            ago
-                          </div>
-                          <div className="env">{x.env}</div>
+                          <strong>Last deployed</strong>
+                          <br />
+                          {formatDistanceToNow(
+                            new Date(x.last_deployment_timestamp)
+                          )}{' '}
+                          ago
+                          <div className="env">to {x.env}</div>
                         </section>
                       </a>
                     </Link>
@@ -93,50 +84,66 @@ export const DeploymentList = function() {
         )}
       </ul>
       <style jsx>{`
+        input {
+          height: 32px;
+          font-size: 16px;
+          outline: none;
+          -webkit-appearance: none;
+          border: 0;
+          padding: 8px 16px;
+          margin: 8px 0;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24);
+        }
         .header {
           font-weight: 600;
         }
 
-        .deploymentType > img {
-          height: 48px;
-          max-height: 48px;
-          width: auto;
-        }
         ul {
           list-style-type: none;
           margin: 0;
           padding: 0;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-gap: 16px;
         }
 
-        li {
-          margin-top: 16px;
-        }
-        li.item > a {
-          background: ${colors.clouds};
+        .deploymentCard {
           text-decoration: none;
           color: ${colors.midnightBlue};
           display: flex;
           flex-flow: row wrap;
           width: 100%;
+          height: 100%;
+          padding: 16px;
 
           justify-content: space-between;
 
-          box-shadow: 0;
           transition: all 0.2s ease-out;
-          border-radius: 12px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24);
         }
 
-        li.item > a:hover {
-          box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+        .deploymentCard:hover {
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
         }
 
-        li.item > a > section {
-          padding: 16px;
-          border-right: 1px solid ${colors.concrete};
+        .deploymentCard > .types {
+          flex-basis: 100%;
+          display: flex;
+          justify-content: center;
+          margin: 12px 0;
         }
 
-        li.item > a > section:last-child {
-          border-right: 0;
+        .name {
+          margin: 0;
+          text-align: center;
+          width: 100%;
+        }
+
+        .info {
+          text-align: right;
         }
 
         .center {

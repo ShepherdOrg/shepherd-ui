@@ -1,133 +1,98 @@
-import format from 'date-fns/format'
 import { colors } from 'utils/colors'
 import { useEffect, useState } from 'react'
-import {
-  GQLdeployments,
-  GQLdeployment_versions,
-} from '@shepherdorg/shepherd-ui-api'
-import {
-  Configuration,
-  Href,
-  KubernetesConfigurationFile,
-} from 'gql/customTypes'
+import Link from 'next/link'
+import { getBranchesFromVersions } from 'utils/branches'
+import { Branch } from './icons/branch'
+import { Deployment } from 'gql/customTypes'
 
 interface Props {
-  deployment: GQLdeployments
-  deploymentVersion: GQLdeployment_versions
+  deployment: Deployment
 }
 
-export const DeploymentDetails = function({
-  deployment,
-  deploymentVersion,
-}: Props) {
+export const DeploymentDetails = function({ deployment }: Props) {
   const [hidden, setHidden] = useState(true)
+  const versions = deployment.deployment_versions || []
 
   useEffect(() => {
     setHidden(false)
   }, [])
+
+  const branches = getBranchesFromVersions(versions)
   return (
     <section className={`deploymentDetails ${hidden ? 'hide-opacity' : ''}`}>
       <h1>{deployment.display_name}</h1>
-      <aside>
-        <ul className="pellets">
-          <li>version: {deploymentVersion.version}</li>
-          <li>docker tag: {deploymentVersion.docker_image_tag}</li>
-          <li>
-            Deployed at:{' '}
-            {format(
-              new Date(deploymentVersion.deployed_at),
-              'MMM d, yyyy h:mm a'
-            )}
+      <h2>Links</h2>
+      <ul>
+        {deployment.hyperlinks.map(link => (
+          <li key={link.url}>
+            <a href={link.url} rel="noopener noreferrer" target="_blank">
+              {link.title}
+            </a>
           </li>
-        </ul>
-      </aside>
-      <section>
-        <h3>Deployment information</h3>
-        <h4>Kubernetes deployment files</h4>
-        <ul>
-          {deploymentVersion.kubernetes_deployment_files.map(
-            (x: KubernetesConfigurationFile) =>
-              x && <li key={x.path}>{x.path}</li>
-          )}
-        </ul>
-        <h4>Last 5 commits</h4>
-        <div className="codeContainer">
-          <code>{deploymentVersion.last_commits}</code>
-        </div>
-        <dl>
-          <dt>Git commit:</dt>
-          <dd>
-            {deploymentVersion.git_url}/{deploymentVersion.git_hash}
-          </dd>
-        </dl>
-      </section>
-      <section>
-        <h3>Configuration</h3>
-        <ul>
-          {(deploymentVersion.configuration || []).map((x: Configuration) => (
-            <li className={x.isSecret ? 'secret' : ''} key={x.key}>
-              {x.key}={JSON.stringify(x.value)}
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section>
-        <h3>Links</h3>
-        <ul>
-          {deployment.hyperlinks.map(
-            (x: Href) =>
-              x && (
-                <li key={x.url}>
-                  <a href={x.url} target="__blank">
-                    {x.title}
-                  </a>
-                </li>
-              )
-          )}
-        </ul>
+        ))}
+      </ul>
+      <h2>
+        <Branch size={20} /> Branches
+      </h2>
+      <section className="branches">
+        {Object.entries(branches).map(([branch, versions]) => (
+          <Link
+            key={branch}
+            href={{
+              pathname: `/deployment/[id]/version/[versionId]`,
+              query: { id: deployment.id, versionId: versions[0].id },
+            }}
+            as={`/deployment/${deployment.id}/version/${encodeURIComponent(
+              versions[0].id
+            )}`}
+          >
+            <a className="branch">
+              <h3>{branch}</h3>
+              <section>
+                <strong>Last deployed</strong>
+                <br />
+                {new Date(versions[0].deployed_at).toLocaleString()}
+              </section>
+            </a>
+          </Link>
+        ))}
       </section>
       <style jsx>{`
         h1 {
+          font-size: 48px;
+        }
+        h3 {
+          width: 100%;
           text-align: center;
+          margin: 0;
         }
 
-        .pellets {
+        .branches {
+          margin: 0;
           padding: 0;
-          list-style-type: none;
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          grid-gap: 16px;
         }
 
-        .deploymentDetails {
-          background-color: ${colors.clouds};
+        .branch {
+          text-decoration: none;
+          color: ${colors.midnightBlue};
+          display: flex;
+          flex-flow: row wrap;
+          width: 100%;
+          height: 100%;
           padding: 16px;
-          border-radius: 12px;
-          margin-top: 48px;
-          transition: opacity 0.2s ease-out;
-          opacity: 1;
+
+          justify-content: space-between;
+
+          box-shadow: 0;
+          transition: all 0.2s ease-out;
+          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
         }
 
-        .deploymentDetails.hide-opacity {
-          opacity: 0;
-        }
-
-        .pellets > li {
-          display: inline;
-          margin-right: 16px;
-          padding: 8px 16px;
-          border-radius: 2em;
-          background: ${colors.turquoise};
-          color: ${colors.white};
-        }
-        .codeContainer {
-          overflow-x: scroll;
-          background: ${colors.midnightBlue};
-          padding: 16px;
-          border-radius: 16px;
-        }
-        code {
-          color: ${colors.clouds};
-          white-space: pre;
-          overflow-x: scroll;
-          max-width: 100%;
+        .branch:hover {
+          box-shadow: 0px 20px 20px rgba(0, 0, 0, 0.2);
         }
       `}</style>
     </section>

@@ -2,11 +2,11 @@ import gql from 'graphql-tag'
 import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
-import { GQLdeployments } from '@shepherdorg/shepherd-ui-api'
+import { Deployment } from 'gql/customTypes'
 
 const LIST_DEPLOYMENTS = gql`
-  subscription {
-    deployments {
+  subscription DeploymentList($filter: String) {
+    deployments(where: { display_name: { _like: $filter } }) {
       id
       db_migration_image
       deployer_role
@@ -16,14 +16,39 @@ const LIST_DEPLOYMENTS = gql`
       env
       hyperlinks
       last_deployment_timestamp
+      countAggregate: deployment_versions_aggregate(distinct_on: id) {
+        aggregate {
+          count
+        }
+      }
+      branchAggregate: deployment_versions_aggregate(distinct_on: git_branch) {
+        aggregate {
+          count
+        }
+      }
     }
   }
 `
-export const useDeploymentList = (): Either<
-  string | ApolloError,
-  GQLdeployments[]
-> => {
-  const result = useSubscription(LIST_DEPLOYMENTS)
+
+export interface DeploymentListItem extends Deployment {
+  countAggregate: {
+    aggregate: {
+      count: number
+    }
+  }
+  branchAggregate: {
+    aggregate: {
+      count: number
+    }
+  }
+}
+
+export const useDeploymentList = (
+  filter?: string
+): Either<string | ApolloError, DeploymentListItem[]> => {
+  const result = useSubscription(LIST_DEPLOYMENTS, {
+    variables: { filter: filter ? `%${filter}%` : undefined },
+  })
 
   if (result.data) {
     return Right(result.data.deployments)
