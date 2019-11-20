@@ -1,0 +1,7 @@
+- args:
+    sql: ALTER TABLE "public"."deployment_versions" ALTER COLUMN "deployed_at" TYPE
+      timestamp without time zone;
+  type: run_sql
+- args:
+    sql: COMMENT ON COLUMN "public"."deployment_versions"."deployed_at" IS E'null'
+  type: run_sql
