@@ -6,7 +6,10 @@ import { Deployment } from 'gql/customTypes'
 
 const LIST_DEPLOYMENTS = gql`
   subscription DeploymentList($filter: String) {
-    deployments(where: { display_name: { _like: $filter } }) {
+    deployments(
+      where: { display_name: { _like: $filter } }
+      order_by: { last_deployment_timestamp: desc }
+    ) {
       id
       db_migration_image
       deployer_role
