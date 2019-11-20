@@ -6,6 +6,13 @@ import { colors } from 'utils/colors'
 import { useMemo } from 'react'
 
 export default class MyApp extends App {
+  // eslint-disable-next-line
+  static async getInitialProps(appContext: any) {
+    // calls page's `getInitialProps` and fills `appProps.pageProps`
+    const appProps = await App.getInitialProps(appContext)
+
+    return { ...appProps }
+  }
   render() {
     const { Component, pageProps } = this.props
     return <RootComponent Component={Component} pageProps={pageProps} />
