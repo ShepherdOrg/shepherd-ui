@@ -54,27 +54,36 @@ export const DeploymentList = function() {
                       as={`/deployment/${x.id}`}
                       scroll
                     >
-                      <a className="deploymentCard">
-                        <h3 className="name">{x.display_name || x.id}</h3>
-                        <section className="types">
-                          <DeploymentTypeIcon
-                            deploymentType={x.deployment_type}
-                          />
-                          <DeployerRoleIcon deployerRole={x.deployer_role} />
-                        </section>
-                        <section className="stats">
-                          <strong>Stats</strong> <br />
-                          Versions: {x.countAggregate.aggregate.count} <br />
-                          Branches: {x.branchAggregate.aggregate.count}
-                        </section>
-                        <section className="info">
-                          <strong>Last deployed</strong>
-                          <br />
-                          {formatDistanceToNow(
-                            new Date(x.last_deployment_timestamp)
-                          )}{' '}
-                          ago
-                          <div className="env">to {x.env}</div>
+                      <a className="deploymentCardLink">
+                        <section className="deploymentCardSection">
+                          <div className="deploymentTitle"
+                          >
+                            <h3 className="name">{x.display_name || x.id}</h3>
+                            <DeploymentTypeIcon
+                              deploymentType={x.deployment_type}
+                            />
+                            <DeployerRoleIcon deployerRole={x.deployer_role} />
+                          </div>
+                          <div
+                            style={{
+                              display: 'inline-block',
+                              overflow: 'clip',
+                            }}
+                          >
+                            <div className="environment">
+                              <div className="env">{x.env}</div>
+                              <div className="info">
+                                <strong>Latest version </strong>
+                                {x.latest_version &&
+                                x.latest_version.aggregate.max.version}
+                                <br />
+                                {formatDistanceToNow(
+                                  new Date(x.last_deployment_timestamp)
+                                )}{' '}
+                                ago
+                              </div>
+                            </div>
+                          </div>
                         </section>
                       </a>
                     </Link>
@@ -103,12 +112,15 @@ export const DeploymentList = function() {
           list-style-type: none;
           margin: 0;
           padding: 0;
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          grid-gap: 16px;
+          display: inline;
         }
 
-        .deploymentCard {
+        .deploymentTitle {
+          display: inline-block;
+          overflow: hidden;
+        }
+
+        .deploymentCardLink {
           text-decoration: none;
           color: ${colors.midnightBlue};
           display: flex;
@@ -116,6 +128,7 @@ export const DeploymentList = function() {
           width: 100%;
           height: 100%;
           padding: 16px;
+          margin-bottom: 2px;
 
           justify-content: space-between;
 
@@ -124,22 +137,34 @@ export const DeploymentList = function() {
             0 1px 2px rgba(0, 0, 0, 0.24);
         }
 
-        .deploymentCard:hover {
+        .deploymentCardLink:hover {
           box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
             0 10px 10px rgba(0, 0, 0, 0.22);
         }
 
-        .deploymentCard > .types {
+        .deploymentCardLink > .types {
           flex-basis: 100%;
           display: flex;
-          justify-content: center;
+          justify-content: left;
           margin: 12px 0;
+        }
+
+        .deploymentCardSection {
+          width: 100%;
+          margin: 0;
+          padding: 0;
+          display: grid;
+          grid-template-columns: 3fr 1fr;
+          grid-gap: 16px;
+        }
+
+        .environment {
+          min-width: 150px
         }
 
         .name {
           margin: 0;
-          text-align: center;
-          width: 100%;
+          text-align: left;
         }
 
         .info {
@@ -158,6 +183,12 @@ export const DeploymentList = function() {
 
         .name {
           font-size: 20px;
+        }
+        .env {
+          text-align: right;          
+          text-transform: uppercase;
+          font-size: 18px;
+          font-weight: bold;
         }
 
         .grow {

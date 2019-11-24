@@ -1,0 +1,3 @@
+- args:
+    sql: ALTER TABLE "public"."deployments" ADD COLUMN "herd_key" text NULL;
+  type: run_sql

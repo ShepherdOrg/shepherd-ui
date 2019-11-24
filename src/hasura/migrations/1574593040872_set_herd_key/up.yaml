@@ -1,0 +1,4 @@
+- args:
+    cascade: false
+    sql: update deployments set herd_key = substr(id, length(env)+1)
+  type: run_sql

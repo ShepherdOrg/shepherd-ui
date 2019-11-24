@@ -11,3 +11,9 @@ yarn install # install lerna in the root scope
 yarn run lerna bootstrap # installs dependencies and links the packages together
 ./scripts/dev.sh # sets up a local hasura and postgres
 ```
+
+
+TODO: 
+
+Add last_deployment_version to DeploymentList
+Add deployment_key (herd key). Use to group env deployments together.

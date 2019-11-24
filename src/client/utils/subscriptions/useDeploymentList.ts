@@ -3,6 +3,11 @@ import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
 import { Deployment } from 'gql/customTypes'
+import {
+  GQLdeployments,
+  GQLdeploymentsTypeResolver,
+  query_rootToDeploymentsResolver, subscription_rootToDeploymentsResolver,
+} from '@shepherdorg/shepherd-ui-api'
 
 const LIST_DEPLOYMENTS = gql`
   subscription DeploymentList($filter: String) {
@@ -19,6 +24,13 @@ const LIST_DEPLOYMENTS = gql`
       env
       hyperlinks
       last_deployment_timestamp
+      latest_version: deployment_versions_aggregate {
+        aggregate {
+          max {
+            version
+          }
+        }
+      }
       countAggregate: deployment_versions_aggregate(distinct_on: id) {
         aggregate {
           count
@@ -34,6 +46,13 @@ const LIST_DEPLOYMENTS = gql`
 `
 
 export interface DeploymentListItem extends Deployment {
+  latest_version: {
+    aggregate: {
+      max: {
+        version: string
+      }
+    }
+  }
   countAggregate: {
     aggregate: {
       count: number
@@ -46,6 +65,11 @@ export interface DeploymentListItem extends Deployment {
   }
 }
 
+function groupProdAndDev(deployments: DeploymentListItem[] ) {
+  console.log('Grouping', deployments.map((dep)=>dep.id  + '->' + dep.env).join(', '))
+  return deployments
+}
+
 export const useDeploymentList = (
   filter?: string
 ): Either<string | ApolloError, DeploymentListItem[]> => {
@@ -54,7 +78,7 @@ export const useDeploymentList = (
   })
 
   if (result.data) {
-    return Right(result.data.deployments)
+    return Right(groupProdAndDev(result.data.deployments))
   }
   if (result.loading) {
     return Left('loading')

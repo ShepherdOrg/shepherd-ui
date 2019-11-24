@@ -3,6 +3,7 @@
   "version": "3.0.7",
   "private": true,
   "scripts": {
+    "localdev": "HASURA_ENDPOINT_URL=wss://localhost:8080/v1/graphql next dev",
     "dev": "HASURA_ENDPOINT_URL=wss://iapi.dev.it.tm.is/shepherd-ui-api/v1/graphql next dev",
     "build": "next build",
     "start": "next start",

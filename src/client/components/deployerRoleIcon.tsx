@@ -9,14 +9,14 @@ interface Props {
 
 export const DeployerRoleIcon = function({ deployerRole, size = 16 }: Props) {
   if (deployerRole === 'Install') {
-    return <FaDownload size={size} />
+    return <span title="Install"> <FaDownload size={size} /></span>
   }
   if (deployerRole === 'Migration') {
-    return <FaDatabase size={size} />
+    return <span title="DB Migration"><FaDatabase size={size} /></span>
   }
 
   if (deployerRole === 'Infrastructure') {
-    return <FaArchway size={size} />
+    return <span title="Infrastructure"><FaArchway size={size} /></span>
   }
 
   return null

@@ -1,0 +1,9 @@
+- args:
+    cascade: false
+    sql: "update deployments D1 \nset last_deployment_version=dv.version \nFROM deployments
+      D2\ninner join(\n    select a.id, a.version, a.deployment_id from deployment_versions
+      a\n    inner join (\n        select deployment_id, max(deployed_at) deployed_at
+      from deployment_versions\n        group by deployment_id\n    ) m\n    on a.deployed_at=m.deployed_at
+      and a.deployment_id=m.deployment_id\n) dv\non dv.deployment_id=D2.id\nWHERE
+      D1.id=d2.id"
+  type: run_sql

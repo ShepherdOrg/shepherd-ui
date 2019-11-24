@@ -12,32 +12,32 @@ import { GraphQLResolveInfo, GraphQLScalarType } from 'graphql';
  * query root
  */
 export interface GQLquery_root {
-  
+
   /**
    * fetch data from the table: "deployment_versions"
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployment_versions"
    */
   deployment_versions_aggregate: GQLdeployment_versions_aggregate;
-  
+
   /**
    * fetch data from the table: "deployment_versions" using primary key columns
    */
   deployment_versions_by_pk?: GQLdeployment_versions;
-  
+
   /**
    * fetch data from the table: "deployments"
    */
   deployments: GQLdeployments[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployments"
    */
   deployments_aggregate: GQLdeployments_aggregate;
-  
+
   /**
    * fetch data from the table: "deployments" using primary key columns
    */
@@ -48,82 +48,82 @@ export interface GQLquery_root {
  * select columns of table "deployment_versions"
  */
 export enum GQLdeployment_versions_select_column {
-  
+
   /**
    * column name
    */
   build_host_name = 'build_host_name',
-  
+
   /**
    * column name
    */
   built_at = 'built_at',
-  
+
   /**
    * column name
    */
   configuration = 'configuration',
-  
+
   /**
    * column name
    */
   deployed_at = 'deployed_at',
-  
+
   /**
    * column name
    */
   deployment_id = 'deployment_id',
-  
+
   /**
    * column name
    */
   docker_image = 'docker_image',
-  
+
   /**
    * column name
    */
   docker_image_tag = 'docker_image_tag',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   git_branch = 'git_branch',
-  
+
   /**
    * column name
    */
   git_commit = 'git_commit',
-  
+
   /**
    * column name
    */
   git_hash = 'git_hash',
-  
+
   /**
    * column name
    */
   git_url = 'git_url',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   kubernetes_deployment_files = 'kubernetes_deployment_files',
-  
+
   /**
    * column name
    */
   last_commits = 'last_commits',
-  
+
   /**
    * column name
    */
@@ -157,32 +157,32 @@ export interface GQLdeployment_versions_order_by {
  * column ordering options
  */
 export enum GQLorder_by {
-  
+
   /**
    * in the ascending order, nulls last
    */
   asc = 'asc',
-  
+
   /**
    * in the ascending order, nulls first
    */
   asc_nulls_first = 'asc_nulls_first',
-  
+
   /**
    * in the ascending order, nulls last
    */
   asc_nulls_last = 'asc_nulls_last',
-  
+
   /**
    * in the descending order, nulls first
    */
   desc = 'desc',
-  
+
   /**
    * in the descending order, nulls first
    */
   desc_nulls_first = 'desc_nulls_first',
-  
+
   /**
    * in the descending order, nulls last
    */
@@ -318,12 +318,12 @@ export type GQLtimestamp = any;
  * expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
  */
 export interface GQLjsonb_comparison_exp {
-  
+
   /**
    * is the column contained in the given json value
    */
   _contained_in?: GQLjsonb;
-  
+
   /**
    * does the column contain the given json value at the top level
    */
@@ -331,17 +331,17 @@ export interface GQLjsonb_comparison_exp {
   _eq?: GQLjsonb;
   _gt?: GQLjsonb;
   _gte?: GQLjsonb;
-  
+
   /**
    * does the string exist as a top-level key in the column
    */
   _has_key?: string;
-  
+
   /**
    * do all of these strings exist as top-level keys in the column
    */
   _has_keys_all?: string[];
-  
+
   /**
    * do any of these strings exist as top-level keys in the column
    */
@@ -383,7 +383,7 @@ export interface GQLdeployment_versions {
   built_at?: GQLtimestamp;
   configuration?: GQLjsonb;
   deployed_at?: GQLtimestamp;
-  
+
   /**
    * An object relationship
    */
@@ -409,12 +409,12 @@ export interface GQLdeployments {
   db_migration_image?: string;
   deployer_role: string;
   deployment_type: string;
-  
+
   /**
    * An array relationship
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * An aggregated array relationship
    */
@@ -484,47 +484,47 @@ export interface GQLdeployment_versions_min_fields {
  * select columns of table "deployments"
  */
 export enum GQLdeployments_select_column {
-  
+
   /**
    * column name
    */
   db_migration_image = 'db_migration_image',
-  
+
   /**
    * column name
    */
   deployer_role = 'deployer_role',
-  
+
   /**
    * column name
    */
   deployment_type = 'deployment_type',
-  
+
   /**
    * column name
    */
   description = 'description',
-  
+
   /**
    * column name
    */
   display_name = 'display_name',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   hyperlinks = 'hyperlinks',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
@@ -578,32 +578,32 @@ export interface GQLdeployments_min_fields {
  * mutation root
  */
 export interface GQLmutation_root {
-  
+
   /**
    * delete data from the table: "deployment_versions"
    */
   delete_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * delete data from the table: "deployments"
    */
   delete_deployments?: GQLdeployments_mutation_response;
-  
+
   /**
    * insert data into the table: "deployment_versions"
    */
   insert_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * insert data into the table: "deployments"
    */
   insert_deployments?: GQLdeployments_mutation_response;
-  
+
   /**
    * update data of the table: "deployment_versions"
    */
   update_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * update data of the table: "deployments"
    */
@@ -614,12 +614,12 @@ export interface GQLmutation_root {
  * response of any mutation on the table "deployment_versions"
  */
 export interface GQLdeployment_versions_mutation_response {
-  
+
   /**
    * number of affected rows by the mutation
    */
   affected_rows: number;
-  
+
   /**
    * data of the affected rows by the mutation
    */
@@ -630,12 +630,12 @@ export interface GQLdeployment_versions_mutation_response {
  * response of any mutation on the table "deployments"
  */
 export interface GQLdeployments_mutation_response {
-  
+
   /**
    * number of affected rows by the mutation
    */
   affected_rows: number;
-  
+
   /**
    * data of the affected rows by the mutation
    */
@@ -710,7 +710,7 @@ export interface GQLdeployment_versions_on_conflict {
  * unique or primary key constraints on table "deployment_versions"
  */
 export enum GQLdeployment_versions_constraint {
-  
+
   /**
    * unique or primary key constraint
    */
@@ -721,82 +721,82 @@ export enum GQLdeployment_versions_constraint {
  * update columns of table "deployment_versions"
  */
 export enum GQLdeployment_versions_update_column {
-  
+
   /**
    * column name
    */
   build_host_name = 'build_host_name',
-  
+
   /**
    * column name
    */
   built_at = 'built_at',
-  
+
   /**
    * column name
    */
   configuration = 'configuration',
-  
+
   /**
    * column name
    */
   deployed_at = 'deployed_at',
-  
+
   /**
    * column name
    */
   deployment_id = 'deployment_id',
-  
+
   /**
    * column name
    */
   docker_image = 'docker_image',
-  
+
   /**
    * column name
    */
   docker_image_tag = 'docker_image_tag',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   git_branch = 'git_branch',
-  
+
   /**
    * column name
    */
   git_commit = 'git_commit',
-  
+
   /**
    * column name
    */
   git_hash = 'git_hash',
-  
+
   /**
    * column name
    */
   git_url = 'git_url',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   kubernetes_deployment_files = 'kubernetes_deployment_files',
-  
+
   /**
    * column name
    */
   last_commits = 'last_commits',
-  
+
   /**
    * column name
    */
@@ -816,7 +816,7 @@ export interface GQLdeployments_on_conflict {
  * unique or primary key constraints on table "deployments"
  */
 export enum GQLdeployments_constraint {
-  
+
   /**
    * unique or primary key constraint
    */
@@ -827,47 +827,47 @@ export enum GQLdeployments_constraint {
  * update columns of table "deployments"
  */
 export enum GQLdeployments_update_column {
-  
+
   /**
    * column name
    */
   db_migration_image = 'db_migration_image',
-  
+
   /**
    * column name
    */
   deployer_role = 'deployer_role',
-  
+
   /**
    * column name
    */
   deployment_type = 'deployment_type',
-  
+
   /**
    * column name
    */
   description = 'description',
-  
+
   /**
    * column name
    */
   display_name = 'display_name',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   hyperlinks = 'hyperlinks',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
@@ -992,32 +992,32 @@ export interface GQLdeployments_set_input {
  * subscription root
  */
 export interface GQLsubscription_root {
-  
+
   /**
    * fetch data from the table: "deployment_versions"
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployment_versions"
    */
   deployment_versions_aggregate: GQLdeployment_versions_aggregate;
-  
+
   /**
    * fetch data from the table: "deployment_versions" using primary key columns
    */
   deployment_versions_by_pk?: GQLdeployment_versions;
-  
+
   /**
    * fetch data from the table: "deployments"
    */
   deployments: GQLdeployments[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployments"
    */
   deployments_aggregate: GQLdeployments_aggregate;
-  
+
   /**
    * fetch data from the table: "deployments" using primary key columns
    */

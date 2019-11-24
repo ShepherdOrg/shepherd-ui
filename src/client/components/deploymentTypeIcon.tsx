@@ -11,10 +11,10 @@ export const DeploymentTypeIcon = function({
   size = 16,
 }: Props) {
   if (deploymentType === 'Deployer') {
-    return <FaDocker size={size} />
+    return <span title="Docker deployer"><FaDocker size={size}/></span>
   }
   if (deploymentType === 'Kubernetes') {
-    return <FaKubernetes size={size} />
+    return <span title="Kubernetes"><FaKubernetes size={size} /></span>
   }
 
   return null
