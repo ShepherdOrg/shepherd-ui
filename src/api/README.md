@@ -12,6 +12,8 @@ client.upsertDeployment([
     id: 'dev-images-fluentd2',
     display_name: 'Fluentd aws appender 2',
     last_deployment_timestamp: '2019-10-17T16:02:20.500Z',
+    last_deployment_version: '1.0.1',
+    herd_key: 'images-fluentd2',
     env: 'dev',
     description: '',
     deployer_role: 'Install',

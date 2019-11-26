@@ -48,45 +48,50 @@ export const DeploymentList = function() {
             items.map(
               x =>
                 x && (
-                  <li key={x.id} className="item">
-                    <Link
-                      href={`/deployment/[id]?reveal=true&id=${x.id}`}
-                      as={`/deployment/${x.id}`}
-                      scroll
-                    >
-                      <a className="deploymentCardLink">
-                        <section className="deploymentCardSection">
-                          <div className="deploymentTitle"
+                  <li key={x.herd_key} className="item">
+                    <section className="deploymentCardSection">
+                      <div className="deploymentTitle">
+                        <h3 className="name">{x.display_name || x.herd_key}</h3>
+                        <DeploymentTypeIcon
+                          deploymentType={x.deployment_type}
+                        />
+                        <DeployerRoleIcon deployerRole={x.deployer_role} />
+                      </div>
+                      {x.envDeployments.map(envDeployment => {
+                        return (
+                          <Link
+                            href={`/deployment/[id]?reveal=true&id=${envDeployment.id}`}
+                            as={`/deployment/${envDeployment.id}`}
+                            scroll
                           >
-                            <h3 className="name">{x.display_name || x.id}</h3>
-                            <DeploymentTypeIcon
-                              deploymentType={x.deployment_type}
-                            />
-                            <DeployerRoleIcon deployerRole={x.deployer_role} />
-                          </div>
-                          <div
-                            style={{
-                              display: 'inline-block',
-                              overflow: 'clip',
-                            }}
-                          >
-                            <div className="environment">
-                              <div className="env">{x.env}</div>
-                              <div className="info">
-                                <strong>Latest version </strong>
-                                {x.latest_version &&
-                                x.latest_version.aggregate.max.version}
-                                <br />
-                                {formatDistanceToNow(
-                                  new Date(x.last_deployment_timestamp)
-                                )}{' '}
-                                ago
+                            <a className="deploymentCardLink">
+                              <div
+                                style={{
+                                  display: 'inline-block',
+                                  overflow: 'clip',
+                                }}
+                              >
+                                <div className="environment">
+                                  <div className="env">{envDeployment.env}</div>
+                                  <div className="info">
+                                    <strong>Latest version </strong>
+                                    {envDeployment.last_deployment_version &&
+                                      envDeployment.last_deployment_version}
+                                    <br />
+                                    {formatDistanceToNow(
+                                      new Date(
+                                        envDeployment.last_deployment_timestamp
+                                      )
+                                    )}{' '}
+                                    ago
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        </section>
-                      </a>
-                    </Link>
+                            </a>
+                          </Link>
+                        )
+                      })}
+                    </section>
                   </li>
                 )
             )
@@ -114,6 +119,20 @@ export const DeploymentList = function() {
           padding: 0;
           display: inline;
         }
+        
+        li{
+          padding: 16px;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+            0 1px 2px rgba(0, 0, 0, 0.24);
+          transition: all 0.2s ease-out;
+
+        }
+
+        li:hover {
+          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
+            0 10px 10px rgba(0, 0, 0, 0.22);
+        }
+
 
         .deploymentTitle {
           display: inline-block;
@@ -127,20 +146,15 @@ export const DeploymentList = function() {
           flex-flow: row wrap;
           width: 100%;
           height: 100%;
-          padding: 16px;
           margin-bottom: 2px;
 
           justify-content: space-between;
-
-          transition: all 0.2s ease-out;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-            0 1px 2px rgba(0, 0, 0, 0.24);
         }
 
-        .deploymentCardLink:hover {
-          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-            0 10px 10px rgba(0, 0, 0, 0.22);
-        }
+       .deploymentCardLink:hover {
+        color: rgba(0,0,0,.7);
+       }
+ 
 
         .deploymentCardLink > .types {
           flex-basis: 100%;
@@ -154,12 +168,12 @@ export const DeploymentList = function() {
           margin: 0;
           padding: 0;
           display: grid;
-          grid-template-columns: 3fr 1fr;
+          grid-template-columns: 2fr 1fr 1fr;
           grid-gap: 16px;
         }
 
         .environment {
-          min-width: 150px
+          min-width: 150px;
         }
 
         .name {
@@ -185,7 +199,7 @@ export const DeploymentList = function() {
           font-size: 20px;
         }
         .env {
-          text-align: right;          
+          text-align: right;
           text-transform: uppercase;
           font-size: 18px;
           font-weight: bold;

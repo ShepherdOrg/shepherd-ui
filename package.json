@@ -12,7 +12,7 @@
     "bootstrap": "lerna bootstrap -- --frozen-lockfile"
   },
   "dependencies": {
-    "@shepherdorg/cli": "0.0.13",
+    "@shepherdorg/cli": "^2.0.2",
     "chalk": "^2.4.2",
     "fluture": "^11.0.3"
   }

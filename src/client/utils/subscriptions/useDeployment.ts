@@ -21,6 +21,7 @@ const GET_DEPLOYMENT = gql`
       env
       hyperlinks
       last_deployment_timestamp
+      last_deployment_version
       deployment_versions(
         order_by: { deployed_at: desc }
         where: $versionFilter

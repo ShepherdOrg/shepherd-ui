@@ -1,6 +1,6 @@
 import { createClient, Deployment, DeploymentVersion } from './api'
-import { validDeploymentWithVersion } from './testdata/validData'
-import { closeButNotQuite } from './testdata/invalidData'
+import { validDevDeploymentWithVersion, validProdDeploymentWithVersion } from './testdata/validData'
+// import { closeButNotQuite } from './testdata/invalidData'
 
 export type DeploymentWithVersion = {
   versionInfo: DeploymentVersion,
@@ -17,8 +17,9 @@ async function upsertTestData(deploymentWithVersion: any) {
 }
 
 async function main() {
-  // await upsertTestData(validDeploymentWithVersion)
-  await upsertTestData(closeButNotQuite)
+  await upsertTestData(validDevDeploymentWithVersion)
+  await upsertTestData(validProdDeploymentWithVersion)
+  // await upsertTestData(closeButNotQuite)
 }
 
 main().then(console.log, console.error)

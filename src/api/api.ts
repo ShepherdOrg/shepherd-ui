@@ -110,6 +110,7 @@ export function createClient(
             env,
             hyperlinks,
             last_deployment_timestamp
+            last_deployment_version
           ]})
         {
           affected_rows

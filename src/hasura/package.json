@@ -5,7 +5,7 @@
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
   "scripts": {
-    "gen-types": "npx graphql-cli get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
+    "gen-types": "graphql-cli get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
     "tsc": "rm -rf dist/ && tsc -p ."
   },
   "files": [
@@ -15,6 +15,9 @@
     "@pongsatt/graphql-schema-typescript": "^1.0.25",
     "graphql": "^0.13.0",
     "typescript": "^3.6.4"
+  },
+  "devDependencies": {
+    "graphql-cli": "^3.0.14"
   },
   "gitHead": "bea2cc8864feedd62c10472ca6392a5811627593"
 }

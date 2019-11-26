@@ -2,7 +2,7 @@ import gql from 'graphql-tag'
 import { useSubscription } from '@apollo/react-hooks'
 import { Right, Left, Either } from 'data.either'
 import { ApolloError } from 'apollo-client'
-import { Deployment } from 'gql/customTypes'
+import { Deployment, Href } from 'gql/customTypes'
 import {
   GQLdeployments,
   GQLdeploymentsTypeResolver,
@@ -23,7 +23,9 @@ const LIST_DEPLOYMENTS = gql`
       display_name
       env
       hyperlinks
+      herd_key
       last_deployment_timestamp
+      last_deployment_version
       latest_version: deployment_versions_aggregate {
         aggregate {
           max {
@@ -31,48 +33,53 @@ const LIST_DEPLOYMENTS = gql`
           }
         }
       }
-      countAggregate: deployment_versions_aggregate(distinct_on: id) {
-        aggregate {
-          count
-        }
-      }
-      branchAggregate: deployment_versions_aggregate(distinct_on: git_branch) {
-        aggregate {
-          count
-        }
-      }
     }
   }
 `
 
 export interface DeploymentListItem extends Deployment {
-  latest_version: {
-    aggregate: {
-      max: {
-        version: string
-      }
-    }
-  }
-  countAggregate: {
-    aggregate: {
-      count: number
-    }
-  }
-  branchAggregate: {
-    aggregate: {
-      count: number
-    }
-  }
 }
 
-function groupProdAndDev(deployments: DeploymentListItem[] ) {
-  console.log('Grouping', deployments.map((dep)=>dep.id  + '->' + dep.env).join(', '))
-  return deployments
+// export type EnvDeploymentMap ={
+//   [env: string] : DeploymentListItem
+// }
+
+export interface GroupedDeploymentListItem {
+  display_name: string;
+  herd_key?: string;
+  hyperlinks: Href[]
+  deployer_role: string;
+  deployment_type: string;
+
+  envDeployments: DeploymentListItem[]
+}
+
+var groupBy = function<TItem>(dataArray:TItem[], dataKey:string):{[key:string]:TItem[]} {
+  return dataArray.reduce(function(resultingGroup, dataRow) {
+    // @ts-ignore
+    (resultingGroup[dataRow[dataKey]] = resultingGroup[dataRow[dataKey]] || []).push(dataRow);
+    return resultingGroup;
+  }, {});
+};
+
+function groupProdAndDev(deployments: DeploymentListItem[] ) : GroupedDeploymentListItem[] {
+  const groupedObj = Object.entries(groupBy(deployments,'herd_key')).map(([herdKey, deploymentsUnderKey])=>{
+    const result: GroupedDeploymentListItem = {
+      herd_key: herdKey,
+      deployer_role: deploymentsUnderKey[0].deployer_role,
+      deployment_type: deploymentsUnderKey[0].deployment_type,
+      display_name: deploymentsUnderKey[0].display_name,
+      hyperlinks: deploymentsUnderKey[0].hyperlinks,
+      envDeployments: deploymentsUnderKey
+    }
+    return result
+  })
+  return groupedObj
 }
 
 export const useDeploymentList = (
   filter?: string
-): Either<string | ApolloError, DeploymentListItem[]> => {
+): Either<string | ApolloError, GroupedDeploymentListItem[]> => {
   const result = useSubscription(LIST_DEPLOYMENTS, {
     variables: { filter: filter ? `%${filter}%` : undefined },
   })
