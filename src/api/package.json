@@ -6,7 +6,8 @@
   "types": "dist/api.d.ts",
   "license": "MIT",
   "scripts": {
-    "tsc": "rm -rf dist/ && tsc -p ."
+    "build": "rm -rf dist/ && tsc -p .",
+    "prepublishOnly": "yarn build"
   },
   "files": [
     "dist/"

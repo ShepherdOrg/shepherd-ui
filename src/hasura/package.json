@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "gen-types": "graphql-cli get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
-    "tsc": "rm -rf dist/ && tsc -p ."
+    "build": "rm -rf dist/ && tsc -p .",
+    "prepublishOnly": "yarn build"
   },
   "files": [
     "dist"
