@@ -44,7 +44,7 @@ jobs:
           command: BASE_COMMIT=$(./scripts/base-commit.sh) BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/build.js
       - run:
           name: Push docker images
-          command: BASE_COMMIT=$(./scripts/base-commit.sh) BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/deploy-docker.js --only-changed
+          command: BASE_COMMIT=$(./scripts/base-commit.sh) BUILD_NUMBER=$CIRCLE_BUILD_NUM ./scripts/push-docker.js
       - run:
           name: Save Docker Layer Cache
           command: BASE_COMMIT=$(./scripts/base-commit.sh) ./scripts/save-docker-cache.js --only-changed > /tmp/layercache.tar
