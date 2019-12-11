@@ -20,4 +20,20 @@ export const colors = {
   concrete: '#95A5A6',
   asbestos: '#7F8C8D',
   white: '#fff',
+  dark: '#333333',
+  darker: '#222222',
+  darkest: '#000000',
+}
+export const darkTheme = {
+  background: colors.darker,
+  inputBackground: colors.dark,
+  text: colors.clouds,
+  shadow: colors.asbestos,
+  code: {
+    color: colors.sunFlower,
+    background: colors.darkest,
+    hover: colors.carrot,
+  },
+  link: colors.belizeHole,
+  pellet: { background: colors.amethyst, text: colors.darkest },
 }

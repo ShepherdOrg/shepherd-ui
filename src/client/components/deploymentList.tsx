@@ -1,7 +1,7 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
 import { useState } from 'react'
-import { colors } from 'utils/colors'
+import { darkTheme } from 'utils/colors'
 import { useDeploymentList } from 'utils/subscriptions/useDeploymentList'
 import { DeploymentTypeIcon } from './deploymentTypeIcon'
 import { DeployerRoleIcon } from './deployerRoleIcon'
@@ -18,7 +18,7 @@ function renderErrorText(x: ApolloError | string) {
 export const DeploymentList = function() {
   const [filter, setFilter] = useState<string>('')
   const deploymentList = useDeploymentList(filter)
-
+  const theme = darkTheme
   return (
     <>
       <input
@@ -106,8 +106,7 @@ export const DeploymentList = function() {
           border: 0;
           padding: 8px 16px;
           margin: 8px 0;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-            0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px ${theme.shadow}, 0 1px 2px ${theme.shadow};
         }
         .header {
           font-weight: 600;
@@ -119,20 +118,16 @@ export const DeploymentList = function() {
           padding: 0;
           display: inline;
         }
-        
-        li{
-          padding: 16px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-            0 1px 2px rgba(0, 0, 0, 0.24);
-          transition: all 0.2s ease-out;
 
+        li {
+          padding: 16px;
+          box-shadow: 0 1px 3px ${theme.shadow}, 0 1px 2px ${theme.shadow};
+          transition: all 0.2s ease-out;
         }
 
         li:hover {
-          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-            0 10px 10px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 14px 28px ${theme.shadow}, 0 10px 10px ${theme.shadow};
         }
-
 
         .deploymentTitle {
           display: inline-block;
@@ -141,7 +136,7 @@ export const DeploymentList = function() {
 
         .deploymentCardLink {
           text-decoration: none;
-          color: ${colors.midnightBlue};
+          color: ${theme.code.color};
           display: flex;
           flex-flow: row wrap;
           width: 100%;
@@ -151,10 +146,9 @@ export const DeploymentList = function() {
           justify-content: space-between;
         }
 
-       .deploymentCardLink:hover {
-        color: rgba(0,0,0,.7);
-       }
- 
+        .deploymentCardLink:hover {
+          color: ${theme.code.hover};
+        }
 
         .deploymentCardLink > .types {
           flex-basis: 100%;

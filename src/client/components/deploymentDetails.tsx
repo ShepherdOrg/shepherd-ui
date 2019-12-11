@@ -1,4 +1,4 @@
-import { colors } from 'utils/colors'
+import { darkTheme } from 'utils/colors'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { getBranchesFromVersions } from 'utils/branches'
@@ -18,6 +18,7 @@ export const DeploymentDetails = function({ deployment }: Props) {
   }, [])
 
   const branches = getBranchesFromVersions(versions)
+  const theme = darkTheme
   return (
     <section className={`deploymentDetails ${hidden ? 'hide-opacity' : ''}`}>
       <h1>{deployment.display_name}</h1>
@@ -77,7 +78,7 @@ export const DeploymentDetails = function({ deployment }: Props) {
 
         .branch {
           text-decoration: none;
-          color: ${colors.midnightBlue};
+          color: ${theme.code.color};
           display: flex;
           flex-flow: row wrap;
           width: 100%;
@@ -88,7 +89,7 @@ export const DeploymentDetails = function({ deployment }: Props) {
 
           box-shadow: 0;
           transition: all 0.2s ease-out;
-          box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+          box-shadow: 0px 2px 5px ${theme.shadow};
         }
 
         .branch:hover {
