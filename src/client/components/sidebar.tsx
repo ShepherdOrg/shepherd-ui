@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { colors } from 'utils/colors'
+import { darkTheme } from 'utils/colors'
 import { useDeployment } from 'utils/subscriptions/useDeployment'
 import { fromNullable } from 'data.either'
 import format from 'date-fns/format'
@@ -18,6 +18,7 @@ export const Sidebar = function() {
   const currentDeployment = useDeployment(currentDeploymentId, {
     git_branch: { _eq: branch },
   })
+  const theme = darkTheme
 
   return (
     <nav className="nav">
@@ -83,9 +84,8 @@ export const Sidebar = function() {
           height: 100vh;
           width: 256px;
           overflow-y: scroll;
-          color: black;
           transition: left 0.2s ease-out;
-          box-shadow: 1px 0px 2px rgba(0, 0, 0, 0.12);
+          box-shadow: 1px 0px 2px ${theme.shadow};
         }
         .navTitle {
           font-size: 24px;
@@ -94,7 +94,6 @@ export const Sidebar = function() {
 
         .navTitle > a {
           text-decoration: none;
-          color: black;
         }
 
         h3 {
@@ -116,30 +115,26 @@ export const Sidebar = function() {
           margin: 0 16px;
           display: block;
           text-decoration: none;
-          color: black;
           transition: all 0.2s ease-out;
         }
 
         ul.versionList > li > a {
           margin-top: 16px;
-          color: black;
           transition: all 0.2s ease-out;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
-            0 1px 2px rgba(0, 0, 0, 0.24);
+          box-shadow: 0 1px 3px ${theme.shadow}, 0 1px 2px ${theme.shadow};
         }
 
         ul.versionList > li.active > a {
-          background: ${colors.clouds};
+          background: ${theme.code.background};
         }
 
         ul.versionList > li > a:hover {
-          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-            0 10px 10px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 14px 28px ${theme.shadow}, 0 10px 10px ${theme.shadow};
         }
 
         li > a:hover,
         li > a:active {
-          color: blue;
+          color: ${theme.code.hover};
         }
       `}</style>
     </nav>

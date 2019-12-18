@@ -2,7 +2,7 @@ import App from 'next/app'
 import apiClient from 'utils/apiClient'
 import { ApolloProvider } from '@apollo/react-hooks'
 import Head from 'next/head'
-import { colors } from 'utils/colors'
+import { darkTheme } from 'utils/colors'
 import { useMemo } from 'react'
 
 export default class MyApp extends App {
@@ -33,10 +33,17 @@ const RootComponent = ({ Component, pageProps }: any) => {
           box-sizing: border-box;
         }
         body {
-          background: ${colors.white};
+          background: ${darkTheme.background};
+          color: ${darkTheme.text};
+
           margin: 0;
           font-family: 'Helvetica Neue';
           margin-bottom: 200px;
+        }
+        input,
+        textarea {
+          background-color: ${darkTheme.inputBackground};
+          color: ${darkTheme.text};
         }
       `}</style>
     </ApolloProvider>

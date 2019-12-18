@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { darkTheme } from 'utils/colors'
 
 const Nav = () => (
   <nav>
@@ -32,7 +33,7 @@ const Nav = () => (
         padding: 6px 8px;
       }
       a {
-        color: #067df7;
+        color: ${darkTheme.link};
         text-decoration: none;
         font-size: 13px;
       }

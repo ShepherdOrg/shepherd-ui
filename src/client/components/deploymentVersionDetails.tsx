@@ -1,5 +1,5 @@
 import format from 'date-fns/format'
-import { colors } from 'utils/colors'
+import { darkTheme } from 'utils/colors'
 import { useEffect, useState } from 'react'
 import {
   Configuration,
@@ -19,7 +19,7 @@ export const DeploymentVersionDetails = function({
   deploymentVersion,
 }: Props) {
   const [hidden, setHidden] = useState(true)
-
+  const theme = darkTheme
   useEffect(() => {
     setHidden(false)
   }, [])
@@ -91,8 +91,7 @@ export const DeploymentVersionDetails = function({
           margin-top: 48px;
           transition: opacity 0.2s ease-out;
           opacity: 1;
-          box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25),
-            0 10px 10px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 14px 28px ${theme.shadow}, 0 10px 10px ${theme.shadow};
         }
 
         .deploymentDetails.hide-opacity {
@@ -104,17 +103,17 @@ export const DeploymentVersionDetails = function({
           margin-right: 16px;
           padding: 8px 16px;
           border-radius: 2em;
-          background: ${colors.turquoise};
-          color: ${colors.white};
+          background: ${theme.pellet.background};
+          color: ${theme.pellet.text};
         }
         .codeContainer {
           overflow-x: scroll;
-          background: ${colors.clouds};
+          background: ${theme.code.background};
           padding: 16px;
           border-radius: 16px;
         }
         code {
-          color: ${colors.midnightBlue};
+          color: ${theme.code.color};
           white-space: pre;
           overflow-x: scroll;
           max-width: 100%;
