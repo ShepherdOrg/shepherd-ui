@@ -33,7 +33,7 @@ const Nav = () => (
         padding: 6px 8px;
       }
       a {
-        color: ${darkTheme.link};
+        color: ${darkTheme.link.normal};
         text-decoration: none;
         font-size: 13px;
       }

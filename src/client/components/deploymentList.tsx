@@ -2,10 +2,11 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import Link from 'next/link'
 import { useState } from 'react'
 import { darkTheme } from 'utils/colors'
-import { useDeploymentList } from 'utils/subscriptions/useDeploymentList'
+import { DeploymentListItem, useDeploymentList } from 'utils/subscriptions/useDeploymentList'
 import { DeploymentTypeIcon } from './deploymentTypeIcon'
 import { DeployerRoleIcon } from './deployerRoleIcon'
 import { ApolloError } from 'apollo-client'
+import { HoverHyperlinks } from './hoverHyperlinks'
 
 function renderErrorText(x: ApolloError | string) {
   if (x instanceof ApolloError) {
@@ -13,6 +14,14 @@ function renderErrorText(x: ApolloError | string) {
   } else {
     return x
   }
+}
+
+function compareEnvironments(env1: string, env2: string) {
+  return env1.localeCompare(env2)
+}
+
+function byEnvironment(item1: DeploymentListItem, item2: DeploymentListItem) {
+  return compareEnvironments(item1.env || '', item2.env || '')
 }
 
 export const DeploymentList = function() {
@@ -52,49 +61,58 @@ export const DeploymentList = function() {
                     <section className="deploymentCardSection">
                       <div className="deploymentTitle">
                         <h3 className="name">{x.display_name || x.herd_key}</h3>
-                        <DeploymentTypeIcon
-                          deploymentType={x.deployment_type}
-                        />
-                        <DeployerRoleIcon deployerRole={x.deployer_role} />
+                        <div className="deploymentTypes">
+                          <DeploymentTypeIcon
+                            deploymentType={x.deployment_type}
+                          />
+                          <DeployerRoleIcon deployerRole={x.deployer_role}/>
+                        </div>
                       </div>
-                      {x.envDeployments.map(envDeployment => {
+                      {x.envDeployments.sort(byEnvironment).map(envDeployment => {
                         return (
-                          <Link
-                            href={`/deployment/[id]?reveal=true&id=${envDeployment.id}`}
-                            as={`/deployment/${envDeployment.id}`}
-                            scroll
+                          <div className="deploymentCard"
+                            style={{
+                              display: 'inline-block',
+                              overflow: 'clip',
+                            }}
                           >
-                            <a className="deploymentCardLink">
-                              <div
-                                style={{
-                                  display: 'inline-block',
-                                  overflow: 'clip',
-                                }}
-                              >
-                                <div className="environment">
-                                  <div className="env">{envDeployment.env}</div>
-                                  <div className="info">
-                                    <strong>Latest version </strong>
-                                    {envDeployment.last_deployment_version &&
-                                      envDeployment.last_deployment_version}
-                                    <br />
-                                    {formatDistanceToNow(
-                                      new Date(
-                                        envDeployment.last_deployment_timestamp
-                                      )
-                                    )}{' '}
-                                    ago
-                                  </div>
-                                </div>
+                            <div className="environment">
+                              <div className="env">
+                                <span className="envName">{envDeployment.env}</span>
+                                <span className="envLinks">
+                                      <HoverHyperlinks hyperLinks={envDeployment.hyperlinks}
+                                                       title=" >"></HoverHyperlinks>
+                                    </span>
                               </div>
-                            </a>
-                          </Link>
+                              <div className="info">
+                                <Link
+                                  href={`/deployment/[id]?reveal=true&id=${envDeployment.id}`}
+                                  as={`/deployment/${envDeployment.id}`}
+                                  scroll
+                                >
+                                  <div className="deploymentLink">
+                                    <strong>Latest version </strong>
+                                    <span>{envDeployment.last_deployment_version && envDeployment.last_deployment_version}</span>
+                                  </div>
+                                </Link>
+                                {/*<span>{JSON.stringify(envDeployment.hyperlinks)}</span>*/}
+                                <span>
+                                {formatDistanceToNow(
+                                  new Date(
+                                    envDeployment.last_deployment_timestamp,
+                                  ),
+                                )}{' '}
+                                  ago
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         )
                       })}
                     </section>
                   </li>
-                )
-            )
+                ),
+            ),
         )}
       </ul>
       <style jsx>{`
@@ -134,20 +152,24 @@ export const DeploymentList = function() {
           overflow: hidden;
         }
 
-        .deploymentCardLink {
+        .deploymentCard{
+          margin-bottom: 2px;
+          justify-content: space-between;
           text-decoration: none;
-          color: ${theme.code.color};
           display: flex;
           flex-flow: row wrap;
           width: 100%;
           height: 100%;
-          margin-bottom: 2px;
-
-          justify-content: space-between;
+          text-align: right;
         }
 
-        .deploymentCardLink:hover {
-          color: ${theme.code.hover};
+        .deploymentLink{
+          color: ${theme.link.normal};
+        }
+
+        .deploymentLink:hover {
+          color: ${theme.link.hover};
+          cursor: pointer;
         }
 
         .deploymentCardLink > .types {
@@ -166,6 +188,9 @@ export const DeploymentList = function() {
           grid-gap: 16px;
         }
 
+        .deploymentTypes{
+          margin-top: 0.5em;
+        }
         .environment {
           min-width: 150px;
         }
@@ -192,11 +217,16 @@ export const DeploymentList = function() {
         .name {
           font-size: 20px;
         }
-        .env {
+        .env{
           text-align: right;
+        }
+        .envName {
           text-transform: uppercase;
           font-size: 18px;
           font-weight: bold;
+        }
+        .envLinks{
+          padding-left: .5em;
         }
 
         .grow {

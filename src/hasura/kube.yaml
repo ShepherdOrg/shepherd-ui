@@ -74,7 +74,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: iapi{{SERVICE_SUFFIX}}
+    - host: {{INTERNAL_API_FQDN}}
       http:
         paths:
           - path: /shepherd-ui-api
@@ -83,5 +83,5 @@ spec:
               servicePort: 80
   tls:
     - hosts:
-        - iapi{{SERVICE_SUFFIX}}
+        - {{INTERNAL_API_FQDN}}
       secretName: services-cert

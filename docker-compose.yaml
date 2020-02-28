@@ -26,6 +26,6 @@ services:
     ports:
       - '3030:3000'
     environment:
-      HASURA_ENDPOINT_URL: ws://localhost:8080/v1/graphql
+      HASURA_ENDPOINT_URL: wss://iapi.dev.it.tm.is/shepherd-ui-api/v1/graphql
 volumes:
   db_data:

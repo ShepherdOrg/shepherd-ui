@@ -34,6 +34,14 @@ export const darkTheme = {
     background: colors.darkest,
     hover: colors.carrot,
   },
-  link: colors.belizeHole,
+  link:{
+    normal: colors.belizeHole,
+    hover: colors.peterRiver
+  } ,
+  hoverMenu:{
+    normal: colors.belizeHole,
+    hover: colors.peterRiver,
+    background: colors.darkest,
+  } ,
   pellet: { background: colors.amethyst, text: colors.darkest },
 }

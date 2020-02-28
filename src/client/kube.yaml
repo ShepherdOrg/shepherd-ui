@@ -40,7 +40,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: HASURA_ENDPOINT_URL
-              value: wss://iapi{{SERVICE_SUFFIX}}/shepherd-ui-api/v1/graphql
+              value: wss://{{INTERNAL_API_FQDN}}/shepherd-ui-api/v1/graphql
           ports:
             - containerPort: 3000
               name: service-port
