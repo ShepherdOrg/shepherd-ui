@@ -1,8 +1,8 @@
 import { Component } from 'react'
-import { Hyperlink } from '@shepherdorg/ui-graphql-client'
 import { darkTheme } from '../utils/colors'
+import { Href } from '../gql/customTypes'
 
-type THoverHyperlinkProps = { hyperLinks: Array<Hyperlink>, title: string }
+type THoverHyperlinkProps = { hyperLinks: Array<Href>, title: string }
 
 const theme = darkTheme
 
