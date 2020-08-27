@@ -1,12 +1,14 @@
 version: '3.6'
 services:
   postgres:
-    image: postgres
+    image: postgres:12
     restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: ABC1324
   graphql-engine:
     build: ./src/hasura
     ports:
@@ -15,7 +17,7 @@ services:
       - 'postgres'
     restart: always
     environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:ABC1324@postgres:5432/postgres
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true' # set to "false" to disable console
       HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
       ## uncomment next line to set an admin secret
@@ -26,6 +28,7 @@ services:
     ports:
       - '3030:3000'
     environment:
-      HASURA_ENDPOINT_URL: wss://iapi.dev.it.tm.is/shepherd-ui-api/v1/graphql
+#      HASURA_ENDPOINT_URL: wss://iapi.dev.it.tm.is/shepherd-ui-api/v1/graphql
+      HASURA_ENDPOINT_URL: ws://localhost:8080/v1/graphql
 volumes:
   db_data:

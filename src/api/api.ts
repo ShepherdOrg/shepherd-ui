@@ -29,6 +29,7 @@ export interface KubernetesFile {
 }
 
 export interface DeploymentVersion extends GQLdeployment_versions_insert_input {
+  hyperlinks?: Hyperlink[]
   configuration?: ConfigurationItem[]
   kubernetes_deployment_files?: KubernetesFile[]
 }

@@ -39,11 +39,22 @@ export const DeploymentVersionDetails = function({
       </aside>
       <section>
         <h3>Deployment information</h3>
+        <h2>Links</h2>
+        <ul>
+          {deployment.hyperlinks.map(link => (
+            <li key={link.url}>
+              <a href={link.url} rel="noopener noreferrer" target="_blank">
+                {link.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+
         <h4>Kubernetes deployment files</h4>
         <ul>
           {deploymentVersion.kubernetes_deployment_files.map(
             (x: KubernetesConfigurationFile) =>
-              x && <li key={x.path}>{x.path}</li>
+              x && <><li key={x.path}>{x.path} </li></>
           )}
         </ul>
         <h4>Last 5 commits</h4>

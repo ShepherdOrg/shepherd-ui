@@ -49,6 +49,17 @@ Fri, 24 Aug 2018 10:08:54 +0000 by Guðlaugur S. Egilsson. --- Use docker image 
     docker_image: 'isrvkbuild02:5000/fluentd',
     docker_image_tag: 'v1.1.2-g-2b48d1c',
     build_host_name: 'isrvkbuild02',
+    time_to_live: 88,
+    hyperlinks: [
+      {
+        url: 'http://jenkins.oryggi.tm.is:8082/job/tm-dockerimages/',
+        title: 'Builds',
+      },
+      {
+        url: 'https://gitlab.tm.is/tmdev/tm-docker-images',
+        title: 'Git source',
+      },
+    ],
     configuration: [
       { key: 'LOG_FORMAT', value: '%s %s %s', isSecret: false },
       { key: 'SUPER_SECRET', value: '--REDACTED--', isSecret: true },

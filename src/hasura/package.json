@@ -5,9 +5,10 @@
   "types": "dist/apiTypes.d.ts",
   "license": "MIT",
   "scripts": {
-    "gen-types": "graphql-cli get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
+    "gen-types": "../../node_modules/.bin/gql get-schema --project shepherd && graphql-schema-typescript generate-ts schema.graphql --output src/apiTypes.ts",
     "build": "rm -rf dist/ && tsc -p .",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "run-local": "HASURA_GRAPHQL_DATABASE_URL="
   },
   "files": [
     "dist"

@@ -1,0 +1,4 @@
+- args:
+    sql: ALTER TABLE "public"."deployment_versions" ADD COLUMN "time_to_live" integer
+      NULL;
+  type: run_sql

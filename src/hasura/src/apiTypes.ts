@@ -12,32 +12,32 @@ import { GraphQLResolveInfo, GraphQLScalarType } from 'graphql';
  * query root
  */
 export interface GQLquery_root {
-  
+
   /**
    * fetch data from the table: "deployment_versions"
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployment_versions"
    */
   deployment_versions_aggregate: GQLdeployment_versions_aggregate;
-  
+
   /**
    * fetch data from the table: "deployment_versions" using primary key columns
    */
   deployment_versions_by_pk?: GQLdeployment_versions;
-  
+
   /**
    * fetch data from the table: "deployments"
    */
   deployments: GQLdeployments[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployments"
    */
   deployments_aggregate: GQLdeployments_aggregate;
-  
+
   /**
    * fetch data from the table: "deployments" using primary key columns
    */
@@ -48,82 +48,92 @@ export interface GQLquery_root {
  * select columns of table "deployment_versions"
  */
 export enum GQLdeployment_versions_select_column {
-  
+
   /**
    * column name
    */
   build_host_name = 'build_host_name',
-  
+
   /**
    * column name
    */
   built_at = 'built_at',
-  
+
   /**
    * column name
    */
   configuration = 'configuration',
-  
+
   /**
    * column name
    */
   deployed_at = 'deployed_at',
-  
+
   /**
    * column name
    */
   deployment_id = 'deployment_id',
-  
+
   /**
    * column name
    */
   docker_image = 'docker_image',
-  
+
   /**
    * column name
    */
   docker_image_tag = 'docker_image_tag',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   git_branch = 'git_branch',
-  
+
   /**
    * column name
    */
   git_commit = 'git_commit',
-  
+
   /**
    * column name
    */
   git_hash = 'git_hash',
-  
+
   /**
    * column name
    */
   git_url = 'git_url',
-  
+
+  /**
+   * column name
+   */
+  hyperlinks = 'hyperlinks',
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   kubernetes_deployment_files = 'kubernetes_deployment_files',
-  
+
   /**
    * column name
    */
   last_commits = 'last_commits',
-  
+
+  /**
+   * column name
+   */
+  time_to_live = 'time_to_live',
+
   /**
    * column name
    */
@@ -147,9 +157,11 @@ export interface GQLdeployment_versions_order_by {
   git_commit?: GQLorder_by;
   git_hash?: GQLorder_by;
   git_url?: GQLorder_by;
+  hyperlinks?: GQLorder_by;
   id?: GQLorder_by;
   kubernetes_deployment_files?: GQLorder_by;
   last_commits?: GQLorder_by;
+  time_to_live?: GQLorder_by;
   version?: GQLorder_by;
 }
 
@@ -157,32 +169,32 @@ export interface GQLdeployment_versions_order_by {
  * column ordering options
  */
 export enum GQLorder_by {
-  
+
   /**
    * in the ascending order, nulls last
    */
   asc = 'asc',
-  
+
   /**
    * in the ascending order, nulls first
    */
   asc_nulls_first = 'asc_nulls_first',
-  
+
   /**
    * in the ascending order, nulls last
    */
   asc_nulls_last = 'asc_nulls_last',
-  
+
   /**
    * in the descending order, nulls first
    */
   desc = 'desc',
-  
+
   /**
    * in the descending order, nulls first
    */
   desc_nulls_first = 'desc_nulls_first',
-  
+
   /**
    * in the descending order, nulls last
    */
@@ -211,9 +223,24 @@ export interface GQLdeployments_order_by {
  * order by aggregate values of table "deployment_versions"
  */
 export interface GQLdeployment_versions_aggregate_order_by {
+  avg?: GQLdeployment_versions_avg_order_by;
   count?: GQLorder_by;
   max?: GQLdeployment_versions_max_order_by;
   min?: GQLdeployment_versions_min_order_by;
+  stddev?: GQLdeployment_versions_stddev_order_by;
+  stddev_pop?: GQLdeployment_versions_stddev_pop_order_by;
+  stddev_samp?: GQLdeployment_versions_stddev_samp_order_by;
+  sum?: GQLdeployment_versions_sum_order_by;
+  var_pop?: GQLdeployment_versions_var_pop_order_by;
+  var_samp?: GQLdeployment_versions_var_samp_order_by;
+  variance?: GQLdeployment_versions_variance_order_by;
+}
+
+/**
+ * order by avg() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_avg_order_by {
+  time_to_live?: GQLorder_by;
 }
 
 /**
@@ -221,6 +248,8 @@ export interface GQLdeployment_versions_aggregate_order_by {
  */
 export interface GQLdeployment_versions_max_order_by {
   build_host_name?: GQLorder_by;
+  built_at?: GQLorder_by;
+  deployed_at?: GQLorder_by;
   deployment_id?: GQLorder_by;
   docker_image?: GQLorder_by;
   docker_image_tag?: GQLorder_by;
@@ -231,6 +260,7 @@ export interface GQLdeployment_versions_max_order_by {
   git_url?: GQLorder_by;
   id?: GQLorder_by;
   last_commits?: GQLorder_by;
+  time_to_live?: GQLorder_by;
   version?: GQLorder_by;
 }
 
@@ -239,6 +269,8 @@ export interface GQLdeployment_versions_max_order_by {
  */
 export interface GQLdeployment_versions_min_order_by {
   build_host_name?: GQLorder_by;
+  built_at?: GQLorder_by;
+  deployed_at?: GQLorder_by;
   deployment_id?: GQLorder_by;
   docker_image?: GQLorder_by;
   docker_image_tag?: GQLorder_by;
@@ -249,7 +281,57 @@ export interface GQLdeployment_versions_min_order_by {
   git_url?: GQLorder_by;
   id?: GQLorder_by;
   last_commits?: GQLorder_by;
+  time_to_live?: GQLorder_by;
   version?: GQLorder_by;
+}
+
+/**
+ * order by stddev() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_stddev_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by stddev_pop() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_stddev_pop_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by stddev_samp() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_stddev_samp_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by sum() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_sum_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by var_pop() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_var_pop_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by var_samp() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_var_samp_order_by {
+  time_to_live?: GQLorder_by;
+}
+
+/**
+ * order by variance() on columns of table "deployment_versions"
+ */
+export interface GQLdeployment_versions_variance_order_by {
+  time_to_live?: GQLorder_by;
 }
 
 /**
@@ -260,9 +342,9 @@ export interface GQLdeployment_versions_bool_exp {
   _not?: GQLdeployment_versions_bool_exp;
   _or?: (GQLdeployment_versions_bool_exp | null)[];
   build_host_name?: GQLString_comparison_exp;
-  built_at?: GQLtimestamp_comparison_exp;
+  built_at?: GQLtimestamptz_comparison_exp;
   configuration?: GQLjsonb_comparison_exp;
-  deployed_at?: GQLtimestamp_comparison_exp;
+  deployed_at?: GQLtimestamptz_comparison_exp;
   deployment?: GQLdeployments_bool_exp;
   deployment_id?: GQLString_comparison_exp;
   docker_image?: GQLString_comparison_exp;
@@ -272,9 +354,11 @@ export interface GQLdeployment_versions_bool_exp {
   git_commit?: GQLString_comparison_exp;
   git_hash?: GQLString_comparison_exp;
   git_url?: GQLString_comparison_exp;
+  hyperlinks?: GQLjsonb_comparison_exp;
   id?: GQLString_comparison_exp;
   kubernetes_deployment_files?: GQLjsonb_comparison_exp;
   last_commits?: GQLString_comparison_exp;
+  time_to_live?: GQLInt_comparison_exp;
   version?: GQLString_comparison_exp;
 }
 
@@ -300,32 +384,32 @@ export interface GQLString_comparison_exp {
 }
 
 /**
- * expression to compare columns of type timestamp. All fields are combined with logical 'AND'.
+ * expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
  */
-export interface GQLtimestamp_comparison_exp {
-  _eq?: GQLtimestamp;
-  _gt?: GQLtimestamp;
-  _gte?: GQLtimestamp;
-  _in?: GQLtimestamp[];
+export interface GQLtimestamptz_comparison_exp {
+  _eq?: GQLtimestamptz;
+  _gt?: GQLtimestamptz;
+  _gte?: GQLtimestamptz;
+  _in?: GQLtimestamptz[];
   _is_null?: boolean;
-  _lt?: GQLtimestamp;
-  _lte?: GQLtimestamp;
-  _neq?: GQLtimestamp;
-  _nin?: GQLtimestamp[];
+  _lt?: GQLtimestamptz;
+  _lte?: GQLtimestamptz;
+  _neq?: GQLtimestamptz;
+  _nin?: GQLtimestamptz[];
 }
 
-export type GQLtimestamp = any;
+export type GQLtimestamptz = any;
 
 /**
  * expression to compare columns of type jsonb. All fields are combined with logical 'AND'.
  */
 export interface GQLjsonb_comparison_exp {
-  
+
   /**
    * is the column contained in the given json value
    */
   _contained_in?: GQLjsonb;
-  
+
   /**
    * does the column contain the given json value at the top level
    */
@@ -333,17 +417,17 @@ export interface GQLjsonb_comparison_exp {
   _eq?: GQLjsonb;
   _gt?: GQLjsonb;
   _gte?: GQLjsonb;
-  
+
   /**
    * does the string exist as a top-level key in the column
    */
   _has_key?: string;
-  
+
   /**
    * do all of these strings exist as top-level keys in the column
    */
   _has_keys_all?: string[];
-  
+
   /**
    * do any of these strings exist as top-level keys in the column
    */
@@ -380,14 +464,46 @@ export interface GQLdeployments_bool_exp {
 }
 
 /**
+ * expression to compare columns of type timestamp. All fields are combined with logical 'AND'.
+ */
+export interface GQLtimestamp_comparison_exp {
+  _eq?: GQLtimestamp;
+  _gt?: GQLtimestamp;
+  _gte?: GQLtimestamp;
+  _in?: GQLtimestamp[];
+  _is_null?: boolean;
+  _lt?: GQLtimestamp;
+  _lte?: GQLtimestamp;
+  _neq?: GQLtimestamp;
+  _nin?: GQLtimestamp[];
+}
+
+export type GQLtimestamp = any;
+
+/**
+ * expression to compare columns of type Int. All fields are combined with logical 'AND'.
+ */
+export interface GQLInt_comparison_exp {
+  _eq?: number;
+  _gt?: number;
+  _gte?: number;
+  _in?: number[];
+  _is_null?: boolean;
+  _lt?: number;
+  _lte?: number;
+  _neq?: number;
+  _nin?: number[];
+}
+
+/**
  * columns and relationships of "deployment_versions"
  */
 export interface GQLdeployment_versions {
   build_host_name?: string;
-  built_at?: GQLtimestamp;
+  built_at?: GQLtimestamptz;
   configuration?: GQLjsonb;
-  deployed_at?: GQLtimestamp;
-  
+  deployed_at?: GQLtimestamptz;
+
   /**
    * An object relationship
    */
@@ -400,9 +516,11 @@ export interface GQLdeployment_versions {
   git_commit?: string;
   git_hash?: string;
   git_url?: string;
+  hyperlinks?: GQLjsonb;
   id: string;
   kubernetes_deployment_files?: GQLjsonb;
   last_commits?: string;
+  time_to_live?: number;
   version?: string;
 }
 
@@ -413,12 +531,12 @@ export interface GQLdeployments {
   db_migration_image?: string;
   deployer_role: string;
   deployment_type: string;
-  
+
   /**
    * An array relationship
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * An aggregated array relationship
    */
@@ -445,9 +563,24 @@ export interface GQLdeployment_versions_aggregate {
  * aggregate fields of "deployment_versions"
  */
 export interface GQLdeployment_versions_aggregate_fields {
+  avg?: GQLdeployment_versions_avg_fields;
   count?: number;
   max?: GQLdeployment_versions_max_fields;
   min?: GQLdeployment_versions_min_fields;
+  stddev?: GQLdeployment_versions_stddev_fields;
+  stddev_pop?: GQLdeployment_versions_stddev_pop_fields;
+  stddev_samp?: GQLdeployment_versions_stddev_samp_fields;
+  sum?: GQLdeployment_versions_sum_fields;
+  var_pop?: GQLdeployment_versions_var_pop_fields;
+  var_samp?: GQLdeployment_versions_var_samp_fields;
+  variance?: GQLdeployment_versions_variance_fields;
+}
+
+/**
+ * aggregate avg on columns
+ */
+export interface GQLdeployment_versions_avg_fields {
+  time_to_live?: number;
 }
 
 /**
@@ -455,6 +588,8 @@ export interface GQLdeployment_versions_aggregate_fields {
  */
 export interface GQLdeployment_versions_max_fields {
   build_host_name?: string;
+  built_at?: GQLtimestamptz;
+  deployed_at?: GQLtimestamptz;
   deployment_id?: string;
   docker_image?: string;
   docker_image_tag?: string;
@@ -465,6 +600,7 @@ export interface GQLdeployment_versions_max_fields {
   git_url?: string;
   id?: string;
   last_commits?: string;
+  time_to_live?: number;
   version?: string;
 }
 
@@ -473,6 +609,8 @@ export interface GQLdeployment_versions_max_fields {
  */
 export interface GQLdeployment_versions_min_fields {
   build_host_name?: string;
+  built_at?: GQLtimestamptz;
+  deployed_at?: GQLtimestamptz;
   deployment_id?: string;
   docker_image?: string;
   docker_image_tag?: string;
@@ -483,64 +621,114 @@ export interface GQLdeployment_versions_min_fields {
   git_url?: string;
   id?: string;
   last_commits?: string;
+  time_to_live?: number;
   version?: string;
+}
+
+/**
+ * aggregate stddev on columns
+ */
+export interface GQLdeployment_versions_stddev_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate stddev_pop on columns
+ */
+export interface GQLdeployment_versions_stddev_pop_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate stddev_samp on columns
+ */
+export interface GQLdeployment_versions_stddev_samp_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate sum on columns
+ */
+export interface GQLdeployment_versions_sum_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate var_pop on columns
+ */
+export interface GQLdeployment_versions_var_pop_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate var_samp on columns
+ */
+export interface GQLdeployment_versions_var_samp_fields {
+  time_to_live?: number;
+}
+
+/**
+ * aggregate variance on columns
+ */
+export interface GQLdeployment_versions_variance_fields {
+  time_to_live?: number;
 }
 
 /**
  * select columns of table "deployments"
  */
 export enum GQLdeployments_select_column {
-  
+
   /**
    * column name
    */
   db_migration_image = 'db_migration_image',
-  
+
   /**
    * column name
    */
   deployer_role = 'deployer_role',
-  
+
   /**
    * column name
    */
   deployment_type = 'deployment_type',
-  
+
   /**
    * column name
    */
   description = 'description',
-  
+
   /**
    * column name
    */
   display_name = 'display_name',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   herd_key = 'herd_key',
-  
+
   /**
    * column name
    */
   hyperlinks = 'hyperlinks',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   last_deployment_timestamp = 'last_deployment_timestamp',
-  
+
   /**
    * column name
    */
@@ -598,32 +786,32 @@ export interface GQLdeployments_min_fields {
  * mutation root
  */
 export interface GQLmutation_root {
-  
+
   /**
    * delete data from the table: "deployment_versions"
    */
   delete_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * delete data from the table: "deployments"
    */
   delete_deployments?: GQLdeployments_mutation_response;
-  
+
   /**
    * insert data into the table: "deployment_versions"
    */
   insert_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * insert data into the table: "deployments"
    */
   insert_deployments?: GQLdeployments_mutation_response;
-  
+
   /**
    * update data of the table: "deployment_versions"
    */
   update_deployment_versions?: GQLdeployment_versions_mutation_response;
-  
+
   /**
    * update data of the table: "deployments"
    */
@@ -634,12 +822,12 @@ export interface GQLmutation_root {
  * response of any mutation on the table "deployment_versions"
  */
 export interface GQLdeployment_versions_mutation_response {
-  
+
   /**
    * number of affected rows by the mutation
    */
   affected_rows: number;
-  
+
   /**
    * data of the affected rows by the mutation
    */
@@ -650,12 +838,12 @@ export interface GQLdeployment_versions_mutation_response {
  * response of any mutation on the table "deployments"
  */
 export interface GQLdeployments_mutation_response {
-  
+
   /**
    * number of affected rows by the mutation
    */
   affected_rows: number;
-  
+
   /**
    * data of the affected rows by the mutation
    */
@@ -667,9 +855,9 @@ export interface GQLdeployments_mutation_response {
  */
 export interface GQLdeployment_versions_insert_input {
   build_host_name?: string;
-  built_at?: GQLtimestamp;
+  built_at?: GQLtimestamptz;
   configuration?: GQLjsonb;
-  deployed_at?: GQLtimestamp;
+  deployed_at?: GQLtimestamptz;
   deployment?: GQLdeployments_obj_rel_insert_input;
   deployment_id?: string;
   docker_image?: string;
@@ -679,9 +867,11 @@ export interface GQLdeployment_versions_insert_input {
   git_commit?: string;
   git_hash?: string;
   git_url?: string;
+  hyperlinks?: GQLjsonb;
   id?: string;
   kubernetes_deployment_files?: GQLjsonb;
   last_commits?: string;
+  time_to_live?: number;
   version?: string;
 }
 
@@ -732,7 +922,7 @@ export interface GQLdeployment_versions_on_conflict {
  * unique or primary key constraints on table "deployment_versions"
  */
 export enum GQLdeployment_versions_constraint {
-  
+
   /**
    * unique or primary key constraint
    */
@@ -743,82 +933,92 @@ export enum GQLdeployment_versions_constraint {
  * update columns of table "deployment_versions"
  */
 export enum GQLdeployment_versions_update_column {
-  
+
   /**
    * column name
    */
   build_host_name = 'build_host_name',
-  
+
   /**
    * column name
    */
   built_at = 'built_at',
-  
+
   /**
    * column name
    */
   configuration = 'configuration',
-  
+
   /**
    * column name
    */
   deployed_at = 'deployed_at',
-  
+
   /**
    * column name
    */
   deployment_id = 'deployment_id',
-  
+
   /**
    * column name
    */
   docker_image = 'docker_image',
-  
+
   /**
    * column name
    */
   docker_image_tag = 'docker_image_tag',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   git_branch = 'git_branch',
-  
+
   /**
    * column name
    */
   git_commit = 'git_commit',
-  
+
   /**
    * column name
    */
   git_hash = 'git_hash',
-  
+
   /**
    * column name
    */
   git_url = 'git_url',
-  
+
+  /**
+   * column name
+   */
+  hyperlinks = 'hyperlinks',
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   kubernetes_deployment_files = 'kubernetes_deployment_files',
-  
+
   /**
    * column name
    */
   last_commits = 'last_commits',
-  
+
+  /**
+   * column name
+   */
+  time_to_live = 'time_to_live',
+
   /**
    * column name
    */
@@ -838,7 +1038,7 @@ export interface GQLdeployments_on_conflict {
  * unique or primary key constraints on table "deployments"
  */
 export enum GQLdeployments_constraint {
-  
+
   /**
    * unique or primary key constraint
    */
@@ -849,57 +1049,57 @@ export enum GQLdeployments_constraint {
  * update columns of table "deployments"
  */
 export enum GQLdeployments_update_column {
-  
+
   /**
    * column name
    */
   db_migration_image = 'db_migration_image',
-  
+
   /**
    * column name
    */
   deployer_role = 'deployer_role',
-  
+
   /**
    * column name
    */
   deployment_type = 'deployment_type',
-  
+
   /**
    * column name
    */
   description = 'description',
-  
+
   /**
    * column name
    */
   display_name = 'display_name',
-  
+
   /**
    * column name
    */
   env = 'env',
-  
+
   /**
    * column name
    */
   herd_key = 'herd_key',
-  
+
   /**
    * column name
    */
   hyperlinks = 'hyperlinks',
-  
+
   /**
    * column name
    */
   id = 'id',
-  
+
   /**
    * column name
    */
   last_deployment_timestamp = 'last_deployment_timestamp',
-  
+
   /**
    * column name
    */
@@ -911,6 +1111,7 @@ export enum GQLdeployments_update_column {
  */
 export interface GQLdeployment_versions_append_input {
   configuration?: GQLjsonb;
+  hyperlinks?: GQLjsonb;
   kubernetes_deployment_files?: GQLjsonb;
 }
 
@@ -919,6 +1120,7 @@ export interface GQLdeployment_versions_append_input {
  */
 export interface GQLdeployment_versions_delete_at_path_input {
   configuration?: (string | null)[];
+  hyperlinks?: (string | null)[];
   kubernetes_deployment_files?: (string | null)[];
 }
 
@@ -928,6 +1130,7 @@ export interface GQLdeployment_versions_delete_at_path_input {
  */
 export interface GQLdeployment_versions_delete_elem_input {
   configuration?: number;
+  hyperlinks?: number;
   kubernetes_deployment_files?: number;
 }
 
@@ -936,7 +1139,15 @@ export interface GQLdeployment_versions_delete_elem_input {
  */
 export interface GQLdeployment_versions_delete_key_input {
   configuration?: string;
+  hyperlinks?: string;
   kubernetes_deployment_files?: string;
+}
+
+/**
+ * input type for incrementing integer columne in table "deployment_versions"
+ */
+export interface GQLdeployment_versions_inc_input {
+  time_to_live?: number;
 }
 
 /**
@@ -944,6 +1155,7 @@ export interface GQLdeployment_versions_delete_key_input {
  */
 export interface GQLdeployment_versions_prepend_input {
   configuration?: GQLjsonb;
+  hyperlinks?: GQLjsonb;
   kubernetes_deployment_files?: GQLjsonb;
 }
 
@@ -952,9 +1164,9 @@ export interface GQLdeployment_versions_prepend_input {
  */
 export interface GQLdeployment_versions_set_input {
   build_host_name?: string;
-  built_at?: GQLtimestamp;
+  built_at?: GQLtimestamptz;
   configuration?: GQLjsonb;
-  deployed_at?: GQLtimestamp;
+  deployed_at?: GQLtimestamptz;
   deployment_id?: string;
   docker_image?: string;
   docker_image_tag?: string;
@@ -963,9 +1175,11 @@ export interface GQLdeployment_versions_set_input {
   git_commit?: string;
   git_hash?: string;
   git_url?: string;
+  hyperlinks?: GQLjsonb;
   id?: string;
   kubernetes_deployment_files?: GQLjsonb;
   last_commits?: string;
+  time_to_live?: number;
   version?: string;
 }
 
@@ -1026,32 +1240,32 @@ export interface GQLdeployments_set_input {
  * subscription root
  */
 export interface GQLsubscription_root {
-  
+
   /**
    * fetch data from the table: "deployment_versions"
    */
   deployment_versions: GQLdeployment_versions[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployment_versions"
    */
   deployment_versions_aggregate: GQLdeployment_versions_aggregate;
-  
+
   /**
    * fetch data from the table: "deployment_versions" using primary key columns
    */
   deployment_versions_by_pk?: GQLdeployment_versions;
-  
+
   /**
    * fetch data from the table: "deployments"
    */
   deployments: GQLdeployments[];
-  
+
   /**
    * fetch aggregated fields from the table: "deployments"
    */
   deployments_aggregate: GQLdeployments_aggregate;
-  
+
   /**
    * fetch data from the table: "deployments" using primary key columns
    */
@@ -1125,14 +1339,23 @@ export interface GQLdeployments_arr_rel_insert_input {
  */
 export interface GQLResolver {
   query_root?: GQLquery_rootTypeResolver;
-  timestamp?: GraphQLScalarType;
+  timestamptz?: GraphQLScalarType;
   jsonb?: GraphQLScalarType;
+  timestamp?: GraphQLScalarType;
   deployment_versions?: GQLdeployment_versionsTypeResolver;
   deployments?: GQLdeploymentsTypeResolver;
   deployment_versions_aggregate?: GQLdeployment_versions_aggregateTypeResolver;
   deployment_versions_aggregate_fields?: GQLdeployment_versions_aggregate_fieldsTypeResolver;
+  deployment_versions_avg_fields?: GQLdeployment_versions_avg_fieldsTypeResolver;
   deployment_versions_max_fields?: GQLdeployment_versions_max_fieldsTypeResolver;
   deployment_versions_min_fields?: GQLdeployment_versions_min_fieldsTypeResolver;
+  deployment_versions_stddev_fields?: GQLdeployment_versions_stddev_fieldsTypeResolver;
+  deployment_versions_stddev_pop_fields?: GQLdeployment_versions_stddev_pop_fieldsTypeResolver;
+  deployment_versions_stddev_samp_fields?: GQLdeployment_versions_stddev_samp_fieldsTypeResolver;
+  deployment_versions_sum_fields?: GQLdeployment_versions_sum_fieldsTypeResolver;
+  deployment_versions_var_pop_fields?: GQLdeployment_versions_var_pop_fieldsTypeResolver;
+  deployment_versions_var_samp_fields?: GQLdeployment_versions_var_samp_fieldsTypeResolver;
+  deployment_versions_variance_fields?: GQLdeployment_versions_variance_fieldsTypeResolver;
   deployments_aggregate?: GQLdeployments_aggregateTypeResolver;
   deployments_aggregate_fields?: GQLdeployments_aggregate_fieldsTypeResolver;
   deployments_max_fields?: GQLdeployments_max_fieldsTypeResolver;
@@ -1223,9 +1446,11 @@ export interface GQLdeployment_versionsTypeResolver<TParent = any> {
   git_commit?: deployment_versionsToGit_commitResolver<TParent>;
   git_hash?: deployment_versionsToGit_hashResolver<TParent>;
   git_url?: deployment_versionsToGit_urlResolver<TParent>;
+  hyperlinks?: deployment_versionsToHyperlinksResolver<TParent>;
   id?: deployment_versionsToIdResolver<TParent>;
   kubernetes_deployment_files?: deployment_versionsToKubernetes_deployment_filesResolver<TParent>;
   last_commits?: deployment_versionsToLast_commitsResolver<TParent>;
+  time_to_live?: deployment_versionsToTime_to_liveResolver<TParent>;
   version?: deployment_versionsToVersionResolver<TParent>;
 }
 
@@ -1233,7 +1458,7 @@ export interface deployment_versionsToBuild_host_nameResolver<TParent = any, TRe
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
-export interface deployment_versionsToBuilt_atResolver<TParent = any, TResult = GQLtimestamp|Promise<GQLtimestamp>> {
+export interface deployment_versionsToBuilt_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1244,7 +1469,7 @@ export interface deployment_versionsToConfigurationResolver<TParent = any, TResu
   (parent: TParent, args: deployment_versionsToConfigurationArgs, context: any, info: GraphQLResolveInfo): TResult;
 }
 
-export interface deployment_versionsToDeployed_atResolver<TParent = any, TResult = GQLtimestamp|Promise<GQLtimestamp>> {
+export interface deployment_versionsToDeployed_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1284,6 +1509,13 @@ export interface deployment_versionsToGit_urlResolver<TParent = any, TResult = s
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
+export interface deployment_versionsToHyperlinksArgs {
+  path?: string;
+}
+export interface deployment_versionsToHyperlinksResolver<TParent = any, TResult = GQLjsonb|Promise<GQLjsonb>> {
+  (parent: TParent, args: deployment_versionsToHyperlinksArgs, context: any, info: GraphQLResolveInfo): TResult;
+}
+
 export interface deployment_versionsToIdResolver<TParent = any, TResult = string|Promise<string>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
@@ -1296,6 +1528,10 @@ export interface deployment_versionsToKubernetes_deployment_filesResolver<TParen
 }
 
 export interface deployment_versionsToLast_commitsResolver<TParent = any, TResult = string|Promise<string>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versionsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1402,9 +1638,21 @@ export interface deployment_versions_aggregateToNodesResolver<TParent = any, TRe
 }
 
 export interface GQLdeployment_versions_aggregate_fieldsTypeResolver<TParent = any> {
+  avg?: deployment_versions_aggregate_fieldsToAvgResolver<TParent>;
   count?: deployment_versions_aggregate_fieldsToCountResolver<TParent>;
   max?: deployment_versions_aggregate_fieldsToMaxResolver<TParent>;
   min?: deployment_versions_aggregate_fieldsToMinResolver<TParent>;
+  stddev?: deployment_versions_aggregate_fieldsToStddevResolver<TParent>;
+  stddev_pop?: deployment_versions_aggregate_fieldsToStddev_popResolver<TParent>;
+  stddev_samp?: deployment_versions_aggregate_fieldsToStddev_sampResolver<TParent>;
+  sum?: deployment_versions_aggregate_fieldsToSumResolver<TParent>;
+  var_pop?: deployment_versions_aggregate_fieldsToVar_popResolver<TParent>;
+  var_samp?: deployment_versions_aggregate_fieldsToVar_sampResolver<TParent>;
+  variance?: deployment_versions_aggregate_fieldsToVarianceResolver<TParent>;
+}
+
+export interface deployment_versions_aggregate_fieldsToAvgResolver<TParent = any, TResult = GQLdeployment_versions_avg_fields|Promise<GQLdeployment_versions_avg_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
 export interface deployment_versions_aggregate_fieldsToCountArgs {
@@ -1423,8 +1671,46 @@ export interface deployment_versions_aggregate_fieldsToMinResolver<TParent = any
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
+export interface deployment_versions_aggregate_fieldsToStddevResolver<TParent = any, TResult = GQLdeployment_versions_stddev_fields|Promise<GQLdeployment_versions_stddev_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToStddev_popResolver<TParent = any, TResult = GQLdeployment_versions_stddev_pop_fields|Promise<GQLdeployment_versions_stddev_pop_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToStddev_sampResolver<TParent = any, TResult = GQLdeployment_versions_stddev_samp_fields|Promise<GQLdeployment_versions_stddev_samp_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToSumResolver<TParent = any, TResult = GQLdeployment_versions_sum_fields|Promise<GQLdeployment_versions_sum_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToVar_popResolver<TParent = any, TResult = GQLdeployment_versions_var_pop_fields|Promise<GQLdeployment_versions_var_pop_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToVar_sampResolver<TParent = any, TResult = GQLdeployment_versions_var_samp_fields|Promise<GQLdeployment_versions_var_samp_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_aggregate_fieldsToVarianceResolver<TParent = any, TResult = GQLdeployment_versions_variance_fields|Promise<GQLdeployment_versions_variance_fields>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_avg_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_avg_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_avg_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
 export interface GQLdeployment_versions_max_fieldsTypeResolver<TParent = any> {
   build_host_name?: deployment_versions_max_fieldsToBuild_host_nameResolver<TParent>;
+  built_at?: deployment_versions_max_fieldsToBuilt_atResolver<TParent>;
+  deployed_at?: deployment_versions_max_fieldsToDeployed_atResolver<TParent>;
   deployment_id?: deployment_versions_max_fieldsToDeployment_idResolver<TParent>;
   docker_image?: deployment_versions_max_fieldsToDocker_imageResolver<TParent>;
   docker_image_tag?: deployment_versions_max_fieldsToDocker_image_tagResolver<TParent>;
@@ -1435,10 +1721,19 @@ export interface GQLdeployment_versions_max_fieldsTypeResolver<TParent = any> {
   git_url?: deployment_versions_max_fieldsToGit_urlResolver<TParent>;
   id?: deployment_versions_max_fieldsToIdResolver<TParent>;
   last_commits?: deployment_versions_max_fieldsToLast_commitsResolver<TParent>;
+  time_to_live?: deployment_versions_max_fieldsToTime_to_liveResolver<TParent>;
   version?: deployment_versions_max_fieldsToVersionResolver<TParent>;
 }
 
 export interface deployment_versions_max_fieldsToBuild_host_nameResolver<TParent = any, TResult = string|Promise<string>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_max_fieldsToBuilt_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_max_fieldsToDeployed_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1482,12 +1777,18 @@ export interface deployment_versions_max_fieldsToLast_commitsResolver<TParent = 
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
+export interface deployment_versions_max_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
 export interface deployment_versions_max_fieldsToVersionResolver<TParent = any, TResult = string|Promise<string>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
 export interface GQLdeployment_versions_min_fieldsTypeResolver<TParent = any> {
   build_host_name?: deployment_versions_min_fieldsToBuild_host_nameResolver<TParent>;
+  built_at?: deployment_versions_min_fieldsToBuilt_atResolver<TParent>;
+  deployed_at?: deployment_versions_min_fieldsToDeployed_atResolver<TParent>;
   deployment_id?: deployment_versions_min_fieldsToDeployment_idResolver<TParent>;
   docker_image?: deployment_versions_min_fieldsToDocker_imageResolver<TParent>;
   docker_image_tag?: deployment_versions_min_fieldsToDocker_image_tagResolver<TParent>;
@@ -1498,10 +1799,19 @@ export interface GQLdeployment_versions_min_fieldsTypeResolver<TParent = any> {
   git_url?: deployment_versions_min_fieldsToGit_urlResolver<TParent>;
   id?: deployment_versions_min_fieldsToIdResolver<TParent>;
   last_commits?: deployment_versions_min_fieldsToLast_commitsResolver<TParent>;
+  time_to_live?: deployment_versions_min_fieldsToTime_to_liveResolver<TParent>;
   version?: deployment_versions_min_fieldsToVersionResolver<TParent>;
 }
 
 export interface deployment_versions_min_fieldsToBuild_host_nameResolver<TParent = any, TResult = string|Promise<string>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_min_fieldsToBuilt_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface deployment_versions_min_fieldsToDeployed_atResolver<TParent = any, TResult = GQLtimestamptz|Promise<GQLtimestamptz>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1545,7 +1855,67 @@ export interface deployment_versions_min_fieldsToLast_commitsResolver<TParent = 
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
+export interface deployment_versions_min_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
 export interface deployment_versions_min_fieldsToVersionResolver<TParent = any, TResult = string|Promise<string>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_stddev_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_stddev_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_stddev_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_stddev_pop_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_stddev_pop_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_stddev_pop_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_stddev_samp_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_stddev_samp_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_stddev_samp_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_sum_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_sum_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_sum_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_var_pop_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_var_pop_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_var_pop_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_var_samp_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_var_samp_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_var_samp_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
+  (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
+}
+
+export interface GQLdeployment_versions_variance_fieldsTypeResolver<TParent = any> {
+  time_to_live?: deployment_versions_variance_fieldsToTime_to_liveResolver<TParent>;
+}
+
+export interface deployment_versions_variance_fieldsToTime_to_liveResolver<TParent = any, TResult = number|Promise<number>> {
   (parent: TParent, args: {}, context: any, info: GraphQLResolveInfo): TResult;
 }
 
@@ -1724,6 +2094,7 @@ export interface mutation_rootToUpdate_deployment_versionsArgs {
   _delete_at_path?: GQLdeployment_versions_delete_at_path_input;
   _delete_elem?: GQLdeployment_versions_delete_elem_input;
   _delete_key?: GQLdeployment_versions_delete_key_input;
+  _inc?: GQLdeployment_versions_inc_input;
   _prepend?: GQLdeployment_versions_prepend_input;
   _set?: GQLdeployment_versions_set_input;
   where: GQLdeployment_versions_bool_exp;

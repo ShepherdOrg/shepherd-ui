@@ -1,5 +1,5 @@
 # source: http://localhost:8080/v1/graphql
-# timestamp: Sun Nov 24 2019 11:42:58 GMT+0000 (Greenwich Mean Time)
+# timestamp: Thu Aug 27 2020 13:24:14 GMT+0000 (Greenwich Mean Time)
 
 schema {
   query: query_root
@@ -12,12 +12,12 @@ columns and relationships of "deployment_versions"
 """
 type deployment_versions {
   build_host_name: String
-  built_at: timestamp
+  built_at: timestamptz
   configuration(
     """JSON select path"""
     path: String
   ): jsonb
-  deployed_at: timestamp
+  deployed_at: timestamptz
 
   """An object relationship"""
   deployment: deployments
@@ -29,12 +29,17 @@ type deployment_versions {
   git_commit: String
   git_hash: String
   git_url: String
+  hyperlinks(
+    """JSON select path"""
+    path: String
+  ): jsonb
   id: String!
   kubernetes_deployment_files(
     """JSON select path"""
     path: String
   ): jsonb
   last_commits: String
+  time_to_live: Int
   version: String
 }
 
@@ -50,23 +55,40 @@ type deployment_versions_aggregate {
 aggregate fields of "deployment_versions"
 """
 type deployment_versions_aggregate_fields {
+  avg: deployment_versions_avg_fields
   count(columns: [deployment_versions_select_column!], distinct: Boolean): Int
   max: deployment_versions_max_fields
   min: deployment_versions_min_fields
+  stddev: deployment_versions_stddev_fields
+  stddev_pop: deployment_versions_stddev_pop_fields
+  stddev_samp: deployment_versions_stddev_samp_fields
+  sum: deployment_versions_sum_fields
+  var_pop: deployment_versions_var_pop_fields
+  var_samp: deployment_versions_var_samp_fields
+  variance: deployment_versions_variance_fields
 }
 
 """
 order by aggregate values of table "deployment_versions"
 """
 input deployment_versions_aggregate_order_by {
+  avg: deployment_versions_avg_order_by
   count: order_by
   max: deployment_versions_max_order_by
   min: deployment_versions_min_order_by
+  stddev: deployment_versions_stddev_order_by
+  stddev_pop: deployment_versions_stddev_pop_order_by
+  stddev_samp: deployment_versions_stddev_samp_order_by
+  sum: deployment_versions_sum_order_by
+  var_pop: deployment_versions_var_pop_order_by
+  var_samp: deployment_versions_var_samp_order_by
+  variance: deployment_versions_variance_order_by
 }
 
 """append existing jsonb value of filtered columns with new jsonb value"""
 input deployment_versions_append_input {
   configuration: jsonb
+  hyperlinks: jsonb
   kubernetes_deployment_files: jsonb
 }
 
@@ -78,6 +100,18 @@ input deployment_versions_arr_rel_insert_input {
   on_conflict: deployment_versions_on_conflict
 }
 
+"""aggregate avg on columns"""
+type deployment_versions_avg_fields {
+  time_to_live: Float
+}
+
+"""
+order by avg() on columns of table "deployment_versions"
+"""
+input deployment_versions_avg_order_by {
+  time_to_live: order_by
+}
+
 """
 Boolean expression to filter rows from the table "deployment_versions". All fields are combined with a logical 'AND'.
 """
@@ -86,9 +120,9 @@ input deployment_versions_bool_exp {
   _not: deployment_versions_bool_exp
   _or: [deployment_versions_bool_exp]
   build_host_name: String_comparison_exp
-  built_at: timestamp_comparison_exp
+  built_at: timestamptz_comparison_exp
   configuration: jsonb_comparison_exp
-  deployed_at: timestamp_comparison_exp
+  deployed_at: timestamptz_comparison_exp
   deployment: deployments_bool_exp
   deployment_id: String_comparison_exp
   docker_image: String_comparison_exp
@@ -98,9 +132,11 @@ input deployment_versions_bool_exp {
   git_commit: String_comparison_exp
   git_hash: String_comparison_exp
   git_url: String_comparison_exp
+  hyperlinks: jsonb_comparison_exp
   id: String_comparison_exp
   kubernetes_deployment_files: jsonb_comparison_exp
   last_commits: String_comparison_exp
+  time_to_live: Int_comparison_exp
   version: String_comparison_exp
 }
 
@@ -117,6 +153,7 @@ delete the field or element with specified path (for JSON arrays, negative integ
 """
 input deployment_versions_delete_at_path_input {
   configuration: [String]
+  hyperlinks: [String]
   kubernetes_deployment_files: [String]
 }
 
@@ -126,6 +163,7 @@ end). throws an error if top level container is not an array
 """
 input deployment_versions_delete_elem_input {
   configuration: Int
+  hyperlinks: Int
   kubernetes_deployment_files: Int
 }
 
@@ -134,7 +172,15 @@ delete key/value pair or string element. key/value pairs are matched based on th
 """
 input deployment_versions_delete_key_input {
   configuration: String
+  hyperlinks: String
   kubernetes_deployment_files: String
+}
+
+"""
+input type for incrementing integer columne in table "deployment_versions"
+"""
+input deployment_versions_inc_input {
+  time_to_live: Int
 }
 
 """
@@ -142,9 +188,9 @@ input type for inserting data into table "deployment_versions"
 """
 input deployment_versions_insert_input {
   build_host_name: String
-  built_at: timestamp
+  built_at: timestamptz
   configuration: jsonb
-  deployed_at: timestamp
+  deployed_at: timestamptz
   deployment: deployments_obj_rel_insert_input
   deployment_id: String
   docker_image: String
@@ -154,15 +200,19 @@ input deployment_versions_insert_input {
   git_commit: String
   git_hash: String
   git_url: String
+  hyperlinks: jsonb
   id: String
   kubernetes_deployment_files: jsonb
   last_commits: String
+  time_to_live: Int
   version: String
 }
 
 """aggregate max on columns"""
 type deployment_versions_max_fields {
   build_host_name: String
+  built_at: timestamptz
+  deployed_at: timestamptz
   deployment_id: String
   docker_image: String
   docker_image_tag: String
@@ -173,6 +223,7 @@ type deployment_versions_max_fields {
   git_url: String
   id: String
   last_commits: String
+  time_to_live: Int
   version: String
 }
 
@@ -181,6 +232,8 @@ order by max() on columns of table "deployment_versions"
 """
 input deployment_versions_max_order_by {
   build_host_name: order_by
+  built_at: order_by
+  deployed_at: order_by
   deployment_id: order_by
   docker_image: order_by
   docker_image_tag: order_by
@@ -191,12 +244,15 @@ input deployment_versions_max_order_by {
   git_url: order_by
   id: order_by
   last_commits: order_by
+  time_to_live: order_by
   version: order_by
 }
 
 """aggregate min on columns"""
 type deployment_versions_min_fields {
   build_host_name: String
+  built_at: timestamptz
+  deployed_at: timestamptz
   deployment_id: String
   docker_image: String
   docker_image_tag: String
@@ -207,6 +263,7 @@ type deployment_versions_min_fields {
   git_url: String
   id: String
   last_commits: String
+  time_to_live: Int
   version: String
 }
 
@@ -215,6 +272,8 @@ order by min() on columns of table "deployment_versions"
 """
 input deployment_versions_min_order_by {
   build_host_name: order_by
+  built_at: order_by
+  deployed_at: order_by
   deployment_id: order_by
   docker_image: order_by
   docker_image_tag: order_by
@@ -225,6 +284,7 @@ input deployment_versions_min_order_by {
   git_url: order_by
   id: order_by
   last_commits: order_by
+  time_to_live: order_by
   version: order_by
 }
 
@@ -273,15 +333,18 @@ input deployment_versions_order_by {
   git_commit: order_by
   git_hash: order_by
   git_url: order_by
+  hyperlinks: order_by
   id: order_by
   kubernetes_deployment_files: order_by
   last_commits: order_by
+  time_to_live: order_by
   version: order_by
 }
 
 """prepend existing jsonb value of filtered columns with new jsonb value"""
 input deployment_versions_prepend_input {
   configuration: jsonb
+  hyperlinks: jsonb
   kubernetes_deployment_files: jsonb
 }
 
@@ -326,6 +389,9 @@ enum deployment_versions_select_column {
   git_url
 
   """column name"""
+  hyperlinks
+
+  """column name"""
   id
 
   """column name"""
@@ -333,6 +399,9 @@ enum deployment_versions_select_column {
 
   """column name"""
   last_commits
+
+  """column name"""
+  time_to_live
 
   """column name"""
   version
@@ -343,9 +412,9 @@ input type for updating data in table "deployment_versions"
 """
 input deployment_versions_set_input {
   build_host_name: String
-  built_at: timestamp
+  built_at: timestamptz
   configuration: jsonb
-  deployed_at: timestamp
+  deployed_at: timestamptz
   deployment_id: String
   docker_image: String
   docker_image_tag: String
@@ -354,10 +423,60 @@ input deployment_versions_set_input {
   git_commit: String
   git_hash: String
   git_url: String
+  hyperlinks: jsonb
   id: String
   kubernetes_deployment_files: jsonb
   last_commits: String
+  time_to_live: Int
   version: String
+}
+
+"""aggregate stddev on columns"""
+type deployment_versions_stddev_fields {
+  time_to_live: Float
+}
+
+"""
+order by stddev() on columns of table "deployment_versions"
+"""
+input deployment_versions_stddev_order_by {
+  time_to_live: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type deployment_versions_stddev_pop_fields {
+  time_to_live: Float
+}
+
+"""
+order by stddev_pop() on columns of table "deployment_versions"
+"""
+input deployment_versions_stddev_pop_order_by {
+  time_to_live: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type deployment_versions_stddev_samp_fields {
+  time_to_live: Float
+}
+
+"""
+order by stddev_samp() on columns of table "deployment_versions"
+"""
+input deployment_versions_stddev_samp_order_by {
+  time_to_live: order_by
+}
+
+"""aggregate sum on columns"""
+type deployment_versions_sum_fields {
+  time_to_live: Int
+}
+
+"""
+order by sum() on columns of table "deployment_versions"
+"""
+input deployment_versions_sum_order_by {
+  time_to_live: order_by
 }
 
 """
@@ -401,6 +520,9 @@ enum deployment_versions_update_column {
   git_url
 
   """column name"""
+  hyperlinks
+
+  """column name"""
   id
 
   """column name"""
@@ -410,7 +532,46 @@ enum deployment_versions_update_column {
   last_commits
 
   """column name"""
+  time_to_live
+
+  """column name"""
   version
+}
+
+"""aggregate var_pop on columns"""
+type deployment_versions_var_pop_fields {
+  time_to_live: Float
+}
+
+"""
+order by var_pop() on columns of table "deployment_versions"
+"""
+input deployment_versions_var_pop_order_by {
+  time_to_live: order_by
+}
+
+"""aggregate var_samp on columns"""
+type deployment_versions_var_samp_fields {
+  time_to_live: Float
+}
+
+"""
+order by var_samp() on columns of table "deployment_versions"
+"""
+input deployment_versions_var_samp_order_by {
+  time_to_live: order_by
+}
+
+"""aggregate variance on columns"""
+type deployment_versions_variance_fields {
+  time_to_live: Float
+}
+
+"""
+order by variance() on columns of table "deployment_versions"
+"""
+input deployment_versions_variance_order_by {
+  time_to_live: order_by
 }
 
 """
@@ -777,6 +938,21 @@ enum deployments_update_column {
   last_deployment_version
 }
 
+"""
+expression to compare columns of type Int. All fields are combined with logical 'AND'.
+"""
+input Int_comparison_exp {
+  _eq: Int
+  _gt: Int
+  _gte: Int
+  _in: [Int!]
+  _is_null: Boolean
+  _lt: Int
+  _lte: Int
+  _neq: Int
+  _nin: [Int!]
+}
+
 scalar jsonb
 
 """
@@ -870,6 +1046,9 @@ type mutation_root {
     delete key/value pair or string element. key/value pairs are matched based on their key value
     """
     _delete_key: deployment_versions_delete_key_input
+
+    """increments the integer columns with given value of the filtered values"""
+    _inc: deployment_versions_inc_input
 
     """prepend existing jsonb value of filtered columns with new jsonb value"""
     _prepend: deployment_versions_prepend_input
@@ -1154,4 +1333,21 @@ input timestamp_comparison_exp {
   _lte: timestamp
   _neq: timestamp
   _nin: [timestamp!]
+}
+
+scalar timestamptz
+
+"""
+expression to compare columns of type timestamptz. All fields are combined with logical 'AND'.
+"""
+input timestamptz_comparison_exp {
+  _eq: timestamptz
+  _gt: timestamptz
+  _gte: timestamptz
+  _in: [timestamptz!]
+  _is_null: Boolean
+  _lt: timestamptz
+  _lte: timestamptz
+  _neq: timestamptz
+  _nin: [timestamptz!]
 }
