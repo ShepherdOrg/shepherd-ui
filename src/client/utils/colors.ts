@@ -44,4 +44,13 @@ export const darkTheme = {
     background: colors.darkest,
   } ,
   pellet: { background: colors.amethyst, text: colors.darkest },
+  checkMark:{
+    color: colors.nephritis
+  },
+  checkFail:{
+    color: colors.pomegranate
+  },
+  unavailable:{
+    color: colors.concrete
+  }
 }

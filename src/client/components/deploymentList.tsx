@@ -7,6 +7,9 @@ import { DeploymentTypeIcon } from './deploymentTypeIcon'
 import { DeployerRoleIcon } from './deployerRoleIcon'
 import { ApolloError } from 'apollo-client'
 import { HoverHyperlinks } from './hoverHyperlinks'
+import { FaCheckmark } from './icons/fa-checkmark'
+import { FaFail } from './icons/fa-fail'
+import { FaUnavailable } from './icons/fa-unavailable'
 
 function renderErrorText(x: ApolloError | string) {
   if (x instanceof ApolloError) {
@@ -28,6 +31,7 @@ export const DeploymentList = function() {
   const [filter, setFilter] = useState<string>('')
   const deploymentList = useDeploymentList(filter)
   const theme = darkTheme
+  let showPrototype = false
   return (
     <>
       <input
@@ -66,6 +70,28 @@ export const DeploymentList = function() {
                             deploymentType={x.deployment_type}
                           />
                           <DeployerRoleIcon deployerRole={x.deployer_role}/>
+
+                          {showPrototype && <div><span style={{paddingLeft:"1.5em"}}> </span>
+
+                            <span title="Pre deployment test">
+                            <FaCheckmark color={theme.checkMark.color} size={20}/>
+                            </span>
+                            <span title="Post deployment test">
+                            <FaCheckmark color={theme.checkMark.color} size={20}/>
+                            </span>
+                            <span title="Monorepo">
+                            <FaFail color={theme.checkFail.color} size={20}/>
+                            </span>
+                            <span title="Liveness check">
+                            <FaUnavailable color={theme.unavailable.color} size={20}/>
+                            </span>
+                            <span title="Readiness check">
+                            <FaUnavailable color={theme.unavailable.color} size={20}/>
+                            </span></div>
+
+
+                        }
+
                         </div>
                       </div>
                       {x.envDeployments.sort(byEnvironment).map(envDeployment => {

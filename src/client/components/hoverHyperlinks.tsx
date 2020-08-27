@@ -35,9 +35,9 @@ export class HoverHyperlinks extends Component<THoverHyperlinkProps, {}> {
           {
             (
               <div className="dropdown-content">
-
-                {this.hyperLinks.hyperLinks.sort(byProp("title")).map((link) => <a href={link.url} target="_blank">{link.title} </a>)}
-
+                <ul>
+                  {this.hyperLinks.hyperLinks.sort(byProp("title")).map((link) => <li><a href={link.url} target="_blank">{link.title} </a></li>)}
+                </ul>
               </div>
             )
           }
@@ -51,7 +51,13 @@ export class HoverHyperlinks extends Component<THoverHyperlinkProps, {}> {
     display: inline-block;
     color: ${theme.hoverMenu.normal}
   }
-  
+  .dropdown-content ul{
+    padding: 0;
+    list-style: none;
+  }
+  .dropdown-content li{
+    margin: 4px 0 4px 0;
+  }
   .dropdown-content a {
     color: ${theme.link.normal}
   }
@@ -64,7 +70,7 @@ export class HoverHyperlinks extends Component<THoverHyperlinkProps, {}> {
     display: none;
     position: absolute;
     margin-top: -1em;
-    min-width: 160px;
+    min-width: 180px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     padding: 12px 16px;
     z-index: 1;

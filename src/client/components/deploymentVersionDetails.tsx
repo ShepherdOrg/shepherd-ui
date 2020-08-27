@@ -23,20 +23,18 @@ export const DeploymentVersionDetails = function({
   useEffect(() => {
     setHidden(false)
   }, [])
+  const showPrototype = false
   return (
     <section className={`deploymentDetails ${hidden ? 'hide-opacity' : ''}`}>
-      <h1>{deployment.display_name}</h1>
+      <h1>{deployment.display_name} - {deploymentVersion.git_branch} </h1>
       <aside>
         <ul className="pellets">
-          <li>version: {deploymentVersion.version}</li>
-          <li>docker tag: {deploymentVersion.docker_image_tag}</li>
-          <li>
-            Deployed at:{' '}
-            {format(
-              new Date(deploymentVersion.deployed_at),
-              'MMM d, yyyy h:mm a'
-            )}
+          <li> {deploymentVersion.version} @ {format(
+            new Date(deploymentVersion.deployed_at),
+            'HH:mm d MMM yyyy '
+          )}
           </li>
+          <li>{deploymentVersion.docker_image_tag}</li>
         </ul>
       </aside>
       <section>
@@ -69,6 +67,12 @@ export const DeploymentVersionDetails = function({
           ))}
         </ul>
       </section>
+      { showPrototype &&
+        <div className="codeContainer">
+          <code>{JSON.stringify(deploymentVersion, null, 2)}</code>
+        </div>
+      }
+
 
       <style jsx>{`
         h1 {

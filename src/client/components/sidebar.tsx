@@ -31,7 +31,7 @@ export const Sidebar = function() {
         () => null,
         deployment => (
           <>
-            <Link href={`/deployment/[id]?id=${deployment.id}`}>
+            <Link href={`/deployment/${deployment.id}`}>
               <a>{deployment.display_name}</a>
             </Link>
             <h3>Deployments from {branch}</h3>
