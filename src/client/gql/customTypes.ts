@@ -28,3 +28,14 @@ export interface DeploymentVersion extends GQLdeployment_versions {
   kubernetes_deployment_files: KubernetesConfigurationFile[]
   configuration: Configuration[]
 }
+
+export interface DeploymentBranch {
+  id: string
+  name: string
+  deploymentVersions: DeploymentVersion[]
+  lastDeploymentTimestamp: Date
+  livesUntil: Date
+  isAlive: boolean
+  isTemporary: boolean
+  isMaster: boolean
+}

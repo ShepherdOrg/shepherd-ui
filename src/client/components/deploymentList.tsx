@@ -97,6 +97,7 @@ export const DeploymentList = function() {
                       {x.envDeployments.sort(byEnvironment).map(envDeployment => {
                         return (
                           <div className="deploymentCard"
+                               key={envDeployment.id}
                             style={{
                               display: 'inline-block',
                               overflow: 'clip',

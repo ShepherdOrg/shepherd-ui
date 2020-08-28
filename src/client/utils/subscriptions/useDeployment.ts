@@ -42,6 +42,7 @@ const GET_DEPLOYMENT = gql`
         kubernetes_deployment_files
         last_commits
         version
+        time_to_live
       }
     }
   }
