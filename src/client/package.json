@@ -1,6 +1,6 @@
 {
   "name": "@shepherdorg/shepherd-ui",
-  "version": "3.3.1",
+  "version": "3.3.2",
   "private": true,
   "scripts": {
     "localdev": "HASURA_ENDPOINT_URL=ws://localhost:8080/v1/graphql next dev",
