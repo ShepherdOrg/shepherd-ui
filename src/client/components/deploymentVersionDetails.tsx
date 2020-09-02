@@ -31,7 +31,7 @@ export const DeploymentVersionDetails = function({
         <ul className="pellets">
           <li> {deploymentVersion.version} @ {format(
             new Date(deploymentVersion.deployed_at),
-            'HH:mm d MMM yyyy '
+            'HH:mm d MMM yyyy'
           )}
           </li>
           <li>{deploymentVersion.docker_image_tag}</li>

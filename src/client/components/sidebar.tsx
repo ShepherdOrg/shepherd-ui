@@ -63,7 +63,7 @@ export const Sidebar = function() {
                             <a>
                               {format(
                                 new Date(x.deployed_at),
-                                'MMM d, yyyy h:mm a'
+                                'MMM d, yyyy HH:mm'
                               )}{' '}
                             </a>
                           </Link>

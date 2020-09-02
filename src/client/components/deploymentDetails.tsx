@@ -35,7 +35,7 @@ function renderBranches(branches: DeploymentBranch[], deployment: Deployment, th
             <section>
               <strong>Last deployed</strong>
               <br/>
-              {deploymentBranch.lastDeploymentTimestamp.toLocaleString()}
+              {new Date(deploymentBranch.lastDeploymentTimestamp).toLocaleString()}
               <br/>
 
               {(deploymentBranch.isTemporary && <>
