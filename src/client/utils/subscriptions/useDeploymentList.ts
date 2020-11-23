@@ -12,7 +12,7 @@ import {
 const LIST_DEPLOYMENTS = gql`
   subscription DeploymentList($filter: String) {
     deployments(
-      where: { display_name: { _like: $filter } }
+      where: { display_name: { _ilike: $filter } }
       order_by: { last_deployment_timestamp: desc }
     ) {
       id
