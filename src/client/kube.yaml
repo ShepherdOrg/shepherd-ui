@@ -7,20 +7,15 @@ metadata:
     environment: {{ENV}}
 spec:
   ports:
-    - port: 80 # the port that this service should serve on
-      # the container on each pod to connect to, can be a name
-      # (e.g. 'www') or a number (e.g. 80)
+    - port: 80
       name: serviceport
       targetPort: 3000
       protocol: TCP
-  # just like the selector in the replication controller,
-  # but this time it identifies the set of pods to load balance
-  # traffic to.
   selector:
     app: shepherd-ui-service-pod
     environment: {{ENV}}
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shepherd-ui-service-deployment
@@ -58,22 +53,26 @@ spec:
               port: service-port
             initialDelaySeconds: 15
             timeoutSeconds: 4
+  selector:
+    matchLabels:
+      app: shepherd-ui-service-pod
 ---
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: shepherd-ui-service-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: 'false'
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   rules:
     - host: shepherd-ui{{SERVICE_SUFFIX}}
       http:
         paths:
           - backend:
-              serviceName: shepherd-ui-service
-              servicePort: 80
-  tls:
-    - hosts:
-        - shepherd-ui{{SERVICE_SUFFIX}}
-      secretName: services-cert
+              service:
+                name: shepherd-ui-service
+                port:
+                  number: 80
+            pathType: Prefix
+            path: /
+
