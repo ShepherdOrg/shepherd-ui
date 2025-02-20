@@ -57,6 +57,17 @@ spec:
               port: service-port
             initialDelaySeconds: 15
             timeoutSeconds: 4
+          volumeMounts:
+            - name: pg-ssl
+              mountPath: "/ssl"
+              readOnly: true
+          volumes:
+            - name: pg-ssl
+              secret:
+                secretName: pg-root-ssl-crt
+                items:
+                - key: private_key
+                  path: pg-root-ssl.crt
   selector:
     matchLabels:
       app: shepherd-ui-api-service-pod
