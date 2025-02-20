@@ -2,13 +2,13 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:22
     working_directory: ~/repo
 
     steps:
       - checkout
       - setup_remote_docker:
-          version: 19.03.13
+          version: 20.10.24
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
