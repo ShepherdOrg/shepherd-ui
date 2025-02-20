@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:22
+      - image: node:22
     working_directory: ~/repo
 
     steps:
